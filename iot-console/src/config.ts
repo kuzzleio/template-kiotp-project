@@ -3,7 +3,7 @@ import { KuzzleProtocol } from "vue-plugin-kuzzle";
 export default {
   backends: {
     main: {
-      host: "api-main-byes.paas.kuzzle.io",
+      host: "api-main-<name>.paas.kuzzle.io",
       protocol: KuzzleProtocol.WEBSOCKET,
       options: {
         port: 443,

@@ -12,7 +12,9 @@ RUN npm prune --production
 
 FROM node:16-stretch-slim as production
 
-ARG KUZZLE_ENV=production
+ARG KUZZLE_ENV
+ENV KUZZLE_ENV=$KUZZLE_ENV
+
 ARG KUZZLE_VAULT_KEY
 ENV KUZZLE_VAULT_KEY=$KUZZLE_VAULT_KEY
 

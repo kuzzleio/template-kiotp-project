@@ -24,7 +24,7 @@ export class KIoTPApplication extends Backend {
   }
 
   constructor() {
-    super('kiotp-application');
+    super('<name>-application');
 
     this.measures = new MeasuresModule(this);
     this.assets = new AssetsModule(this);

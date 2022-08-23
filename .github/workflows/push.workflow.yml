@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-18.04
     needs: [backend_lint]
     env:
-      KUZZLE_VAULT_KEY: ${{ secrets.KUZZLE_VAULT_KEY_LOCAL }}
+      KUZZLE_VAULT_KEY: ${{ secrets.KUZZLE_VAULT_KEY }}
     steps:
       - uses: actions/checkout@v2
       - name: Cache node modules

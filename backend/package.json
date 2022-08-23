@@ -1,6 +1,6 @@
 {
-  "name": "kuzzle-application",
-  "version": "2.0.0",
+  "name": "<name>-application",
+  "version": "1.0.0",
   "description": "",
   "author": "",
   "scripts": {
