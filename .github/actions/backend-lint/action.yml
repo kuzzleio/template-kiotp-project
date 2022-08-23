@@ -1,0 +1,11 @@
+name: Backend - ESLint
+description: Run ESLint for Backend
+runs:
+  using: "composite"
+  steps:
+    - name: Run Backend lint
+      shell: bash
+      run: |
+           cd backend
+           npm ci
+           npm run test:lint

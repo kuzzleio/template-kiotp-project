@@ -1,0 +1,3 @@
+# JS generated files from TS
+dist/**/*
+lib/plugins

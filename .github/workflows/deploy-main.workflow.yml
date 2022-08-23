@@ -1,0 +1,205 @@
+name: Deploy Main Environment
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  NODE_VERSION: "16"
+
+jobs:
+  push_backend:
+    name: Backend artefact
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          token: ${{ secrets.ACCESS_TOKEN }}
+      - name: Get current commit short SHA
+        id: vars
+        shell: bash
+        run: |
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+          echo "::set-output name=ref::$(echo $GITHUB_REF | cut -d / -f 3)"
+      - name: Login to registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.KUZZLE_PAAS_REGISTRY }}
+          username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
+          password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
+      - name: Login to PaaS NPM registry
+        shell: bash
+        env:
+          KUZZLE_PAAS_PASSWORD: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
+        run: |
+          cd backend
+          npx kourou paas:login --username="${{ secrets.KUZZLE_PAAS_USERNAME }}"
+          cp ~/.npmrc .
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          file: ./backend/Dockerfile
+          context: ./backend
+          push: true
+          build-args: |
+            KUZZLE_VAULT_KEY=${{ secrets.KUZZLE_VAULT_KEY_PROD }}
+          tags: ${{ secrets.KUZZLE_PAAS_REGISTRY }}/${{ secrets.KUZZLE_PAAS_PROJECT_NAME }}/${{ steps.vars.outputs.ref }}/kuzzle:${{ steps.vars.outputs.sha_short }}
+
+  push_iot_console:
+    name: IoT Console artefact
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          token: ${{ secrets.ACCESS_TOKEN }}
+      - name: Get current commit short SHA
+        id: vars
+        shell: bash
+        run: |
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+          echo "::set-output name=ref::$(echo $GITHUB_REF | cut -d / -f 3)"
+      - name: Login to registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.KUZZLE_PAAS_REGISTRY }}
+          username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
+          password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
+      - uses: actions/setup-node@v1.4.4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Login PaaS + clone submodules
+        shell: bash
+        env:
+          KUZZLE_PAAS_PASSWORD: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
+        run: |
+          cd iot-console
+          npx kourou paas:login --username="${{ secrets.KUZZLE_PAAS_USERNAME }}"
+          cp ~/.npmrc .
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          build-args: |
+            VUE_APP_BACKEND=${{ steps.vars.outputs.ref }}
+          file: ./iot-console/Dockerfile
+          context: ./iot-console
+          push: true
+          tags: ${{ secrets.KUZZLE_PAAS_REGISTRY }}/${{ secrets.KUZZLE_PAAS_PROJECT_NAME }}/${{ steps.vars.outputs.ref }}/iot:${{ steps.vars.outputs.sha_short }}
+
+  push_frontend_custom:
+    name: Frontend Custom artefact
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          token: ${{ secrets.ACCESS_TOKEN }}
+      - name: Get current commit short SHA
+        id: vars
+        shell: bash
+        run: |
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+          echo "::set-output name=ref::$(echo $GITHUB_REF | cut -d / -f 3)"
+      - name: Login to registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.KUZZLE_PAAS_REGISTRY }}
+          username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
+          password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
+      - uses: actions/setup-node@v1.4.4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Login PaaS + clone submodules
+        shell: bash
+        env:
+          KUZZLE_PAAS_PASSWORD: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
+        run: |
+          cd frontend-custom
+          npx kourou paas:login --username="${{ secrets.KUZZLE_PAAS_USERNAME }}"
+          cp ~/.npmrc .
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          build-args: |
+            VUE_APP_BACKEND=${{ steps.vars.outputs.ref }}
+          file: ./frontend-custom/Dockerfile
+          context: ./frontend-custom
+          push: true
+          tags: ${{ secrets.KUZZLE_PAAS_REGISTRY }}/${{ secrets.KUZZLE_PAAS_PROJECT_NAME }}/${{ steps.vars.outputs.ref }}/webapp:${{ steps.vars.outputs.sha_short }}
+
+  deploy_backend:
+    name: Deploy backend artefact
+    runs-on: ubuntu-18.04
+    needs: [push_backend]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get current commit short SHA
+        id: vars
+        shell: bash
+        run: |
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+          echo "::set-output name=ref::$(echo $GITHUB_REF | cut -d / -f 3)"
+      - name: Install NodeJS
+        uses: actions/setup-node@v1.4.4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Login PaaS + deploy
+        shell: bash
+        env:
+          KUZZLE_PAAS_PASSWORD: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
+        run: |
+          cd backend
+          npx kourou paas:login --username="${{ secrets.KUZZLE_PAAS_USERNAME }}"
+          npx kourou paas:deploy ${{ steps.vars.outputs.ref }} api ${{ secrets.KUZZLE_PAAS_REGISTRY }}/${{ secrets.KUZZLE_PAAS_PROJECT_NAME }}/${{ steps.vars.outputs.ref }}/kuzzle:${{ steps.vars.outputs.sha_short }}
+
+  deploy_iot_console:
+    name: Deploy IoT Console App to server
+    runs-on: ubuntu-18.04
+    needs: [push_iot_console]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get current commit short SHA
+        id: vars
+        shell: bash
+        run: |
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+          echo "::set-output name=ref::$(echo $GITHUB_REF | cut -d / -f 3)"
+      - name: Install NodeJS
+        uses: actions/setup-node@v1.4.4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Login PaaS + deploy
+        shell: bash
+        env:
+          KUZZLE_PAAS_PASSWORD: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
+        run: |
+          cd iot-console
+          npx kourou paas:login --username="${{ secrets.KUZZLE_PAAS_USERNAME }}"
+          npx kourou paas:deploy ${{ steps.vars.outputs.ref }} iot ${{ secrets.KUZZLE_PAAS_REGISTRY }}/${{ secrets.KUZZLE_PAAS_PROJECT_NAME }}/${{ steps.vars.outputs.ref }}/iot:${{ steps.vars.outputs.sha_short }}
+
+  deploy_frontend_custom:
+    name: Deploy Custom Frontend App to server
+    runs-on: ubuntu-18.04
+    needs: [push_frontend_custom]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get current commit short SHA
+        id: vars
+        shell: bash
+        run: |
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+          echo "::set-output name=ref::$(echo $GITHUB_REF | cut -d / -f 3)"
+      - name: Install NodeJS
+        uses: actions/setup-node@v1.4.4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Login PaaS + deploy
+        shell: bash
+        env:
+          KUZZLE_PAAS_PASSWORD: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
+        run: |
+          cd frontend-custom
+          npx kourou paas:login --username="${{ secrets.KUZZLE_PAAS_USERNAME }}"
+          npx kourou paas:deploy ${{ steps.vars.outputs.ref }} webapp ${{ secrets.KUZZLE_PAAS_REGISTRY }}/${{ secrets.KUZZLE_PAAS_PROJECT_NAME }}/${{ steps.vars.outputs.ref }}/webapp:${{ steps.vars.outputs.sha_short }}

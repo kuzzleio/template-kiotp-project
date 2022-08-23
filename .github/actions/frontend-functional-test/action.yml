@@ -1,0 +1,34 @@
+name: Frontend - Functional Tests
+description: Run Functional Tests for frontend
+inputs:
+  KIOTP_CYPRESS_KEY:
+    description: KIOTP_CYPRESS_KEY
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Prepare frontend
+      shell: bash
+      run: |
+        npm install -g kourou
+        npm ci --prefix frontend
+        npm i --save-dev --prefix backend typescript
+    - name: Copy ssh key to build context
+      shell: bash
+      run: |
+        cp /home/runner/.ssh/id_rsa /home/runner/work/byes/byes/frontend
+    - name: Start Kuzzle & Frontend
+      shell: bash
+      run: |
+        docker-compose -f ci/docker-compose.frontend.yml up -d
+        bash ci/wait-kuzzle.sh ci/docker-compose.frontend.yml
+    - name: Run frontend functional test
+      shell: bash
+      working-directory: ./frontend
+      run: |
+        RESTRICT_RIGHTS=true npm run fixtures
+        npm run test:e2e
+    - name: Clean up
+      shell: bash
+      run: |
+        rm -f /home/runner/work/byes/byes/frontend/id_rsa
