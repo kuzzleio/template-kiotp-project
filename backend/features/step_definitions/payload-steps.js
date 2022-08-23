@@ -19,7 +19,7 @@ Then('I send the following {string} payloads:', async function(action, dataTable
 
     if (! payload.date) {
       const delay = (deviceDelay[payload.reference]) * 1000;
-      payload.date = new Date(Date.now() + delay);
+      payload.date = Date.now() + delay;
     }
 
     await this.sdk.query({

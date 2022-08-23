@@ -1,13 +1,13 @@
-import { HyvisionApplication } from "../HyvisionApplication";
+import { KIoTPApplication } from "../KIoTPApplication";
 
 export abstract class Module {
-  protected app: HyvisionApplication;
+  protected app: KIoTPApplication;
 
   protected get sdk () {
     return this.app.sdk;
   }
 
-  constructor (app: HyvisionApplication) {
+  constructor (app: KIoTPApplication) {
     this.app = app;
   }
 

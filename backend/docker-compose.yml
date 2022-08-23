@@ -28,7 +28,7 @@ services:
       - NODE_ENV=${NODE_ENV:-development}
       - DEBUG=${DEBUG:-none}
       - KUZZLE_VAULT_KEY
-      - KUZZLE_SECRETS_FILE=./environments/local/secrets.enc.json
+      # - KUZZLE_SECRETS_FILE=./environments/local/secrets.enc.json
       # - DEBUG=${DEBUG:-kuzzle:*,-kuzzle:entry-point:protocols:websocket,-kuzzle:cluster:heartbeat}
 
   redis:

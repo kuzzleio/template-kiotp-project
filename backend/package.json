@@ -23,12 +23,10 @@
     "@kuzzleio/plugin-multi-tenancy": "^1.1.2",
     "@kuzzleio/plugin-workflows": "^0.4.6",
     "@kuzzleio/scheduler": "^1.1.5",
-    "debug": "^4.3.4",
     "kuzzle": "^2.19.3",
     "kuzzle-device-manager": "^2.0.0-rc18",
     "kuzzle-plugin-hermes-messenger": "^0.3.0",
-    "lodash": "^4.17.21",
-    "ms": "^2.1.3"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.182",
@@ -44,10 +42,5 @@
   },
   "files": [
     "dist/**/"
-  ],
-  "kuzzle": {
-    "paas": {
-      "project": "paas-project-byes"
-    }
-  }
+  ]
 }

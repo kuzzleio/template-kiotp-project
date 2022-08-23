@@ -1,6 +1,6 @@
-import { HyvisionApplication } from './lib/HyvisionApplication';
+import { KIoTPApplication } from './lib/KIoTPApplication';
 
-const app = new HyvisionApplication();
+const app = new KIoTPApplication();
 
 /**
  * Start the application

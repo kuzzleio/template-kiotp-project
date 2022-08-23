@@ -28,49 +28,6 @@ You also need to start Kuzzle additional service: `npm run services`
 
 Finally, start your application with `npm run dev`
 
-### Initialize local data
-
-Create the tenant:
-```
-kourou sdk:execute < ../fixtures/create-tenant-hyvision-bytel.js
-```
-
-Create the admin user:
-```
- kourou security:createUser '{
-  content: {
-    profileIds: ["admin"]
-  },
-  credentials: {
-    local: {
-      username: "admin",
-      password: "admin"
-    }
-  }
-}'
-```
-
-Create an user for the tenant:
-```
-kourou sdk:execute --username admin --password admin 'await this.sdk.query({
-  "controller": "multi-tenancy/user",
-  "action": "create",
-  "_id": "bytel-admin",
-  "tenantId": "tenant-hyvision-bytel",
-  "profile": "admin",
-  "refresh": "false",
-  "body": {
-    "email": "admin@bytel.com",
-    "credentials": {
-      "local": {
-        "username": "bytel-admin",
-        "password": "password"
-      }
-    },
-  }
-});'
-```
-
 ## Manipulating NPM through Docker
 
 It's important to install NPM packages from inside the container to avoid Node.js mismatch errors.

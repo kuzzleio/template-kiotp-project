@@ -1,10 +1,4 @@
 {
   "application": {
-    "hermes": {
-      "twilio": {
-        "accountSid": "AC10f8d53fabc5b76767e0a32d0ba4cede",
-        "defaultSender": " +15625348847"
-      }
-    }
   }
 }
