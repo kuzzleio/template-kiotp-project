@@ -4,21 +4,18 @@ WORKDIR /var/app
 
 COPY . .
 
-RUN cp ./.npmrc /root/npmrc
-
 RUN npm install
 RUN npm run build
 RUN npm prune --production
 
 FROM node:16-stretch-slim as production
 
-ARG KUZZLE_ENV
-ENV KUZZLE_ENV=$KUZZLE_ENV
-
-ARG KUZZLE_VAULT_KEY
-ENV KUZZLE_VAULT_KEY=$KUZZLE_VAULT_KEY
+ARG KUZZLE_ENV="local"
+ARG KUZZLE_VAULT_KEY=""
 
 ENV NODE_ENV=production
+ENV KUZZLE_ENV=$KUZZLE_ENV
+ENV KUZZLE_VAULT_KEY=$KUZZLE_VAULT_KEY
 ENV KUZZLE_SECRETS_FILE=/var/app/environments/${KUZZLE_ENV}/secrets.enc.json
 
 WORKDIR /var/app
