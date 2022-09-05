@@ -21,6 +21,6 @@ ENV KUZZLE_SECRETS_FILE=/var/app/environments/${KUZZLE_ENV}/secrets.enc.json
 WORKDIR /var/app
 
 COPY --from=builder /var/app/ .
-RUN cp -f /var/app/environments/${KUZZLE_ENV}/kuzzlerc /var/app/.kuzzlerc
+COPY --from=builder /var/app/environments/${KUZZLE_ENV}/kuzzlerc /var/app/.kuzzlerc
 
 CMD [ "node", "app.js" ]
