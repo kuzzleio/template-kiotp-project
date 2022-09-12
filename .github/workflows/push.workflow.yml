@@ -5,9 +5,7 @@ on:
   push:
     branches:
       - master
-      - 1-dev
-      - 2-dev
-      - 3-dev
+      - "[0-9]+-dev"
 
 env:
   NODE_VERSION: "16"
@@ -15,7 +13,7 @@ env:
 jobs:
   backend_lint:
     name: Lint Backend
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Cache node modules
@@ -33,17 +31,21 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Login PaaS
-        shell: bash
-        env:
-          KUZZLE_PAAS_PASSWORD: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
+        uses: kuzzleio/paas-action@v0.5.7
+        with:
+          username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
+          password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
+          npmrc_output_dir: ./backend
+          login_only: true
+      - name: Lint Backend
         run: |
           cd backend
-          npx kourou paas:login --username="${{ secrets.KUZZLE_PAAS_USERNAME }}"
-      - uses: ./.github/actions/backend-lint
+          npm ci
+          npm run test:lint
 
   backend_functional_tests:
     name: Functional Tests Backend
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     needs: [backend_lint]
     env:
       KUZZLE_VAULT_KEY: ${{ secrets.KUZZLE_VAULT_KEY }}
@@ -64,17 +66,24 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Login PaaS
-        shell: bash
-        env:
-          KUZZLE_PAAS_PASSWORD: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
+        uses: kuzzleio/paas-action@v0.5.7
+        with:
+          username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
+          password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
+          npmrc_output_dir: ./backend
+          login_only: true
+      - name: Functional tests
         run: |
           cd backend
-          npx kourou paas:login --username="${{ secrets.KUZZLE_PAAS_USERNAME }}"
-      - uses: ./.github/actions/backend-functional-test
+          npm ci
+          npm run build
+          DOCKER_COMMAND="node app.js" docker-compose up -d
+          bash features/wait-kuzzle.sh
+          npm run test:functional
 
   iot_console_lint:
     name: Lint IoT Console
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Cache node modules
@@ -92,10 +101,14 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Login PaaS
-        shell: bash
-        env:
-          KUZZLE_PAAS_PASSWORD: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
+        uses: kuzzleio/paas-action@v0.5.7
+        with:
+          username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
+          password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
+          npmrc_output_dir: ./iot-console
+          login_only: true
+      - name: Lint IoT Console
         run: |
-          cd backend
-          npx kourou paas:login --username="${{ secrets.KUZZLE_PAAS_USERNAME }}"
-      - uses: ./.github/actions/iot-console-lint
+          cd iot-console
+          npm ci
+          npm run test:lint
