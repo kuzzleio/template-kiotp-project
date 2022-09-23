@@ -1,3 +1,3 @@
-export * from './decoders/ExampleDecoder';
+export * from "./decoders/ExampleDecoder";
 
-export * from './MeasuresModule';
+export * from "./MeasuresModule";

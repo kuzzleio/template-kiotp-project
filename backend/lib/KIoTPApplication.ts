@@ -1,10 +1,10 @@
-import { Backend } from 'kuzzle';
-import { registerKIoTP } from '@kuzzleio/iot-backend';
+import { Backend } from "kuzzle";
+import { registerKIoTP } from "@kuzzleio/iot-backend";
 
-import { registerCommons } from './application-builder/commons';
+import { registerCommons } from "./application-builder/commons";
 
-import { AssetsModule } from './modules/assets';
-import { MeasuresModule } from './modules/measures';
+import { AssetsModule } from "./modules/assets";
+import { MeasuresModule } from "./modules/measures";
 
 export type KIoTPApplicationConfig = {
   hermes: {
@@ -24,7 +24,7 @@ export class KIoTPApplication extends Backend {
   }
 
   constructor() {
-    super('<name>-application');
+    super("<name>-application");
 
     this.measures = new MeasuresModule(this);
     this.assets = new AssetsModule(this);

@@ -1,6 +1,6 @@
-const _ = require('lodash'),
-  should = require('should'),
-  { When, Then } = require('cucumber');
+const _ = require("lodash"),
+  should = require("should"),
+  { When, Then } = require("cucumber");
 
 When(
   /I (successfully )?execute the action "(.*?)":"(.*?)" with args:/,
@@ -38,7 +38,7 @@ When(
   }
 );
 
-Then('I should receive a result matching:', function (dataTable) {
+Then("I should receive a result matching:", function (dataTable) {
   const expectedResult = this.parseObject(dataTable);
 
   should(this.props.result).not.be.undefined();
@@ -47,7 +47,7 @@ Then('I should receive a result matching:', function (dataTable) {
 });
 
 Then(
-  'The property {string} of the result should match:',
+  "The property {string} of the result should match:",
   function (path, dataTable) {
     const expectedProperty = this.parseObject(dataTable);
 
@@ -64,7 +64,7 @@ Then(
 );
 
 Then(
-  'The property string {string} of the result should match {string}',
+  "The property string {string} of the result should match {string}",
   function (path, expectedMatch) {
     const property = _.get(this.props.result, path);
 
@@ -79,7 +79,7 @@ Then(
 );
 
 Then(
-  'The result should contain a property {string} of type {string}',
+  "The result should contain a property {string} of type {string}",
   function (path, type) {
     const property = _.get(this.props.result, path);
 
@@ -90,13 +90,13 @@ Then(
 );
 
 Then(
-  'I should receive a {string} result equals to {string}',
+  "I should receive a {string} result equals to {string}",
   function (type, rawResult) {
     let expectedResult;
 
-    if (type === 'string') {
+    if (type === "string") {
       expectedResult = rawResult;
-    } else if (type === 'int') {
+    } else if (type === "int") {
       expectedResult = parseInt(rawResult);
     } else {
       throw new Error(`Unknown result type '${type}'`);
@@ -108,11 +108,11 @@ Then(
   }
 );
 
-Then('I should receive an empty result', function () {
+Then("I should receive an empty result", function () {
   should(this.props.result).be.undefined();
 });
 
-Then('I should receive an error matching:', function (dataTable) {
+Then("I should receive an error matching:", function (dataTable) {
   const expectedError = this.parseObject(dataTable);
 
   should(this.props.error).not.be.undefined();
@@ -120,6 +120,6 @@ Then('I should receive an error matching:', function (dataTable) {
   should(this.props.error).match(expectedError);
 });
 
-Then('I debug {string}', function (path) {
+Then("I debug {string}", function (path) {
   console.log(JSON.stringify(_.get(this.props, path), null, 2));
 });

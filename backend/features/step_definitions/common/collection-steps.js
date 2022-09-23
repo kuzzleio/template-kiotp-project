@@ -1,7 +1,7 @@
-const { Then, Given } = require('cucumber'),
-  should = require('should');
+const { Then, Given } = require("cucumber"),
+  should = require("should");
 
-Given('an existing index {string}', async function (index) {
+Given("an existing index {string}", async function (index) {
   if (!(await this.sdk.index.exists(index))) {
     throw new Error(`Index ${index} does not exist`);
   }
@@ -9,7 +9,7 @@ Given('an existing index {string}', async function (index) {
   this.props.index = index;
 });
 
-Given('a collection {string}:{string}', async function (index, collection) {
+Given("a collection {string}:{string}", async function (index, collection) {
   this.props.result = await this.sdk.collection.create(index, collection);
 
   this.props.index = index;
@@ -17,7 +17,7 @@ Given('a collection {string}:{string}', async function (index, collection) {
 });
 
 Given(
-  'an existing collection {string}:{string}',
+  "an existing collection {string}:{string}",
   async function (index, collection) {
     if (!(await this.sdk.index.exists(index))) {
       throw new Error(`Index ${index} does not exist`);
@@ -32,7 +32,7 @@ Given(
   }
 );
 
-Then('I list collections in index {string}', async function (index) {
+Then("I list collections in index {string}", async function (index) {
   this.props.result = await this.sdk.collection.list(index);
 });
 
@@ -52,23 +52,23 @@ Then(
 );
 
 Then(
-  'I get mappings of collection {string}:{string}',
+  "I get mappings of collection {string}:{string}",
   async function (index, collection) {
     this.props.result = await this.sdk.collection.getMapping(index, collection);
   }
 );
 
-Then('I refresh the collection', function () {
+Then("I refresh the collection", function () {
   return this.sdk.collection.refresh(this.props.index, this.props.collection);
 });
 
 Then(
-  'I refresh the collection {string}:{string}',
+  "I refresh the collection {string}:{string}",
   function (index, collection) {
     return this.sdk.collection.refresh(index, collection);
   }
 );
 
-Then('I wait for a refresh', async function () {
+Then("I wait for a refresh", async function () {
   await new Promise((resolve) => setTimeout(resolve, 2000));
 });

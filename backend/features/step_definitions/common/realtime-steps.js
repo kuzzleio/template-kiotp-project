@@ -1,16 +1,16 @@
-'use strict';
+"use strict";
 
-const util = require('util');
+const util = require("util");
 
-const should = require('should');
-const { When, Then } = require('cucumber');
+const should = require("should");
+const { When, Then } = require("cucumber");
 
-When('I wait {int}ms', async function (ms) {
+When("I wait {int}ms", async function (ms) {
   await new Promise((resolve) => setTimeout(resolve, ms));
 });
 
 Then(
-  'I subscribe to {string}:{string} notifications',
+  "I subscribe to {string}:{string} notifications",
   async function (index, collection) {
     if (!this.props.subscriptions) {
       this.props.subscriptions = {};
@@ -35,7 +35,7 @@ Then(
 );
 
 Then(
-  'I should have receive {string} notifications for {string}:{string}',
+  "I should have receive {string} notifications for {string}:{string}",
   async function (rawNumber, index, collection) {
     const expectedCount = parseInt(rawNumber, 10);
 
@@ -62,7 +62,7 @@ Then(
 );
 
 Then(
-  'I should receive realtime notifications for {string}:{string} matching:',
+  "I should receive realtime notifications for {string}:{string} matching:",
   async function (index, collection, datatable) {
     const expectedNotifications = this.parseObjectArray(datatable);
 
@@ -98,13 +98,13 @@ Then(
       }
     } catch (error) {
       console.log(
-        'expected',
+        "expected",
         util.inspect(expectedNotifications, false, null, true)
       );
 
       if (subscription) {
         console.log(
-          'received',
+          "received",
           util.inspect(subscription.notifications, false, null, true)
         );
       }

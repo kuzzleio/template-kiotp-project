@@ -2,14 +2,15 @@ import { KIoTPApplication } from "../../KIoTPApplication";
 import { Module } from "../Module";
 
 export class MeasuresModule extends Module {
-  constructor (app: KIoTPApplication) {
+  constructor(app: KIoTPApplication) {
     super(app);
   }
 
-  register () {
+  register() {
+    // Nothing here
   }
 
-  async init () {
+  async init() {
     // Nothing here
   }
 }

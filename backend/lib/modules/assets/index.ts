@@ -1,1 +1,1 @@
-export * from './AssetsModule';
+export * from "./AssetsModule";

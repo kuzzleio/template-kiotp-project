@@ -1,9 +1,9 @@
-const _ = require('lodash'),
-  should = require('should'),
-  { Then } = require('cucumber');
+const _ = require("lodash"),
+  should = require("should"),
+  { Then } = require("cucumber");
 
 Then(
-  'The document {string} content match:',
+  "The document {string} content match:",
   async function (documentId, dataTable) {
     const expectedContent = this.parseObject(dataTable);
 
@@ -18,7 +18,7 @@ Then(
 );
 
 Then(
-  'The document {string}:{string}:{string} content match:',
+  "The document {string}:{string}:{string} content match:",
   async function (index, collection, documentId, dataTable) {
     const expectedContent = this.parseObject(dataTable);
 
@@ -28,7 +28,7 @@ Then(
   }
 );
 
-Then('I {string} the following documents:', async function (action, dataTable) {
+Then("I {string} the following documents:", async function (action, dataTable) {
   action = `m${action[0].toUpperCase() + action.slice(1)}`;
 
   const documents = this.parseObjectArray(dataTable);
@@ -41,18 +41,18 @@ Then('I {string} the following documents:', async function (action, dataTable) {
 });
 
 Then(
-  'I {string} the document {string} with content:',
+  "I {string} the document {string} with content:",
   async function (action, _id, dataTable) {
     const body = this.parseObject(dataTable);
 
-    if (action === 'create') {
+    if (action === "create") {
       this.props.result = await this.sdk.document[action](
         this.props.index,
         this.props.collection,
         body,
         _id
       );
-    } else if (action === 'write') {
+    } else if (action === "write") {
       const { _source: document } = await this.sdk.document.get(
         this.props.index,
         this.props.collection,
@@ -82,7 +82,7 @@ Then(
 );
 
 Then(
-  'I should receive a {string} array of objects matching:',
+  "I should receive a {string} array of objects matching:",
   function (name, dataTable) {
     const expected = this.parseObjectArray(dataTable);
 
@@ -97,7 +97,7 @@ Then(
   }
 );
 
-Then('I should receive a {string} array matching:', function (name, dataTable) {
+Then("I should receive a {string} array matching:", function (name, dataTable) {
   const expected = _.flatten(dataTable.rawTable).map(JSON.parse);
 
   should(this.props.result[name].length).be.eql(
@@ -108,11 +108,11 @@ Then('I should receive a {string} array matching:', function (name, dataTable) {
   should(this.props.result[name].sort()).match(expected.sort());
 });
 
-Then('I should receive a empty {string} array', function (name) {
+Then("I should receive a empty {string} array", function (name) {
   should(this.props.result[name]).be.Array().be.empty();
 });
 
-Then('I count {int} documents', async function (expectedCount) {
+Then("I count {int} documents", async function (expectedCount) {
   await this.sdk.collection.refresh(this.props.index, this.props.collection);
 
   const count = await this.sdk.document.count(
@@ -124,7 +124,7 @@ Then('I count {int} documents', async function (expectedCount) {
 });
 
 Then(
-  'I count {int} documents in {string}:{string}',
+  "I count {int} documents in {string}:{string}",
   async function (expectedCount, index, collection) {
     await this.sdk.collection.refresh(index, collection);
 
@@ -135,7 +135,7 @@ Then(
 );
 
 Then(
-  'I count {int} documents matching:',
+  "I count {int} documents matching:",
   async function (expectedCount, dataTable) {
     const properties = this.parseObject(dataTable);
 
@@ -191,8 +191,8 @@ Then(
   async function (action, verb, dataTable) {
     action = `m${action[0].toUpperCase() + action.slice(1)}`;
     const options = verb
-      ? { verb, refresh: 'wait_for' }
-      : { refresh: 'wait_for' };
+      ? { verb, refresh: "wait_for" }
+      : { refresh: "wait_for" };
 
     const ids = _.flatten(dataTable.rawTable).map(JSON.parse);
 
@@ -205,19 +205,19 @@ Then(
   }
 );
 
-Then('I search documents with the following query:', function (queryRaw) {
+Then("I search documents with the following query:", function (queryRaw) {
   const query = JSON.parse(queryRaw);
 
   this.props.searchBody = { query };
 });
 
-Then('with the following highlights:', function (highlightsRaw) {
+Then("with the following highlights:", function (highlightsRaw) {
   const highlights = JSON.parse(highlightsRaw);
 
   this.props.searchBody.highlight = highlights;
 });
 
-Then('I execute the search query', async function () {
+Then("I execute the search query", async function () {
   this.props.result = await this.sdk.document.search(
     this.props.index,
     this.props.collection,
@@ -225,7 +225,7 @@ Then('I execute the search query', async function () {
   );
 });
 
-Then('I delete the document {string}', async function (id) {
+Then("I delete the document {string}", async function (id) {
   this.props.result = await this.sdk.document.delete(
     this.props.index,
     this.props.collection,
