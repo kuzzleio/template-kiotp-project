@@ -32,12 +32,16 @@ export const createRouter = (
         component: Login,
       },
       {
+        name: "home",
         path: "/",
         beforeEnter: createAuthenticationGuard(store, "login"),
         component: AppLayout,
         props: { navbarItems: [], sidebarItems },
         children: appRoutes,
-        redirect:  '/assets',
+        redirect: '/assets',
+        meta: {
+          breadcrumb: "locales.nav.home",
+        }
       },
       {
         path: "*",
