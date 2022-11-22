@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "title": "frontend - IoT Console",
+  "title": "IoT Console",
   "version": "0.1.0",
   "private": true,
   "scripts": {
