@@ -42,6 +42,7 @@ jobs:
           cd backend
           npm ci
           npm run test:lint
+          npm run build
 
   backend_functional_tests:
     name: Functional Tests Backend
