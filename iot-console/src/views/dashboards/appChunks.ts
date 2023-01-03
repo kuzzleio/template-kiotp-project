@@ -1,7 +1,9 @@
+import { AppChunk } from '@kuzzleio/kuzzle-application-builder'
+import { faChartLine } from '@fortawesome/free-solid-svg-icons'
+
 import DashboardWrapper from './DashboardsWrapper.vue'
 import DashboardList from './DashboardList.vue'
 import Dashboard from './Dashboard.vue'
-import { AppChunk } from '@kuzzleio/kuzzle-application-builder'
 
 export const chunk: AppChunk = {
   name: 'dashboards',
