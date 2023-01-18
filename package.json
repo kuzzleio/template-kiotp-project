@@ -1,0 +1,25 @@
+{
+  "name": "kiotp-module-groups",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "test:lint": "turbo run test:lint",
+    "test:functional": "turbo run test:functional",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "eslint": "^8.31.0",
+    "eslint-plugin-kuzzle": "^0.0.6",
+    "prettier": "latest",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "packageManager": "npm@8.15.0"
+}
