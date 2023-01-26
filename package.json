@@ -10,7 +10,8 @@
     "dev": "turbo run dev --parallel",
     "test:lint": "turbo run test:lint",
     "test:functional": "turbo run test:functional",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "postinstall": "sh ./postinstall.sh",
+    "prettier": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
     "eslint": "^8.31.0",

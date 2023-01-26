@@ -6,7 +6,8 @@ import { roomAssetDefinition } from "./Room";
 
 export class AssetsModule extends Module {
   register(): void {
-    const deviceManager = this.app.plugin.get<DeviceManagerPlugin>("device-manager");
+    const deviceManager =
+      this.app.plugin.get<DeviceManagerPlugin>("device-manager");
 
     deviceManager.models.registerAsset(
       "air_quality",

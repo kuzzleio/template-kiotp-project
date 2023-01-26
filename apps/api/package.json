@@ -22,14 +22,14 @@
   "main": "app.ts",
   "license": "Apache-2.0",
   "dependencies": {
-    "@kuzzleio/dashboard-builder": ">=0.6.0",
-    "@kuzzleio/iot-backend": "3.*.*",
-    "@kuzzleio/plugin-multi-tenancy": ">=1.1.3",
-    "@kuzzleio/plugin-workflows": ">=0.4.6",
-    "@kuzzleio/scheduler": ">=1.1.7",
-    "kuzzle": "^2",
-    "kuzzle-device-manager": ">=2.0.1",
-    "kuzzle-plugin-hermes-messenger": ">=0.3.0",
+    "@kuzzleio/dashboard-builder": "0.6.1",
+    "@kuzzleio/iot-backend": "3.1.0",
+    "@kuzzleio/plugin-multi-tenancy": "1.1.3",
+    "@kuzzleio/plugin-workflows": "0.4.6",
+    "@kuzzleio/scheduler": "1.1.7",
+    "kuzzle": "2.20.1",
+    "kuzzle-device-manager": "2.0.6",
+    "kuzzle-plugin-hermes-messenger": "0.3.0",
     "lodash": "^4.17.21"
   },
   "devDependencies": {

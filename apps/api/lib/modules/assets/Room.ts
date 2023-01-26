@@ -1,11 +1,9 @@
 import {
   AssetContent,
   AssetModelDefinition,
-  HumidityMeasurement,
   Metadata,
   TemperatureMeasurement,
 } from "kuzzle-device-manager";
-
 import { CO2Measurement } from "../devices/CO2Measurement";
 
 /**
@@ -14,12 +12,7 @@ import { CO2Measurement } from "../devices/CO2Measurement";
  * This is optional and can be omitted if you don't want strong typing
  */
 export interface RoomMetadata extends Metadata {
-  buildingName: string;
-  position: {
-    lat: number;
-    lon: number;
-  };
-  roomName: string;
+  building: string;
 }
 
 /**
@@ -29,7 +22,6 @@ export interface RoomMetadata extends Metadata {
  */
 export type RoomMeasurements = {
   temperature: TemperatureMeasurement;
-  humidity: HumidityMeasurement;
   co2: CO2Measurement;
 };
 
@@ -57,16 +49,11 @@ export const roomAssetDefinition: AssetModelDefinition = {
       type: "temperature",
     },
     {
-      name: "humidity",
-      type: "humidity",
-    },
-    {
       name: "co2",
       type: "co2",
     },
   ],
   metadataMappings: {
-    floor: { type: "integer" },
-    width: { type: "float" },
+    building: { type: "keyword" },
   },
 };

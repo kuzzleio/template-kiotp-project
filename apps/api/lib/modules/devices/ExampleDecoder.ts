@@ -6,20 +6,16 @@ import {
 } from "@kuzzleio/iot-backend";
 import { JSONObject } from "kuzzle";
 import { has } from "lodash";
-
 import { CO2Measurement } from "./CO2Measurement";
 
-export class AirQualitySensorDecoder extends Decoder {
+export class ExampleDecoder extends Decoder {
   public measures = [
     { name: "temperature", type: "temperature" },
-    { name: "humidity", type: "humidity" },
     { name: "co2", type: "co2" },
   ] as const;
 
   constructor() {
     super();
-
-    this.action = "air-quality-sensor";
 
     this.payloadsMappings = {
       deviceId: { type: "keyword" },
@@ -29,13 +25,13 @@ export class AirQualitySensorDecoder extends Decoder {
   async validate(payload: JSONObject): Promise<boolean> {
     this.ensureProperties(payload, ["deviceId"]);
 
-    const properties = ["temperature", "humidity", "co2"];
+    const properties = ["temperature", "co2"];
 
     return properties.every((property) => has(payload, property));
   }
 
   async decode(
-    decodedPayload: DecodedPayload<AirQualitySensorDecoder>,
+    decodedPayload: DecodedPayload<ExampleDecoder>,
     payload: JSONObject
   ): Promise<DecodedPayload<Decoder>> {
     const deviceId = payload.deviceId;
@@ -53,14 +49,6 @@ export class AirQualitySensorDecoder extends Decoder {
         },
       }
     );
-
-    decodedPayload.addMeasurement<HumidityMeasurement>(deviceId, "humidity", {
-      measuredAt,
-      type: "humidity",
-      values: {
-        humidity: payload.humidity,
-      },
-    });
 
     decodedPayload.addMeasurement<CO2Measurement>(deviceId, "co2", {
       measuredAt,
