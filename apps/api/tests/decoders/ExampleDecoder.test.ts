@@ -28,6 +28,7 @@ describe("ExampleDecoder", () => {
       body: {
         deviceId: "unlinked",
         temperature: 27,
+        co2: 7,
         timestamp: 1673959649017,
       },
     });
@@ -42,6 +43,13 @@ describe("ExampleDecoder", () => {
       measuredAt: 1673959649017,
       values: {
         temperature: 27,
+      },
+    });
+
+    should(device._source.measures.co2).match({
+      measuredAt: 1673959649017,
+      values: {
+        co2: 7,
       },
     });
   });
