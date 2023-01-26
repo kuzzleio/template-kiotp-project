@@ -1,11 +1,13 @@
-name: Push to dev branch
+name: Run functional tests and lint on development branches and pull requests
 
-on:
+on: 
   push:
     branches:
       - 0-dev
       - 1-dev
       - 2-dev
+      - master
+  pull_request: # All pull requests
 
 jobs:
   lint:
@@ -19,12 +21,12 @@ jobs:
           ssh-key: ${{ secrets.SSH_KEY }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v1.4.4
+        uses: actions/setup-node@v2
         with:
           node-version: "16"
 
       - name: Login to PaaS NPM registry
-        uses: kuzzleio/paas-action@v0.5.7
+        uses: kuzzleio/paas-action@v0.7.0
         with:
           username: ${{ secrets.CORE_TEAM_PAAS_USERNAME }}
           password: ${{ secrets.CORE_TEAM_PAAS_PASSWORD }}
@@ -48,12 +50,12 @@ jobs:
           ssh-key: ${{ secrets.SSH_KEY }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v1.4.4
+        uses: actions/setup-node@v2
         with:
           node-version: "16"
 
       - name: Login to PaaS NPM registry
-        uses: kuzzleio/paas-action@v0.5.7
+        uses: kuzzleio/paas-action@v0.7.0
         with:
           username: ${{ secrets.CORE_TEAM_PAAS_USERNAME }}
           password: ${{ secrets.CORE_TEAM_PAAS_PASSWORD }}
