@@ -7,7 +7,7 @@ const TsconfigPaths = new TsconfigPathsPlugin({
 module.exports = defineConfig({
   productionSourceMap: process.env.NODE_ENV === 'development',
   configureWebpack: {
-    devtool: process.env.NODE_ENV === 'development' ? 'eval-source-map' : 'none',
+    devtool: process.env.NODE_ENV === 'development' ? 'eval-source-map' : undefined,
     resolve: {
       plugins: [TsconfigPaths],
     },
