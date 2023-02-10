@@ -9,9 +9,9 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "6.1.*",
-    "@kuzzleio/dashboard-builder": "0.*.*",
+    "@kuzzleio/dashboard-builder": "0.6.*",
     "@kuzzleio/iot-console": "^3.0.0-rc5",
-    "@kuzzleio/kuzzle-application-builder": "0.8.5",
+    "@kuzzleio/kuzzle-application-builder": "0.8.*",
     "bootstrap-vue": "2.23.*",
     "@types/lodash": "4.14.*",
     "core-js": "3.8.*",
