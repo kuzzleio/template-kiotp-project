@@ -38,6 +38,8 @@ jobs:
           password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
           npmrc_output_dir: ./apps/api
           login_only: true
+      - name: Copy package-lock.json
+        run: cp ./package-lock.json ./apps/api
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
@@ -104,6 +106,8 @@ jobs:
           password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
           npmrc_output_dir: ./apps/web
           login_only: true
+      - name: Copy package-lock.json
+        run: cp ./package-lock.json ./apps/web
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
