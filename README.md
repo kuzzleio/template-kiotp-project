@@ -18,6 +18,8 @@ __You need to use Node.js 16 because of a bug with Node.js 14__
 
 ### Install dependencies
 
+Log to Kuzzle npm private repository : https://docs.kuzzle.io/paas-console/1/guides/access-private-plugins/ 
+
 Go to the repository root and run `npm install`
 
 ### Run the dev server
