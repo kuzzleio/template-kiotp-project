@@ -85,7 +85,7 @@
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue, Mixins } from 'vue-property-decorator';
+import { Prop, Component, Mixins } from 'vue-property-decorator';
 import { mapActions, mapGetters } from 'vuex';
 import { BCol, BFormInput, BButton, BSpinner } from 'bootstrap-vue';
 import {
@@ -96,8 +96,7 @@ import {
   EVENT_OPEN_NEW_WIDGET_MODAL,
   MODULE_NAME as DASHBOARDS,
 } from '@kuzzleio/dashboard-builder';
-import { KCollectionsNamespace } from '@kuzzleio/kuzzle-application-builder';
-import { AbstractVueMixin, KTenantGetters } from '@kuzzleio/iot-console';
+import { AbstractVueMixin, KTenantGetters, StoreNamespaceTypes } from '@kuzzleio/iot-console';
 import ShareIcon from '../../components/icons/ShareIcon.vue';
 import { kuzzle } from '../../services/kuzzle';
 import EmptyLayout from './EmptyLayout.vue';
@@ -114,7 +113,7 @@ import { DashboardView } from './factories';
     BSpinner,
   },
   computed: {
-    ...mapGetters(KCollectionsNamespace.TENANT, {
+    ...mapGetters(StoreNamespaceTypes.TENANT, {
       engine: KTenantGetters.SELECTED_TENANT,
     }),
   },
@@ -126,6 +125,7 @@ export default class Dashboard extends Mixins(AbstractVueMixin) {
   @Prop({ required: false }) public id!: string;
 
   protected engine!: { _id: string };
+  public isBusy = false;
   public isEditMode = false;
   public dashboardLabel = '';
   public layout: KWidgetSpec[] = [];
@@ -209,12 +209,7 @@ export default class Dashboard extends Mixins(AbstractVueMixin) {
   }
 
   async promptDeleteDashboard(): Promise<void> {
-    // NOTE. For some mysterious reason, BootstrapVue type augmentation
-    // (i.e. this.$bvModal and this.$bvToast) doesn't work on this project.
-    // Typescript will fail compiling saying that $bvModal doesn't exist
-    // on type Dashboard (nor Vue, btw). Accessing $bvModal through the
-    // prototype works around the type-check.
-    const response = await Vue.prototype.$bvModal.msgBoxConfirm(
+    const response = await this.$bvModal.msgBoxConfirm(
       this.$i18n.t('locales.dashboards.deletePrompt') as string,
     );
 

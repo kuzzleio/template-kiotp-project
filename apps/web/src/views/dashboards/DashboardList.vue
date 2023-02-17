@@ -47,7 +47,7 @@
 <script lang="ts">
 import { Component, Mixins, Watch } from 'vue-property-decorator';
 import { mapActions, mapGetters } from 'vuex';
-import { BaseListMixin, KTenantGetters, tenantsStoreNamespace } from '@kuzzleio/iot-console';
+import { BaseListMixin, KTenantGetters, StoreNamespaceTypes } from '@kuzzleio/iot-console';
 import { MODULE_NAME as DASHBOARDS, DashboardsState } from '@kuzzleio/dashboard-builder';
 import debounce from 'lodash/debounce';
 import DashbardListItem from '../../components/dashboards/DashboardListItem.vue';
@@ -58,7 +58,7 @@ import DashbardListItem from '../../components/dashboards/DashboardListItem.vue'
   },
   computed: {
     ...mapGetters(DASHBOARDS, ['dashboardList']),
-    ...mapGetters(tenantsStoreNamespace, {
+    ...mapGetters(StoreNamespaceTypes.TENANT, {
       currentTenant: KTenantGetters.SELECTED_TENANT,
     }),
   },

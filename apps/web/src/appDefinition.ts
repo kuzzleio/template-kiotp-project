@@ -12,27 +12,15 @@ import Dashboard from './views/dashboards/Dashboard.vue';
 
 export const appDefinition = [
   {
-    name: 'home',
-    label: 'Home',
-    icon: faHome,
-    vuejsRoute: {
-      path: 'home',
-      name: 'Home',
-      meta: {
-        breadcrumb: 'locales.nav.home',
-      },
-    },
-  },
-  {
     name: 'dashboards',
-    label: 'Dashboards',
+    label: 'locales.sidebar.dashboards',
     icon: faTachometerAlt,
     vuejsRoute: {
       path: '/dashboards',
       name: 'dashboards',
       component: DashboardWrapper,
       meta: {
-        breadcrumb: 'locales.nav.dashboards',
+        breadcrumb: 'locales.sidebar.dashboards',
       },
       children: [
         {

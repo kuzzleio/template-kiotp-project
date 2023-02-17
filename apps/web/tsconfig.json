@@ -21,10 +21,7 @@
     "paths": {
       "@/*": ["src/*"],
       // Alias peerDependencies to fix resolve
-      "vue": ["node_modules/vue"],
-      "vue-i18n": ["node_modules/vue-i18n"],
-      "vue-router": ["node_modules/vue-router"],
-      "bootstrap-vue": ["node_modules/bootstrap-vue"]
+      "vue": ["../../node_modules/vue"],
     },
     "lib": [
       "esnext",

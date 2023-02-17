@@ -10,19 +10,12 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "6.1.*",
     "@kuzzleio/dashboard-builder": "0.6.*",
-    "@kuzzleio/iot-console": "^3.0.0-rc5",
-    "@kuzzleio/kuzzle-application-builder": "0.8.*",
+    "@kuzzleio/iot-console": "^3.0.0-rc6",
+    "@kuzzleio/kuzzle-application-builder": ">= 0.9",
     "bootstrap-vue": "2.23.*",
-    "@types/lodash": "4.14.*",
-    "core-js": "3.8.*",
     "lodash": "4.17.*",
-    "tsconfig-paths-webpack-plugin": "^4.0.0",
-    "vue": "2.7.*",
-    "vue-class-component": "7.2.*",
     "vue-plugin-kuzzle": "^4.4.0",
-    "vue-property-decorator": "9.1.*",
-    "vue-router": "3.6.*",
-    "vuex": "3.6.*"
+    "vue-property-decorator": "9.1.*"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",

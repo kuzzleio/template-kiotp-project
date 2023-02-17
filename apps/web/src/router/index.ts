@@ -38,7 +38,7 @@ export const createRouter = (
         component: AppLayout,
         props: { navbarItems: [], sidebarItems },
         children: appRoutes,
-        redirect: { name: 'home' },
+        redirect: { name: 'dashboards' },
       },
       {
         path: '*',
