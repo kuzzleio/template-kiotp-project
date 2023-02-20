@@ -1,0 +1,11 @@
+{
+  "extends": "./apps/web/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["apps/web/src/*"],
+      // Alias peerDependencies to fix resolve (prevent error `i.util`)
+      "vue": ["node_modules/vue"]
+    }
+  }
+}
