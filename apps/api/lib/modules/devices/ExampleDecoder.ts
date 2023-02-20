@@ -9,6 +9,9 @@ import { has } from "lodash";
 import { CO2Measurement } from "./CO2Measurement";
 
 export class ExampleDecoder extends Decoder {
+  /**
+   * Declare the measure extracted by this Decoder
+   */
   public measures = [
     { name: "temperature", type: "temperature" },
     { name: "co2", type: "co2" },
@@ -17,11 +20,17 @@ export class ExampleDecoder extends Decoder {
   constructor() {
     super();
 
+    /**
+     * Register a custom mappings for the "payloads" collection
+     */
     this.payloadsMappings = {
       deviceId: { type: "keyword" },
     };
   }
 
+  /**
+   * Ensure the payload contains the correct values
+   */
   async validate(payload: JSONObject): Promise<boolean> {
     this.ensureProperties(payload, ["deviceId"]);
 
@@ -39,11 +48,11 @@ export class ExampleDecoder extends Decoder {
     const measuredAt = payload.timestamp || Date.now();
 
     decodedPayload.addMeasurement<TemperatureMeasurement>(
-      deviceId,
-      "temperature",
+      deviceId, // device reference
+      "temperature", // measure name
       {
-        measuredAt,
-        type: "temperature",
+        measuredAt, // timestamp of the measure
+        type: "temperature", // measure type
         values: {
           temperature: payload.temperature,
         },
