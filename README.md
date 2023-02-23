@@ -1,4 +1,4 @@
-# Kuzzle IoT Platform Project (read only :thinking-face:)
+# Kuzzle IoT Platform Project
 
 This repo contains a pre-configured [Turborepo](https://turborepo.org/) with the necessary tooling to create a project using the IoT Platform.
 
