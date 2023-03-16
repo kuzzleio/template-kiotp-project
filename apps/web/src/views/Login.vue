@@ -83,7 +83,7 @@ export default class Login extends Vue {
       this.$router.push({ name: this.$route.query.to as string });
       return;
     }
-    this.$router.push({ name: 'home' });
+    this.$router.push({ name: 'dashboards' });
   }
 }
 </script>
