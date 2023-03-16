@@ -1,4 +1,4 @@
-import { locales as dashboardBuilderLocales } from '@kuzzleio/dashboard-builder';
+import { locales as dashboardBuilderLocales } from '@kuzzleio/dashboard-builder-frontend';
 import { locales as KIoTPLocales } from '@kuzzleio/iot-console';
 import { mergeLocaleMessages } from '@kuzzleio/kuzzle-application-builder';
 import defaultsDeep from 'lodash/defaultsDeep';

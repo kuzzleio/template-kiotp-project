@@ -17,7 +17,7 @@ import {
 import {
   createDashboardsStoreModule,
   MODULE_NAME as DASHBOARDS,
-} from '@kuzzleio/dashboard-builder';
+} from '@kuzzleio/dashboard-builder-frontend';
 import { kuzzle, observer } from '@/services/kuzzle';
 
 Vue.use(Vuex);

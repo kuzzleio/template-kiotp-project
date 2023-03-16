@@ -7,7 +7,7 @@ import {
   ChartWidgetForm,
   TableWidget,
   TableWidgetForm,
-} from '@kuzzleio/dashboard-builder';
+} from '@kuzzleio/dashboard-builder-frontend';
 
 export const kdbWidgets = [
   {

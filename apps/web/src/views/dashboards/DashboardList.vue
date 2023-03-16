@@ -48,7 +48,7 @@
 import { Component, Mixins, Watch } from 'vue-property-decorator';
 import { mapActions, mapGetters } from 'vuex';
 import { BaseListMixin, KTenantGetters, StoreNamespaceTypes } from '@kuzzleio/iot-console';
-import { MODULE_NAME as DASHBOARDS, DashboardsState } from '@kuzzleio/dashboard-builder';
+import { MODULE_NAME as DASHBOARDS, DashboardsState } from '@kuzzleio/dashboard-builder-frontend';
 import debounce from 'lodash/debounce';
 import DashbardListItem from '../../components/dashboards/DashboardListItem.vue';
 
