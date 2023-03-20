@@ -95,7 +95,7 @@ import {
   updateDashboard,
   EVENT_OPEN_NEW_WIDGET_MODAL,
   MODULE_NAME as DASHBOARDS,
-} from '@kuzzleio/dashboard-builder';
+} from '@kuzzleio/dashboard-builder-frontend';
 import { AbstractVueMixin, KTenantGetters, StoreNamespaceTypes } from '@kuzzleio/iot-console';
 import ShareIcon from '../../components/icons/ShareIcon.vue';
 import { kuzzle } from '../../services/kuzzle';
