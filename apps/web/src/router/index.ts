@@ -1,20 +1,20 @@
-import VueRouter from 'vue-router';
 // In this example we use the `KIoTCViews` chunk, but you can use any other chunk,
 // as explained above.
 import { KIoTPBase as AppLayout } from '@kuzzleio/iot-console';
 import {
   AppChunk,
+  KLogin,
+  KPageNotFound,
   createAuthenticationGuard,
   createOnlineGuard,
   generateMenuItems,
   generateRoutes,
-  KPageNotFound,
 } from '@kuzzleio/kuzzle-application-builder';
+import VueRouter from 'vue-router';
 import { Store } from 'vuex';
 
 import { kuzzle } from '../services/kuzzle';
 import { RootState } from '../store/index';
-import Login from '../views/Login.vue';
 
 export const createRouter = (
   store: Store<RootState>,
@@ -30,7 +30,10 @@ export const createRouter = (
       {
         path: '/login',
         name: 'login',
-        component: Login,
+        component: KLogin,
+        meta: {
+          defaultRedirect: { name: 'dashboards' },
+        },
       },
       {
         path: '/',

@@ -8,10 +8,10 @@
   "scripts": {
     "build": "TS_CONFIG='../../frontend.tsconfig.json' turbo run build",
     "dev": "TS_CONFIG='../../frontend.tsconfig.json' turbo run dev --parallel",
-    "test:lint": "turbo run test:lint",
-    "test:functional": "turbo run test:functional",
     "dev:api": "npm run --workspace kiotp-demo-api dev",
     "dev:web": "TS_CONFIG='../../frontend.tsconfig.json' npm run --workspace kiotp-demo-web dev",
+    "test:lint": "turbo run test:lint",
+    "test:functional": "turbo run test:functional",
     "prettier": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {

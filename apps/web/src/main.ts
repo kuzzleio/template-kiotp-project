@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import '@fortawesome/fontawesome-free/css/all.css';
 import '@fortawesome/fontawesome-free/js/all.js';
+import { dashboardPlugin } from '@kuzzleio/dashboard-builder-frontend';
 import { formatDate, formatDateTime, formatSvg } from '@kuzzleio/iot-console';
 import {
   BootstrapVue,
@@ -13,11 +14,15 @@ import {
 import { VBTooltip } from 'bootstrap-vue/src/directives/tooltip';
 import VueBreadcrumbs from 'vue-2-breadcrumbs';
 import VueRouter from 'vue-router';
-import i18n from './services/i18n';
+
 import App from './App.vue';
-import store from './store';
+import { appDefinitions, dashboardWidgets } from './appDefinition';
 import { createRouter } from './router';
-import { appDefinition } from './appDefinition';
+import i18n from './services/i18n';
+import store from './store';
+
+// Kuzzle Vue
+Vue.use(dashboardPlugin, { widgets: dashboardWidgets });
 
 // BOOTSTRAP DIRECTIVEs
 Vue.directive('b-modal', VBModal);
@@ -39,7 +44,7 @@ Vue.filter('formatSvg', formatSvg);
 
 Vue.config.productionTip = false;
 
-const router = createRouter(store, appDefinition);
+const router = createRouter(store, appDefinitions);
 
 new Vue({
   router,
