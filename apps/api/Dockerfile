@@ -18,7 +18,7 @@ ARG KUZZLE_VAULT_KEY=""
 # Uncomment if you want to use the Kuzzle Vault
 # See https://docs.kuzzle.io/core/2/guides/advanced/secrets-vault
 # ENV KUZZLE_VAULT_KEY=$KUZZLE_VAULT_KEY
-# ENV KUZZLE_SECRETS_FILE="/var/app/environments/${KUZZLE_ENV}/secrets.enc.json"
+# ENV KUZZLE_SECRETS_FILE="/var/app/secrets.enc.json"
 
 ENV NODE_ENV=production
 
@@ -27,6 +27,7 @@ COPY --from=builder /var/app/node_modules /var/app/node_modules
 COPY --from=builder /var/app/package.json /var/app/package.json
 COPY --from=builder /var/app/package-lock.json /var/app/package-lock.json
 COPY --from=builder /var/app/environments/${KUZZLE_ENV}/kuzzlerc /var/app/.kuzzlerc
+COPY --from=builder /var/app/environments/${KUZZLE_ENV}/secrets.enc.json /var/app/secrets.enc.json
 
 WORKDIR /var/app
 
