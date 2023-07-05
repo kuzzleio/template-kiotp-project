@@ -1,5 +1,5 @@
 # Builder stage
-FROM kuzzleio/kuzzle-runner:14 as builder
+FROM kuzzleio/kuzzle-runner:16 as builder
 
 WORKDIR /var/app
 
@@ -10,7 +10,7 @@ RUN npm run build
 RUN npm prune --production
 
 # Final image
-FROM node:14-bullseye-slim
+FROM node:16-bullseye-slim
 
 ARG KUZZLE_ENV="local"
 ARG KUZZLE_VAULT_KEY=""

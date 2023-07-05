@@ -32,7 +32,7 @@ jobs:
           username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
           password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
       - name: Login PaaS
-        uses: kuzzleio/paas-action@v0.7.2
+        uses: kuzzleio/paas-action@v0.7.3
         with:
           username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
           password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
@@ -68,7 +68,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Deploy to PaaS
-        uses: kuzzleio/paas-action@v0.7.2
+        uses: kuzzleio/paas-action@v0.7.3
         with:
           username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
           password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
@@ -100,7 +100,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Login PaaS
-        uses: kuzzleio/paas-action@v0.7.2
+        uses: kuzzleio/paas-action@v0.7.3
         with:
           username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
           password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
@@ -135,7 +135,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Deploy to PaaS
-        uses: kuzzleio/paas-action@v0.7.2
+        uses: kuzzleio/paas-action@v0.7.3
         with:
           username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
           password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
