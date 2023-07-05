@@ -13,7 +13,7 @@ env:
 jobs:
   push_backend:
     name: Backend artefact
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
         with:
@@ -32,7 +32,7 @@ jobs:
           username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
           password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
       - name: Login PaaS
-        uses: kuzzleio/paas-action@v0.7.0
+        uses: kuzzleio/paas-action@v0.7.2
         with:
           username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
           password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
@@ -53,7 +53,7 @@ jobs:
 
   deploy_backend:
     name: Deploy backend artefact
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     needs: [push_backend]
     steps:
       - uses: actions/checkout@v2
@@ -68,7 +68,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Deploy to PaaS
-        uses: kuzzleio/paas-action@v0.7.0
+        uses: kuzzleio/paas-action@v0.7.2
         with:
           username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
           password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
@@ -100,7 +100,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Login PaaS
-        uses: kuzzleio/paas-action@v0.7.0
+        uses: kuzzleio/paas-action@v0.7.2
         with:
           username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
           password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
@@ -135,7 +135,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Deploy to PaaS
-        uses: kuzzleio/paas-action@v0.7.0
+        uses: kuzzleio/paas-action@v0.7.2
         with:
           username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
           password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
