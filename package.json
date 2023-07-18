@@ -17,7 +17,7 @@
   "devDependencies": {
     "eslint": "^8.31.0",
     "eslint-plugin-kuzzle": "^0.0.6",
-    "prettier": "latest",
+    "prettier": "^2.8.8",
     "turbo": "latest"
   },
   "engines": {
