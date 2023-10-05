@@ -1,27 +1,24 @@
 {
-  "name": "kiotp-module-groups",
-  "version": "0.0.0",
+  "name": "kiotp",
+  "version": "1.0.0",
   "private": true,
   "workspaces": [
     "apps/*"
   ],
   "scripts": {
-    "build": "TS_CONFIG='../../frontend.tsconfig.json' turbo run build",
-    "dev": "TS_CONFIG='../../frontend.tsconfig.json' turbo run dev --parallel",
-    "dev:api": "npm run --workspace kiotp-demo-api dev",
-    "dev:web": "TS_CONFIG='../../frontend.tsconfig.json' npm run --workspace kiotp-demo-web dev",
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
     "test:lint": "turbo run test:lint",
-    "test:functional": "turbo run test:functional",
-    "prettier": "prettier --write \"**/*.{ts,tsx,md}\""
+    "test:functional": "turbo run test:functional"
   },
   "devDependencies": {
-    "eslint": "^8.31.0",
-    "eslint-plugin-kuzzle": "^0.0.6",
-    "prettier": "^2.8.8",
+    "eslint": "8.50.0",
+    "eslint-plugin-kuzzle": "0.0.12",
+    "prettier": "2.8.8",
     "turbo": "latest"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.17.1"
   },
-  "packageManager": "npm@8.15.0"
+  "packageManager": "npm@10.1.0"
 }

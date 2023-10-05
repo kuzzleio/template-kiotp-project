@@ -1,0 +1,16 @@
+{
+  // tsconfig for external files of src
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "vite.config.ts",
+    "**/*.json",
+    "./src/**/*.ts",
+    "./src/**/*.vue",
+    "../../packages/frontend/src/**/*.ts",
+    "../../packages/frontend/src/**/*.vue"
+  ]
+}

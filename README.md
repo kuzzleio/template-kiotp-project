@@ -22,11 +22,11 @@ Log to Kuzzle npm private repository : https://docs.kuzzle.io/paas-console/1/gui
 
 Go to the repository root and run `npm install`
 
-### Run the dev server
+### Run the stack
 
-First you need to run Elasticsearch and Redis, at the repository root: `docker-compose up`
-
-Go to the repository root and run `npm run dev`
+```bash
+docker compose up -d
+```
 
 ## Useful Links
 

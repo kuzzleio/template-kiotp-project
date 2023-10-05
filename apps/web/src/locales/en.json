@@ -1,12 +1,130 @@
 {
+  "Home": "Home",
   "locales": {
-    "home": {
-      "hello": "Welcome on the Home"
+    "assets": {
+      "metadata": {
+        "capacity": "Capacity",
+        "numberplate": "Plate Number"
+      }
+    },
+    "bulkImport": {
+      "browse": "Drag and drop or browse to upload your file",
+      "description": "You can import assets and devices in bulk using a CSV file to automate creation",
+      "drop": "Drop your file here",
+      "import": "Import data",
+      "log": {
+        "asset-created": "Asset {assetModel} {assetReference} created",
+        "csv-parse-error": "Error while parsing CSV file! Please check your file and try again.",
+        "device-created": "Device {deviceModel} {deviceReference} created",
+        "device-link-to-another-tenant": "Device {deviceModel} {deviceReference} already linked to tenant {otherTenant}, skipping (L{lineNumber})",
+        "device-linked": "Device {deviceModel} {deviceReference} linked to asset {assetModel} {assetReference}",
+        "invalid": "Line {lineNumber} is not valid, skipping",
+        "metadata-updated": "{type} {model} {reference} found, metadata updated",
+        "orphan-device-link": "Device {deviceModel} {deviceReference} found in orphan device, link to current tenant ({currentIndex})"
+      },
+      "logModal": {
+        "copy": "Copy logs",
+        "copySuccess": "Logs copied to clipboard",
+        "filter": "Log filter",
+        "filters": {
+          "all": "All",
+          "error": "Error",
+          "success": "Success",
+          "warning": "Warning"
+        },
+        "title": "Import log"
+      },
+      "title": "Bulk Import"
+    },
+    "catalog": {
+      "action": "Provide a Decoder",
+      "detail": "Sensors Details",
+      "description": "Sensors Catalog for the Kuzzle IoT Platform.",
+      "doc": "Documentation Details",
+      "datasheet": "Datasheet",
+      "decoder": "Provide a Decoder",
+      "edit": "Edit",
+      "empty": "There are no records to show",
+      "emptyLinkedAsset": "Click here to link an asset",
+      "generalInfo": "General info",
+      "linkAsset": "Link an Asset",
+      "linkedAsset": "Linked Asset",
+      "link": "Link",
+      "measureType": "Measure Types",
+      "measures": "Measures",
+      "metadata": "Metadata",
+      "model": "Model",
+      "manufacturer": "Manufacturer",
+      "network": "Network",
+      "power": "Power",
+      "reference": "Reference",
+      "sales": "Sales",
+      "technical": "Technical Details",
+      "type": "Type",
+      "title": "IoT Sensors Catalog",
+      "unknown-link": "Link unavailable"
+    },
+    "devices": {
+      "modals": {
+        "create": "Provide a Decoder",
+        "createDescription": "Provide a new Sensor with her Decoder by providing here its Model and Reference. The Model must correspond to an existing Decoder, which is installed on the Platform. The Reference is a unique ID you can arbitrarily choose."
+      }
     },
     "labels": {
       "illuminance": "Illuminance",
       "lux": "Lux",
       "parts per million": "Parts per million"
+    },
+    "sidebar": {
+      "bulkImport": "Bulk Import",
+      "catalog": "Catalog"
+    },
+    "widget": {
+      "common": {
+        "allDrivers": "All drivers",
+        "asset-model": "Asset Model",
+        "street-name": "Street",
+        "cant-search-asset": "Sorry you don't have the rights to list the assets",
+        "chooseDriver": "Choose a driver",
+        "chooseLamp": "Choose a street lamp",
+        "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "error": "Error",
+        "maxLevel": "Maximum level",
+        "minLevel": "Minimum level",
+        "no-kara-devices-linked": "No Kara devices are linked to the asset",
+        "no-time": "No time selected",
+        "ok": "Ok",
+        "see-asset": "see the asset",
+        "send": "Send",
+        "sent": "Sent",
+        "sent-successfully": "Action sent sucessfully to the Kara device"
+      },
+      "level": {
+        "title": "Manage Power of street lamp"
+      },
+      "on-off": {
+        "apply": "Action takes effect",
+        "executionTime": "Execution time",
+        "immediate": "Immediately",
+        "on": "On",
+        "off": "Off",
+        "scheduled": "Later",
+        "title": "Switch street light lighting"
+      },
+      "scheduler": {
+        "chooseMode": "Choose period mode",
+        "end": "End day/hour",
+        "modes": {
+          "single": "Single",
+          "daily": "Daily"
+        },
+        "repeat": "Repeat every year",
+        "start": "Start day/hour",
+        "title": "Schedule street lamp lighting"
+      },
+      "status-map": {
+        "empty-form": "The form is empty. Nothing to show"
+      }
     }
   }
 }

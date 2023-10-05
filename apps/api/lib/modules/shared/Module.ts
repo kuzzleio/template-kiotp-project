@@ -1,4 +1,4 @@
-import { IoTApplication } from "../../IoTApplication";
+import { IoTApplication } from '../../IoTApplication';
 
 export abstract class Module {
   protected app: IoTApplication;
@@ -12,6 +12,4 @@ export abstract class Module {
   }
 
   abstract register(): void;
-
-  abstract start(): Promise<void>;
 }

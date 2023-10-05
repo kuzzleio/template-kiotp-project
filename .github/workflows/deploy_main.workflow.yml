@@ -6,16 +6,16 @@ on:
       - main
 
 env:
-  NODE_VERSION: "16"
+  NODE_VERSION: "18"
   KUZZLE_PAAS_REGISTRY: harbor.paas.kuzzle.io
   KUZZLE_PAAS_PROJECT: <PROJECT_ID>
 
 jobs:
   push_backend:
     name: Backend artefact
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: recursive
           token: ${{ secrets.ACCESS_TOKEN }}
@@ -41,7 +41,7 @@ jobs:
       - name: Copy package-lock.json
         run: cp ./package-lock.json ./apps/api
       - name: Build and push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           file: ./apps/api/Dockerfile
           context: ./apps/api
@@ -53,10 +53,10 @@ jobs:
 
   deploy_backend:
     name: Deploy backend artefact
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: [push_backend]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Get current commit short SHA
         id: vars
         shell: bash
@@ -64,7 +64,7 @@ jobs:
           echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
           echo "::set-output name=ref::$(echo $GITHUB_REF | cut -d / -f 3)"
       - name: Install NodeJS
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Deploy to PaaS
@@ -76,14 +76,14 @@ jobs:
           environment: ${{ steps.vars.outputs.ref }}
           application: api
           rollback: true
-          timeout: 180 # Higher timeout for the first deployment
+          timeout: 180
           image: ${{ env.KUZZLE_PAAS_REGISTRY }}/${{ env.KUZZLE_PAAS_PROJECT }}/${{ steps.vars.outputs.ref }}/kuzzle:${{ steps.vars.outputs.sha_short }}
 
   push_iot_console:
     name: IoT Console artefact
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Get current commit short SHA
         id: vars
         shell: bash
@@ -96,7 +96,7 @@ jobs:
           registry: ${{ env.KUZZLE_PAAS_REGISTRY }}
           username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
           password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Login PaaS
@@ -109,7 +109,7 @@ jobs:
       - name: Copy package-lock.json
         run: cp ./package-lock.json ./apps/web
       - name: Build and push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           build-args: |
             VUE_APP_BACKEND=${{ steps.vars.outputs.ref }}
@@ -123,7 +123,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [push_iot_console]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Get current commit short SHA
         id: vars
         shell: bash
@@ -131,7 +131,7 @@ jobs:
           echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
           echo "::set-output name=ref::$(echo $GITHUB_REF | cut -d / -f 3)"
       - name: Install NodeJS
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Deploy to PaaS
@@ -143,5 +143,5 @@ jobs:
           environment: ${{ steps.vars.outputs.ref }}
           application: iot
           rollback: true
-          timeout: 90
+          timeout: 180
           image: ${{ env.KUZZLE_PAAS_REGISTRY }}/${{ env.KUZZLE_PAAS_PROJECT }}/${{ steps.vars.outputs.ref }}/iot:${{ steps.vars.outputs.sha_short }}

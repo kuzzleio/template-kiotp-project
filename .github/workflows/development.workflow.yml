@@ -1,13 +1,10 @@
 name: Run functional tests and lint on development branches and pull requests
 
-on: 
-  push:
-    branches:
-      - 0-dev
-      - 1-dev
-      - 2-dev
-      - master
+on:
   pull_request: # All pull requests
+
+env:
+  NODE_VERSION: "18"
 
 jobs:
   lint:
@@ -15,26 +12,20 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          submodules: true
-          ssh-key: ${{ secrets.SSH_KEY }}
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Login to PaaS NPM registry
-        uses: kuzzleio/paas-action@v0.7.0
+        uses: kuzzleio/paas-action@v0.7.3
         with:
           username: ${{ secrets.CORE_TEAM_PAAS_USERNAME }}
           password: ${{ secrets.CORE_TEAM_PAAS_PASSWORD }}
           login_only: true
-          npmrc_output_dir: ./
-
-      - name: Copy NPMRC
-        run: cp .npmrc ~/.npmrc
+          npmrc_output_dir: ~/.npmrc
 
       - uses: ./.github/actions/lint
 
@@ -44,25 +35,19 @@ jobs:
     needs: [lint]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          submodules: true
-          ssh-key: ${{ secrets.SSH_KEY }}
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Login to PaaS NPM registry
-        uses: kuzzleio/paas-action@v0.7.0
+        uses: kuzzleio/paas-action@v0.7.3
         with:
           username: ${{ secrets.CORE_TEAM_PAAS_USERNAME }}
           password: ${{ secrets.CORE_TEAM_PAAS_PASSWORD }}
           login_only: true
-          npmrc_output_dir: ./
-
-      - name: Copy NPMRC
-        run: cp .npmrc ~/.npmrc
+          npmrc_output_dir: ~/.npmrc
 
       - uses: ./.github/actions/functional-test-backend

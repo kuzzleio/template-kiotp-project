@@ -1,12 +1,132 @@
 {
+  "Home": "Accueil",
   "locales": {
-    "home": {
-      "hello": "Bienvenue à l'accueil"
+    "assets": {
+      "metadata": {
+        "capacity": "Capacité",
+        "numberplate": "Numéro de Plaque"
+      }
+    },
+    "bulkImport": {
+      "browse": "Glissez et déposez ou sélectionnez votre fichier",
+      "description": "Vous pouvez importer des actifs ainsi que des capteurs en lot en utilisant un fichier CSV afin d'automatiser la création.",
+      "drop": "Déposez votre fichier ici",
+      "import": "Importer les données",
+      "log": {
+        "asset-created": "Actif {assetModel} {assetReference} créé",
+        "csv-parse-error": "Erreur lors de l'analyse du fichier CSV ! Veuillez vérifier votre fichier et réessayer.",
+        "device-created": "Capteur {deviceModel} {deviceReference} crée",
+        "device-link-to-another-tenant": "Capteur {deviceModel} {deviceReference} déjà lié au client {otherTenant}, sautée (L{lineNumber})",
+        "device-linked": "Capteur {{deviceModel} {deviceReference} lié à l'actif {assetModel} {assetReference}",
+        "invalid": "Ligne {lineNumber} invalide, sautée",
+        "metadata-updated": "{type} {model} {reference} trouvé, mise à jour des métadonnées",
+        "orphan-device-link": "Capteur {deviceModel} {deviceReference} trouvé dans les capteurs orphelins, liaison au client actuel ({currentIndex})"
+      },
+      "logModal": {
+        "copy": "Copier les résultats",
+        "copySuccess": "Résultats copiés dans le presse-papier",
+        "filter": "Filtrer les résultats",
+        "filters": {
+          "all": "Tout",
+          "error": "Erreur",
+          "success": "Succès",
+          "warning": "Avertissement"
+        },
+        "title": "Résultat de l'import"
+      },
+      "title": "Import en lot"
+    },
+    "catalog": {
+      "action": "Provisionner un capteur",
+      "detail": "Détails du capteur",
+      "description": "Catalogue de capteurs pour la Plateforme Kuzzle IoT.",
+      "doc": "Détails sur la Documentation",
+      "datasheet": "Technique (Datasheet)",
+      "decoder": "Provisionner un capteur",
+      "decoderDescription": "Provisionnez un nouveau Capteur avec son Décodeur en renseignant son Modèle et sa Référence. Le Modèle doit correspondre à un Décodeur actuellement installé sur la Plate-forme, alors que la Référence est un ID unique que vous pouvez choisir arbitrairement.",
+      "edit": "Modifier",
+      "empty": "Aucune information à afficher",
+      "emptyLinkedAsset": "Cliquez ici pour lier un Actif",
+      "generalInfo": "Informations Générales",
+      "linkAsset": "Lier un Actif",
+      "linkedAsset": "Actif lié",
+      "link": "Lien",
+      "measureType": "Type de mesure",
+      "measuresHistory": "Historique de mesures",
+      "measures": "Mesures",
+      "metadata": "Métadonées",
+      "model": "Modèle",
+      "manufacturer": "Constructeur",
+      "network": "Réseaux",
+      "power": "Source d'Alimentation",
+      "reference": "Référence",
+      "sales": "Commercial",
+      "technical": "Details Techniques",
+      "type": "Type",
+      "title": "Catalogue de Capteurs IoT",
+      "unknown-link": "Lien non disponible"
+    },
+    "devices": {
+      "modals": {
+        "create": "Provisionner un capteur",
+        "createDescription": "Provisionnez un nouveau Capteur avec son Décodeur en renseignant son Modèle et sa Référence. Le Modèle doit correspondre à un Décodeur actuellement installé sur la Plate-forme, alors que la Référence est un ID unique que vous pouvez choisir arbitrairement."
+      }
     },
     "labels": {
-      "illuminance": "Éclairement lumineux",
+      "illuminance": "Éclairement",
       "lux": "Lux",
       "parts per million": "Parties par million"
+    },
+    "sidebar": {
+      "bulkImport": "Import en lot",
+      "catalog": "Catalogue"
+    },
+    "widget": {
+      "common": {
+        "allDrivers": "Tous les drivers",
+        "asset-model": "Modèle d'Actif",
+        "street-name": "Rue",
+        "cant-search-asset": "Désolé, vous n'avez pas les droits de lister les actifs",
+        "chooseDriver": "Choisissez le driver",
+        "chooseLamp": "Choisissez un lampadaire",
+        "days": ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
+        "error": "Erreur",
+        "maxLevel": "Niveau maximum",
+        "minLevel": "Niveau minimum",
+        "no-kara-devices-linked": "Aucun capteur Kara n'est lié à l'asset",
+        "no-time": "Aucun temps sélectionné",
+        "ok": "Ok",
+        "see-asset": "Voir l'asset",
+        "send": "Envoyer",
+        "sent": "Envoyé",
+        "sent-successfully": "Action envoyé au capteur Kara avec succès"
+      },
+      "level": {
+        "title": "Régler la puissance d'un lampadaire"
+      },
+      "on-off": {
+        "apply": "L'action prend effet",
+        "immediate": "Immédiatement",
+        "on": "Allumer",
+        "off": "Éteindre",
+        "scheduled": "En différé",
+        "title": "Allumage / Extinction d'un lampadaire",
+        "executionTime": "Heure d'éxécution"
+      },
+      "scheduler": {
+        "chooseMode": "Choisissez le mode de période",
+        "end": "Date/Heure de Fin",
+        "modes": {
+          "daily": "Quotidien",
+          "single": "Unique"
+        },
+        "repeat": "Répéter chaque année",
+        "start": "Date/Heure de Début",
+        "title": "Planifier l'allumage d'un lampadaire"
+      },
+      "status-map": {
+        "empty-form": "Le formulaire est vide. Rien à afficher"
+      }
     }
   }
 }
