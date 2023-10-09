@@ -6,8 +6,11 @@ runs:
     - name: Run functional test backend
       shell: bash
       run: |
-        npm ci
+        set +e
         export CI=true
         docker compose up -d
         bash ./.github/actions/functional-test-backend/wait-kuzzle.sh
         npm run test:functional
+        exitcode="$?"
+        [[ "$exitcode" == "0" ]] || docker compose logs kuzzle
+        exit "$exitcode"

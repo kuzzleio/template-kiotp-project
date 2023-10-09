@@ -29,9 +29,9 @@ services:
       - DEBUG=${DEBUG:-none}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://api:7512/_healthcheck"]
-      timeout: 10s
-      interval: 10s
-      retries: 30
+      timeout: 30s
+      interval: 30s
+      retries: 100
       start_period: 1m
 
   web:
