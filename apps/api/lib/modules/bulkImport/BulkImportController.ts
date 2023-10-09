@@ -1,6 +1,6 @@
-import { Backend, Controller, KuzzleRequest } from 'kuzzle';
+import { Backend, Controller, KuzzleRequest } from "kuzzle";
 
-import { BulkImportService } from './BulkImportService';
+import { BulkImportService } from "./BulkImportService";
 
 export class BulkImportController extends Controller {
   private readonly service: BulkImportService;
@@ -9,7 +9,7 @@ export class BulkImportController extends Controller {
     super(app);
 
     this.service = service;
-    this.name = 'bulk-import';
+    this.name = "bulk-import";
 
     this.definition = {
       actions: {
@@ -21,9 +21,9 @@ export class BulkImportController extends Controller {
   }
 
   async parseAndImport(request: KuzzleRequest) {
-    const currentIndex = request.getBodyString('currentIndex');
-    const uniqueId = request.getBodyString('uniqueId');
-    const fileContent = request.getBodyString('content');
+    const currentIndex = request.getBodyString("currentIndex");
+    const uniqueId = request.getBodyString("uniqueId");
+    const fileContent = request.getBodyString("content");
     return this.service.parseAndImport(fileContent, currentIndex, uniqueId);
   }
 }

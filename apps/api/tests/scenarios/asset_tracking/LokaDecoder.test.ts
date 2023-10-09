@@ -1,10 +1,10 @@
-import { DeviceContent } from 'kuzzle-device-manager';
+import { DeviceContent } from "kuzzle-device-manager";
 
-import { useSdk, truncateCollection } from '../../../../../helpers';
+import { useSdk, truncateCollection } from "../../../../../helpers";
 
 jest.setTimeout(10000);
 
-describe('LokaDecoder', () => {
+describe("LokaDecoder", () => {
   const sdk = useSdk();
 
   beforeAll(async () => {
@@ -12,19 +12,19 @@ describe('LokaDecoder', () => {
   });
 
   beforeEach(async () => {
-    await truncateCollection(sdk, 'platform', 'devices');
+    await truncateCollection(sdk, "platform", "devices");
   });
 
   afterAll(async () => {
     sdk.disconnect();
   });
 
-  it('should decode position measures', async () => {
+  it("should decode position measures", async () => {
     await sdk.query({
-      controller: 'device-manager/payloads',
-      action: 'loka',
+      controller: "device-manager/payloads",
+      action: "loka",
       body: {
-        deviceEUI: 'unlinked',
+        deviceEUI: "unlinked",
         lat: 42.42,
         lon: 21.21,
         battery: 99,
@@ -32,7 +32,11 @@ describe('LokaDecoder', () => {
       },
     });
 
-    const device = await sdk.document.get<DeviceContent>('platform', 'devices', 'Loka-unlinked');
+    const device = await sdk.document.get<DeviceContent>(
+      "platform",
+      "devices",
+      "Loka-unlinked",
+    );
 
     expect(device._source.measures.position).toMatchObject({
       measuredAt: 1673959649017,

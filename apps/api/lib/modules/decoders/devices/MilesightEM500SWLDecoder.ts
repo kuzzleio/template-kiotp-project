@@ -1,28 +1,32 @@
-import { BatteryMeasurement, DecodedPayload, Decoder } from 'kuzzle-device-manager';
-import { JSONObject } from 'kuzzle';
-import { has } from 'lodash';
-import { WaterMeasurement } from '../../air_quality/devices/WaterMeasurement';
+import {
+  BatteryMeasurement,
+  DecodedPayload,
+  Decoder,
+} from "kuzzle-device-manager";
+import { JSONObject } from "kuzzle";
+import { has } from "lodash";
+import { WaterMeasurement } from "../../air_quality/devices/WaterMeasurement";
 
 export class MilesightEM500SWLDecoder extends Decoder {
   /**
    * Declare the measure extracted by this Decoder
    */
   public measures = [
-    { name: 'water', type: 'water' },
-    { name: 'battery', type: 'battery' },
+    { name: "water", type: "water" },
+    { name: "battery", type: "battery" },
   ] as const;
 
   constructor() {
     super(); //DEVICE MODEL
     this.payloadsMappings = {
-      devEUI: { type: 'keyword' },
+      devEUI: { type: "keyword" },
     };
   }
 
   async validate(payload: JSONObject): Promise<boolean> {
-    this.ensureProperties(payload, ['devEUI']);
+    this.ensureProperties(payload, ["devEUI"]);
 
-    const properties = ['water'];
+    const properties = ["water"];
 
     return properties.every((property) => has(payload, property));
   }
@@ -34,17 +38,17 @@ export class MilesightEM500SWLDecoder extends Decoder {
     const deviceId = payload.devEUI;
     const measuredAt = payload.timestamp || Date.now();
 
-    decodedPayload.addMeasurement<BatteryMeasurement>(deviceId, 'battery', {
+    decodedPayload.addMeasurement<BatteryMeasurement>(deviceId, "battery", {
       measuredAt,
-      type: 'battery',
+      type: "battery",
       values: {
         battery: payload.battery,
       },
     });
 
-    decodedPayload.addMeasurement<WaterMeasurement>(deviceId, 'water', {
+    decodedPayload.addMeasurement<WaterMeasurement>(deviceId, "water", {
       measuredAt,
-      type: 'water',
+      type: "water",
       values: {
         water: payload.water,
       },

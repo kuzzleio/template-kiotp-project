@@ -1,4 +1,4 @@
-import { IoTApplication } from '../../IoTApplication';
+import { IoTApplication } from "../../IoTApplication";
 
 export abstract class Module {
   protected app: IoTApplication;

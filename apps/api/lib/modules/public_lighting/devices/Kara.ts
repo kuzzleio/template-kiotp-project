@@ -1,8 +1,12 @@
-import { DeviceContent, DeviceModelDefinition, Metadata } from 'kuzzle-device-manager';
-import { BrightnessMeasurement } from './BrightnessMeasurement';
+import {
+  DeviceContent,
+  DeviceModelDefinition,
+  Metadata,
+} from "kuzzle-device-manager";
+import { BrightnessMeasurement } from "./BrightnessMeasurement";
 
-import { KaraDecoder } from './KaraDecoder';
-import { PowerConsumptionMeasurement } from './PowerConsumptionMeasurement';
+import { KaraDecoder } from "./KaraDecoder";
+import { PowerConsumptionMeasurement } from "./PowerConsumptionMeasurement";
 
 /**
  * Type representing the metadata of a "Kara" device.
@@ -30,13 +34,14 @@ export type KaraMeasurements = {
  *
  * This is optional and can be omitted if you don't want strong typing
  */
-export interface KaraDeviceContent extends DeviceContent<KaraMeasurements, KaraMetadata> {
-  model: 'Kara';
+export interface KaraDeviceContent
+  extends DeviceContent<KaraMeasurements, KaraMetadata> {
+  model: "Kara";
 }
 
 export const karaDeviceDefinition: DeviceModelDefinition = {
   decoder: new KaraDecoder(),
   metadataMappings: {
-    serialNumber: { type: 'keyword' },
+    serialNumber: { type: "keyword" },
   },
 };

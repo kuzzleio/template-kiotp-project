@@ -2,10 +2,10 @@ import {
   GeofencingMeasurements,
   GeofencingMetadata,
   makeGeofencing,
-} from '@kuzzleio/iot-platform-backend';
-import { AssetContent } from 'kuzzle-device-manager';
+} from "@kuzzleio/iot-platform-backend";
+import { AssetContent } from "kuzzle-device-manager";
 
-import { MovementRecordMeasurement } from '../measures';
+import { MovementRecordMeasurement } from "../measures";
 
 /**
  * Type representing the metadata of a "Truck" asset.
@@ -33,8 +33,9 @@ export interface TruckMeasurements extends GeofencingMeasurements {
  *
  * This is optional and can be omitted if you don't want strong typing
  */
-export interface TruckAssetContent extends AssetContent<TruckMeasurements, TruckMetadata> {
-  model: 'Truck';
+export interface TruckAssetContent
+  extends AssetContent<TruckMeasurements, TruckMetadata> {
+  model: "Truck";
 }
 
 /**
@@ -47,16 +48,16 @@ export const truckAssetDefinition = makeGeofencing({
   },
   measures: [
     {
-      name: 'position',
-      type: 'position',
+      name: "position",
+      type: "position",
     },
     {
-      name: 'movementRecord',
-      type: 'movementRecord',
+      name: "movementRecord",
+      type: "movementRecord",
     },
   ],
   metadataMappings: {
-    capacity: { type: 'integer' },
-    numberPlate: { type: 'keyword' },
+    capacity: { type: "integer" },
+    numberPlate: { type: "keyword" },
   },
 });

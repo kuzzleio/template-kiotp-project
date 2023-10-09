@@ -1,20 +1,24 @@
-import { BatteryMeasurement, DecodedPayload, Decoder } from 'kuzzle-device-manager';
-import { JSONObject } from 'kuzzle';
-import { has } from 'lodash';
+import {
+  BatteryMeasurement,
+  DecodedPayload,
+  Decoder,
+} from "kuzzle-device-manager";
+import { JSONObject } from "kuzzle";
+import { has } from "lodash";
 
 export class CityloneSLBoxDecoder extends Decoder {
-  public measures = [{ name: 'battery', type: 'battery' }] as const;
+  public measures = [{ name: "battery", type: "battery" }] as const;
 
   constructor() {
     super();
 
     this.payloadsMappings = {
-      deviceEUI: { type: 'keyword' },
+      deviceEUI: { type: "keyword" },
     };
   }
 
   async validate(payload: JSONObject): Promise<boolean> {
-    this.ensureProperties(payload, ['deviceEUI']);
+    this.ensureProperties(payload, ["deviceEUI"]);
 
     const properties = [];
 
@@ -29,9 +33,9 @@ export class CityloneSLBoxDecoder extends Decoder {
 
     const measuredAt = payload.timestamp || Date.now();
 
-    decodedPayload.addMeasurement<BatteryMeasurement>(deviceId, 'battery', {
+    decodedPayload.addMeasurement<BatteryMeasurement>(deviceId, "battery", {
       measuredAt,
-      type: 'battery',
+      type: "battery",
       values: {
         battery: payload.battery,
       },

@@ -5,9 +5,9 @@ import {
   PositionMeasurement,
   BatteryMeasurement,
   TemperatureMeasurement,
-} from 'kuzzle-device-manager';
+} from "kuzzle-device-manager";
 
-import { AbeewayDecoder } from './AbeewayDecoder';
+import { AbeewayDecoder } from "./AbeewayDecoder";
 
 /**
  * Type representing the metadata of a "Abeeway" device.
@@ -38,17 +38,18 @@ export type AbeewayMeasurements = {
  *
  * This is optional and can be omitted if you don't want strong typing
  */
-export interface AbeewayDeviceContent extends DeviceContent<AbeewayMeasurements, AbeewayMetadata> {
-  model: 'Abeeway';
+export interface AbeewayDeviceContent
+  extends DeviceContent<AbeewayMeasurements, AbeewayMetadata> {
+  model: "Abeeway";
 }
 
 export const abeewayDeviceDefinition: DeviceModelDefinition = {
   decoder: new AbeewayDecoder(),
   defaultMetadata: {
-    trackerType: 'Embedded',
+    trackerType: "Embedded",
   },
   metadataMappings: {
-    trackerType: { type: 'keyword' },
-    serialNumber: { type: 'keyword' },
+    trackerType: { type: "keyword" },
+    serialNumber: { type: "keyword" },
   },
 };

@@ -1,8 +1,8 @@
-import { Backend, BadRequestError, Controller, KuzzleRequest } from 'kuzzle';
+import { Backend, BadRequestError, Controller, KuzzleRequest } from "kuzzle";
 
-import { AirQualityFixtures } from './air_quality/AirQualityFixtures';
-import { AssetTrackingFixtures } from './asset_tracking/AssetTrackingFixtures';
-import { PublicLightingFixtures } from './public_lighting/PublicLightingFixtures';
+import { AirQualityFixtures } from "./air_quality/AirQualityFixtures";
+import { AssetTrackingFixtures } from "./asset_tracking/AssetTrackingFixtures";
+import { PublicLightingFixtures } from "./public_lighting/PublicLightingFixtures";
 
 export class FixturesController extends Controller {
   private assetTracking: AssetTrackingFixtures;
@@ -29,15 +29,15 @@ export class FixturesController extends Controller {
   }
 
   async load(request: KuzzleRequest) {
-    const tenant = request.getString('tenant');
-    const stage = request.getString('stage', 'all');
+    const tenant = request.getString("tenant");
+    const stage = request.getString("stage", "all");
 
     switch (tenant) {
-      case 'asset_tracking':
+      case "asset_tracking":
         return this.assetTracking.runStage(stage as any);
-      case 'air_quality':
+      case "air_quality":
         return this.airQuality.runStage(stage as any);
-      case 'public_lighting':
+      case "public_lighting":
         return this.publicLighting.runStage(stage as any);
       default:
         throw new BadRequestError(`Unknown tenant: ${tenant}`);
@@ -45,14 +45,14 @@ export class FixturesController extends Controller {
   }
 
   async reset(request: KuzzleRequest) {
-    const tenant = request.getString('tenant');
+    const tenant = request.getString("tenant");
 
     switch (tenant) {
-      case 'asset_tracking':
+      case "asset_tracking":
         return this.assetTracking.reset();
-      case 'air_quality':
+      case "air_quality":
         return this.airQuality.reset();
-      case 'public_lighting':
+      case "public_lighting":
         return this.publicLighting.reset();
       default:
         throw new BadRequestError(`Unknown tenant: ${tenant}`);

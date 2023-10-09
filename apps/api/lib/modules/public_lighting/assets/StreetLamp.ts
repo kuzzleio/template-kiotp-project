@@ -1,6 +1,13 @@
-import { AssetContent, AssetModelDefinition, Metadata } from 'kuzzle-device-manager';
+import {
+  AssetContent,
+  AssetModelDefinition,
+  Metadata,
+} from "kuzzle-device-manager";
 
-import { BrightnessMeasurement, PowerConsumptionMeasurement } from '../devices/';
+import {
+  BrightnessMeasurement,
+  PowerConsumptionMeasurement,
+} from "../devices/";
 
 /**
  * Type representing the metadata of a "StreetLamp" asset.
@@ -34,7 +41,7 @@ export type StreetLampMeasurements = {
  */
 export interface StreetLampAssetContent
   extends AssetContent<StreetLampMeasurements, StreetLampMetadata> {
-  model: 'StreetLamp';
+  model: "StreetLamp";
 }
 
 /**
@@ -44,16 +51,16 @@ export interface StreetLampAssetContent
 export const streetLampAssetDefinition: AssetModelDefinition = {
   measures: [
     {
-      name: 'brightness',
-      type: 'brightness',
+      name: "brightness",
+      type: "brightness",
     },
     {
-      name: 'powerConsumption',
-      type: 'powerConsumption',
+      name: "powerConsumption",
+      type: "powerConsumption",
     },
   ],
   metadataMappings: {
-    position: { type: 'geo_point' },
-    street: { type: 'keyword' },
+    position: { type: "geo_point" },
+    street: { type: "keyword" },
   },
 };

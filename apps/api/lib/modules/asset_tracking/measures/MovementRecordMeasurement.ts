@@ -1,4 +1,4 @@
-import { MeasureDefinition } from 'kuzzle-device-manager';
+import { MeasureDefinition } from "kuzzle-device-manager";
 
 export type MovementRecordMeasurement = {
   in: string | null;
@@ -7,7 +7,7 @@ export type MovementRecordMeasurement = {
 
 export const movementRecordMeasureDefinition: MeasureDefinition = {
   valuesMappings: {
-    in: { type: 'keyword' },
-    out: { type: 'keyword' },
+    in: { type: "keyword" },
+    out: { type: "keyword" },
   },
 };

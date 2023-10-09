@@ -1,6 +1,6 @@
-import { Module } from '../shared';
+import { Module } from "../shared";
 
-import { DevicesModule } from './devices';
+import { DevicesModule } from "./devices";
 
 export class TenantDecoders extends Module {
   private modules: Module[] = [];

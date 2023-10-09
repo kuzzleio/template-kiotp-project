@@ -1,3 +1,3 @@
-export * from './DevicesModule';
-export * from './BrightnessMeasurement';
-export * from './PowerConsumptionMeasurement';
+export * from "./DevicesModule";
+export * from "./BrightnessMeasurement";
+export * from "./PowerConsumptionMeasurement";

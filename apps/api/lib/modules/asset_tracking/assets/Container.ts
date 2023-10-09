@@ -4,7 +4,7 @@ import {
   Metadata,
   PositionMeasurement,
   TemperatureMeasurement,
-} from 'kuzzle-device-manager';
+} from "kuzzle-device-manager";
 
 /**
  * Type representing the metadata of a "Container" asset.
@@ -38,7 +38,7 @@ export type ContainerMeasurements = {
  */
 export interface ContainerAssetContent
   extends AssetContent<ContainerMeasurements, ContainerMetadata> {
-  model: 'Container';
+  model: "Container";
 }
 
 /**
@@ -53,22 +53,22 @@ export const containerAssetDefinition: AssetModelDefinition = {
   },
   measures: [
     {
-      name: 'position',
-      type: 'position',
+      name: "position",
+      type: "position",
     },
     {
-      name: 'externalTemperature',
-      type: 'temperature',
+      name: "externalTemperature",
+      type: "temperature",
     },
     {
-      name: 'internalTemperature',
-      type: 'temperature',
+      name: "internalTemperature",
+      type: "temperature",
     },
   ],
   metadataMappings: {
-    operator: { type: 'keyword' },
-    width: { type: 'float' },
-    height: { type: 'float' },
-    length: { type: 'float' },
+    operator: { type: "keyword" },
+    width: { type: "float" },
+    height: { type: "float" },
+    length: { type: "float" },
   },
 };

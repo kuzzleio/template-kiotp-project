@@ -1,10 +1,10 @@
-import { DeviceContent } from 'kuzzle-device-manager';
+import { DeviceContent } from "kuzzle-device-manager";
 
-import { useSdk, truncateCollection } from '../../../../../helpers';
+import { useSdk, truncateCollection } from "../../../../../helpers";
 
 jest.setTimeout(10000);
 
-describe('AbeewayDecoder', () => {
+describe("AbeewayDecoder", () => {
   const sdk = useSdk();
 
   beforeAll(async () => {
@@ -12,19 +12,19 @@ describe('AbeewayDecoder', () => {
   });
 
   beforeEach(async () => {
-    await truncateCollection(sdk, 'platform', 'devices');
+    await truncateCollection(sdk, "platform", "devices");
   });
 
   afterAll(async () => {
     sdk.disconnect();
   });
 
-  it('should decode position, battery and temperature measures', async () => {
+  it("should decode position, battery and temperature measures", async () => {
     await sdk.query({
-      controller: 'device-manager/payloads',
-      action: 'abeeway',
+      controller: "device-manager/payloads",
+      action: "abeeway",
       body: {
-        deviceEUI: 'unlinked',
+        deviceEUI: "unlinked",
         lat: 48.856614,
         lon: 2.3522219,
         battery: 99,
@@ -34,7 +34,11 @@ describe('AbeewayDecoder', () => {
       },
     });
 
-    const device = await sdk.document.get<DeviceContent>('platform', 'devices', 'Abeeway-unlinked');
+    const device = await sdk.document.get<DeviceContent>(
+      "platform",
+      "devices",
+      "Abeeway-unlinked",
+    );
 
     expect(device._source.measures.position).toMatchObject({
       measuredAt: 1673959649017,
