@@ -1,6 +1,8 @@
 #!/bin/bash
 
-if [ ! -d "node_modules" ]; then
+echo "$CI"
+
+if [ "$CI" != "true" ] && [ ! -d "node_modules" ]; then
   echo "node_modules directory not found. Installing dependencies from..."
   npm ci
 fi
