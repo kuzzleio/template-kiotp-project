@@ -32,6 +32,7 @@ services:
       timeout: 10s
       interval: 10s
       retries: 30
+      start_period: 1m
 
   web:
     image: kuzzleio/kuzzle-runner:18

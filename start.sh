@@ -1,8 +1,8 @@
 #!/bin/bash
 
 if [ ! -d "node_modules" ]; then
-  echo "node_modules directory not found. Installing dependencies..."
-  npm install
+  echo "node_modules directory not found. Installing dependencies from..."
+  npm ci
 fi
 
 echo "Starting application $1..."
