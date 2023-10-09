@@ -1,0 +1,28 @@
+{
+  // ? Shared tsconfig for backend (app and package)
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    /* Emit */
+    "target": "ES2020",
+    "module": "commonjs", // ESNext
+    "declaration": true,
+    // Ensure use `lf` like EOL on builded files
+    "newLine": "lf",
+    /* Module */
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    /* Interop */
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    // TODO Enable when `moduleResolution` = `Bundler` instead `isolatedModules`
+    // "verbatimModuleSyntax": true,
+    "forceConsistentCasingInFileNames": true,
+    /* Linting */
+    "skipLibCheck": true
+    // TODO Enable strict after refactor
+    // "strict": true,
+    // "skipLibCheck": true,
+    // "noUnusedParameters": true,
+    // "noFallthroughCasesInSwitch": true
+  }
+}

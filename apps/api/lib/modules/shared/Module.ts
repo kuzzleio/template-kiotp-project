@@ -12,6 +12,4 @@ export abstract class Module {
   }
 
   abstract register(): void;
-
-  abstract start(): Promise<void>;
 }

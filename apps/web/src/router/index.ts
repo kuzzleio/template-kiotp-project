@@ -1,20 +1,20 @@
 // In this example we use the `KIoTCViews` chunk, but you can use any other chunk,
 // as explained above.
-import { KIoTPBase as AppLayout } from '@kuzzleio/iot-console';
 import {
+  KIoTPBase as AppLayout,
   AppChunk,
-  KLogin,
-  KPageNotFound,
   createAuthenticationGuard,
   createOnlineGuard,
   generateMenuItems,
   generateRoutes,
-} from '@kuzzleio/kuzzle-application-builder';
+  KPageNotFound,
+  KLogin,
+  RootState,
+} from '@kuzzleio/iot-platform-frontend';
 import VueRouter from 'vue-router';
 import { Store } from 'vuex';
 
 import { kuzzle } from '../services/kuzzle';
-import { RootState } from '../store/index';
 
 export const createRouter = (
   store: Store<RootState>,

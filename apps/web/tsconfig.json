@@ -1,43 +1,21 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../../tsconfig.web.json",
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "strict": true,
-    "jsx": "preserve",
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "skipLibCheck": true,
-    "noImplicitAny": false,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "useDefineForClassFields": true,
-    "resolveJsonModule": true,
-    "sourceMap": true,
-    "baseUrl": ".",
-    "types": [
-      "webpack-env"
-    ],
+    /* Paths */
+    "outDir": "./dist",
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"],
-      // Alias peerDependencies to fix resolve (prevent error `i.util`)
-      "vue": ["node_modules/vue"],
-    },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
+      "~/*": ["./src/*"],
+      "@/*": ["../../packages/frontend/src/*"]
+    }
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "vite.config.ts",
+    "./src/**/*.ts",
+    "./src/**/*.vue",
+    "../../packages/frontend/src/**/*.ts",
+    "../../packages/frontend/src/**/*.vue"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

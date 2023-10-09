@@ -6,8 +6,12 @@ runs:
     - name: Run functional test backend
       shell: bash
       run: |
-        npm install
-        npx kourou app:start-services
-        npm run dev &
+        set +e
+        npm ci
+        export CI=true
+        docker compose up -d
         bash ./.github/actions/functional-test-backend/wait-kuzzle.sh
         npm run test:functional
+        exitcode="$?"
+        [[ "$exitcode" == "0" ]] || docker compose logs api
+        exit "$exitcode"

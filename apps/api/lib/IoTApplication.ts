@@ -1,9 +1,15 @@
-import { registerKIoTP } from "@kuzzleio/iot-backend";
+import {
+  registerKIoTP,
+  EventIoTPlatformErrorSave,
+} from "@kuzzleio/iot-platform-backend";
 import { Backend } from "kuzzle";
 
-import { AssetsModule } from "./modules/assets";
-import { DevicesModule } from "./modules/devices";
-import { PermissionsModule } from "./modules/permissions";
+import { registerTenantAirQuality } from "./modules/air_quality";
+import { TenantAssetTracking } from "./modules/asset_tracking/TenantAssetTracking";
+import { BulkImportModule } from "./modules/bulkImport/BulkImportModule";
+import { TenantDecoders } from "./modules/decoders/TenantDecoders";
+import { FixturesModule } from "./modules/fixtures";
+import { TenantPublicLighting } from "./modules/public_lighting/TenantPublicLighting";
 import { Module } from "./modules/shared";
 
 export type IoTApplicationConfig = {
@@ -20,15 +26,30 @@ export class IoTApplication extends Backend {
   constructor() {
     super("iot-application");
 
-    this.modules.push(new AssetsModule(this));
-    this.modules.push(new DevicesModule(this));
-    this.modules.push(new PermissionsModule(this));
+    this.hook.register<EventIoTPlatformErrorSave>(
+      "iot-platform:error:save",
+      ({ error }) => {
+        this.log.error(error);
+      },
+    );
 
     registerKIoTP(this);
+
+    this.modules.push(new FixturesModule(this));
+    this.modules.push(new BulkImportModule(this));
+
+    // Register tenants modules
+    this.modules.push(new TenantAssetTracking(this));
+    this.modules.push(new TenantDecoders(this));
+    this.modules.push(new TenantPublicLighting(this));
+
+    this.config.content.plugins["kuzzle-plugin-logger"].services.stdout.level =
+      "debug";
 
     for (const module of this.modules) {
       module.register();
     }
+    registerTenantAirQuality(this);
   }
 
   async start() {
@@ -36,8 +57,24 @@ export class IoTApplication extends Backend {
 
     this.log.info("Application started");
 
-    for (const module of this.modules) {
-      await module.start();
-    }
+    await this.createPlatformScheduler();
+  }
+
+  private async createPlatformScheduler() {
+    const { result } = await this.sdk.query({
+      controller: "scheduler/engine",
+      action: "exists",
+      index: "platform",
+      group: "platform",
+    });
+
+    const action = result.exists ? "update" : "create";
+
+    await this.sdk.query({
+      controller: "scheduler/engine",
+      action,
+      index: "platform",
+      group: "platform",
+    });
   }
 }

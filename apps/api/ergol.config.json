@@ -1,13 +1,5 @@
 {
   "killDelay": "5000",
-  "nodeArgs": [
-    "--inspect=0.0.0.0:9229",
-    "-r",
-    "ts-node/register"
-  ],
-  "watch": [
-    "app.ts",
-    "lib",
-    "node_modules"
-  ]
+  "nodeArgs": ["--inspect=0.0.0.0:9229", "-r", "ts-node/register"],
+  "watch": ["app.ts", "lib", "../../packages/backend/src"]
 }

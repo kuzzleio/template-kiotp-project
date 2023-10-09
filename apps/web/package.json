@@ -1,38 +1,40 @@
 {
-  "name": "kiotp-demo-web",
-  "version": "0.1.0",
+  "name": "template-iot-web",
+  "title": "Template IoT platform web",
+  "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "dev": "vite",
+    "build": "vite build",
+    "test": "npm run test:lint && npm run test:types",
+    "test:lint": "eslint src --ext .ts,.vue --fix",
+    "test:lint:fix": "npm run test:lint -- -fix",
+    "test:types": "vue-tsc --noEmit -p tsconfig.test.json"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "6.1.*",
-    "@kuzzleio/dashboard-builder-frontend": ">= 0.7",
-    "@kuzzleio/iot-console": "^3",
-    "@kuzzleio/kuzzle-application-builder": ">= 0.9",
+    "@fortawesome/fontawesome-free": "6.2.*",
+    "@kuzzleio/iot-platform-frontend": "3.1.0-beta.6",
     "bootstrap-vue": "2.23.*",
-    "lodash": "4.17.*",
-    "vue-plugin-kuzzle": "^4.4.0",
-    "vue-property-decorator": "9.1.*"
+    "lodash": "4.17.21",
+    "vue": "2.7.*",
+    "vue-plugin-kuzzle": "4.5.0",
+    "vue-router": "3.6.*",
+    "vuex": "3.6.*"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "^1.2.0",
     "@types/lodash": "4.14.*",
-    "@vue/cli-plugin-babel": "5.0.*",
-    "@vue/cli-plugin-eslint": "5.0.*",
-    "@vue/cli-plugin-router": "5.0.*",
-    "@vue/cli-plugin-typescript": "5.0.*",
-    "@vue/cli-plugin-vuex": "5.0.*",
-    "@vue/cli-service": "5.0.*",
-    "@vue/eslint-config-prettier": "7.0.*",
-    "@vue/eslint-config-standard": "8.0.*",
-    "@vue/eslint-config-typescript": "11.0.*",
-    "sass": "1.32.*",
-    "sass-loader": "12.0.*",
-    "tsconfig-paths-webpack-plugin": "^4.0.0",
-    "typescript": "4.9.*",
-    "vue-template-compiler": "2.7.*"
+    "@vitejs/plugin-vue2": "2.2.0",
+    "autoprefixer": "10.4.15",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-tailwindcss": "3.13.0",
+    "eslint-plugin-vue-kuzzle": "0.0.12",
+    "kuzzle-device-manager-types": "2.4.0-beta.5",
+    "sass": "1.63.*",
+    "tailwindcss": "3.3.3",
+    "typescript": "5.1.*",
+    "vite": "4.4.6",
+    "vue-template-compiler": "2.7.*",
+    "vue-tsc": "1.8.6"
   }
 }
