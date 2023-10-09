@@ -25,7 +25,11 @@ jobs:
           username: ${{ secrets.CORE_TEAM_PAAS_USERNAME }}
           password: ${{ secrets.CORE_TEAM_PAAS_PASSWORD }}
           login_only: true
-          npmrc_output_dir: ~/.npmrc
+          npmrc_output_dir: ./
+      
+      - name: Copy NPMRC
+        run: cp .npmrc ~/.npmrc
+
 
       - uses: ./.github/actions/lint
 
@@ -48,6 +52,10 @@ jobs:
           username: ${{ secrets.CORE_TEAM_PAAS_USERNAME }}
           password: ${{ secrets.CORE_TEAM_PAAS_PASSWORD }}
           login_only: true
-          npmrc_output_dir: ~/.npmrc
+          npmrc_output_dir: ./
+
+      - name: Copy NPMRC
+        run: cp .npmrc ~/.npmrc
+
 
       - uses: ./.github/actions/functional-test-backend
