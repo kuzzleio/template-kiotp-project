@@ -7,6 +7,7 @@ runs:
       shell: bash
       run: |
         set +e
+        npm ci
         export CI=true
         docker compose up -d
         bash ./.github/actions/functional-test-backend/wait-kuzzle.sh

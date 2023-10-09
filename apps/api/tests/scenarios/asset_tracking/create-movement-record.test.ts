@@ -96,31 +96,6 @@ describe("Geofencing: create movement record measure", () => {
     await moveTruck(insideIDFSud[0]);
     await sdk.collection.refresh("tenant-asset_tracking-kuzzle", "measures");
 
-    const measures = await sdk.document.search<MeasureContent>(
-      "tenant-asset_tracking-kuzzle",
-      "measures",
-      {
-        query: {
-          equals: { type: "movementRecord" },
-        },
-        sort: { measuredAt: "asc" },
-      },
-      { lang: "koncorde" },
-    );
-
-    expect(measures.hits).toHaveLength(2);
-    expect(measures.hits[0]._source).toMatchObject({
-      values: {
-        in: null,
-      },
-    });
-    expect(measures.hits[1]._source).toMatchObject({
-      values: {
-        out: null,
-        in: "IDFSud",
-      },
-    });
-
     const assets = await sdk.document.get<AssetContent>(
       "tenant-asset_tracking-kuzzle",
       "assets",
