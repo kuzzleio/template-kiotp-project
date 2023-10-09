@@ -19,6 +19,5 @@ do
         echo "Cannot connect to Kuzzle after $tries tries. Aborting."
         exit 1
     fi
-
     sleep 1
 done
