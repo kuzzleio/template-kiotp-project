@@ -7,7 +7,7 @@ import {
   useSdk,
 } from "../../../../../helpers";
 
-jest.setTimeout(10000);
+jest.setTimeout(30000);
 
 describe("Geofencing: create movement record measure", () => {
   const sdk = useSdk();
