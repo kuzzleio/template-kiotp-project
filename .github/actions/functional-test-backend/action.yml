@@ -7,7 +7,7 @@ runs:
       shell: bash
       run: |
         npm ci
-        docker compose up -d
+        docker compose -f ./.github/actions/functional-test-backend/docker-compose.yaml up -d
         docker compose logs
         bash ./.github/actions/functional-test-backend/wait-kuzzle.sh
         npm run test:functional
