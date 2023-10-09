@@ -12,5 +12,5 @@ runs:
         bash ./.github/actions/functional-test-backend/wait-kuzzle.sh
         npm run test:functional
         exitcode="$?"
-        [[ "$exitcode" == "0" ]] || docker compose logs kuzzle
+        [[ "$exitcode" == "0" ]] || docker compose logs api
         exit "$exitcode"
