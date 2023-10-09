@@ -13,7 +13,7 @@ env:
 jobs:
   push_backend:
     name: Backend artefact
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
 
@@ -55,7 +55,7 @@ jobs:
 
   deploy_backend:
     name: Deploy backend artefact
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     needs: [push_backend]
     steps:
       - uses: actions/checkout@v3
@@ -86,7 +86,7 @@ jobs:
 
   push_iot_console:
     name: IoT Console artefact
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
 
@@ -131,7 +131,7 @@ jobs:
 
   deploy_iot_console:
     name: Deploy IoT Console App to server
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     needs: [push_iot_console]
     steps:
       - uses: actions/checkout@v3
