@@ -1,22 +1,9 @@
 <template>
   <div class="h-100 d-flex flex-column">
     <!-- HEADER -->
-    <div class="Header">
-      <!-- HERO -->
-      <div class="Hero">
-        <BCol class="text-left" cols="12" lg="8" md="8">
-          <!-- TITLE -->
-          <div class="Hero-title text-left">
-            <h3 class="font-weight-bold">{{ $i18n.t('locales.bulkImport.title') }}</h3>
-          </div>
-
-          <!-- DESCRIPTION -->
-          <p class="Hero-description">
-            {{ $i18n.t('locales.bulkImport.description') }}
-          </p>
-        </BCol>
-      </div>
-    </div>
+    <KHero :help="$i18n.t('locales.bulkImport.description')">
+      {{ $i18n.t('locales.bulkImport.title') }}
+    </KHero>
 
     <!-- CONTAINER -->
     <div class="flex-grow-1 d-flex flex-column w-100 mx-auto pt-5">
@@ -66,6 +53,7 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { KHero } from '@kuzzleio/iot-platform-frontend';
 import { BButton, BFormFile } from 'bootstrap-vue';
 
 import BulkImportLogModal from '~/components/bulkImport/modals/BulkImportLogModal.vue';

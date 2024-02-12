@@ -4,9 +4,9 @@ import {
   DeviceModelDefinition,
   Metadata,
   TemperatureMeasurement,
-} from "kuzzle-device-manager";
+} from 'kuzzle-device-manager';
 
-import { EnginkoDecoder } from "./EnginkoDecoder";
+import { EnginkoDecoder } from './EnginkoDecoder';
 
 /**
  * Type representing the metadata of a "Enginko" device.
@@ -34,14 +34,13 @@ export type EnginkoMeasurements = {
  *
  * This is optional and can be omitted if you don't want strong typing
  */
-export interface EnginkoDeviceContent
-  extends DeviceContent<EnginkoMeasurements, EnginkoMetadata> {
-  model: "Enginko";
+export interface EnginkoDeviceContent extends DeviceContent<EnginkoMeasurements, EnginkoMetadata> {
+  model: 'Enginko';
 }
 
 export const enginkoDeviceDefinition: DeviceModelDefinition = {
   decoder: new EnginkoDecoder(),
   metadataMappings: {
-    lns: { type: "keyword" },
+    lns: { type: 'keyword' },
   },
 };

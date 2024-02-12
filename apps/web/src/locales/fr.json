@@ -102,7 +102,8 @@
         "sent-successfully": "Action envoyé au capteur Kara avec succès"
       },
       "level": {
-        "title": "Régler la puissance d'un lampadaire"
+        "title": "Régler la puissance d'un lampadaire",
+        "label": "Niveau de luminosité"
       },
       "on-off": {
         "apply": "L'action prend effet",
@@ -111,7 +112,8 @@
         "off": "Éteindre",
         "scheduled": "En différé",
         "title": "Allumage / Extinction d'un lampadaire",
-        "executionTime": "Heure d'éxécution"
+        "executionTime": "Heure d'éxécution",
+        "label": "Activé / Désactivé"
       },
       "scheduler": {
         "chooseMode": "Choisissez le mode de période",
@@ -125,7 +127,8 @@
         "title": "Planifier l'allumage d'un lampadaire"
       },
       "status-map": {
-        "empty-form": "Le formulaire est vide. Rien à afficher"
+        "empty-form": "Le formulaire est vide. Rien à afficher",
+        "label": "Carte de Statut"
       }
     }
   }

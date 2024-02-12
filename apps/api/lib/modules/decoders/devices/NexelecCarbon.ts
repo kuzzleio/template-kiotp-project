@@ -5,10 +5,10 @@ import {
   BatteryMeasurement,
   TemperatureMeasurement,
   HumidityMeasurement,
-} from "kuzzle-device-manager";
-import { CO2Measurement } from "../../air_quality/devices/CO2Measurement";
+} from 'kuzzle-device-manager';
+import { CO2Measurement } from '../../air_quality/devices/CO2Measurement';
 
-import { NexelecCarbonDecoder } from "./NexelecCarbonDecoder";
+import { NexelecCarbonDecoder } from './NexelecCarbonDecoder';
 
 /**
  * Type representing the metadata of a "NexelecCarbon" device.
@@ -42,16 +42,16 @@ export type NexelecCarbonMeasurements = {
  */
 export interface NexelecCarbonDeviceContent
   extends DeviceContent<NexelecCarbonMeasurements, NexelecCarbonMetadata> {
-  model: "NexelecCarbon";
+  model: 'NexelecCarbon';
 }
 
 export const NexelecCarbonDeviceDefinition: DeviceModelDefinition = {
   decoder: new NexelecCarbonDecoder(),
   defaultMetadata: {
-    trackerType: "Embedded",
+    trackerType: 'Embedded',
   },
   metadataMappings: {
-    trackerType: { type: "keyword" },
-    serialNumber: { type: "keyword" },
+    trackerType: { type: 'keyword' },
+    serialNumber: { type: 'keyword' },
   },
 };

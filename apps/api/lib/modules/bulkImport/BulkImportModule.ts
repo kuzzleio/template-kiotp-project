@@ -1,8 +1,8 @@
-import { BulkImportController } from "./BulkImportController";
-import { BulkImportService } from "./BulkImportService";
+import { BulkImportController } from './BulkImportController';
+import { BulkImportService } from './BulkImportService';
 
-import { Module } from "../shared";
-import { IoTApplication } from "../../IoTApplication";
+import { Module } from '../shared';
+import { IoTApplication } from '../../IoTApplication';
 
 export class BulkImportModule extends Module {
   constructor(app: IoTApplication) {

@@ -22,6 +22,13 @@ if (admin?.children !== undefined) {
     name: 'bulk-import',
     label: 'locales.sidebar.bulkImport',
     icon: faDatabase,
+    enabled: {
+      rights: {
+        controller: 'bulk-import',
+        action: 'import',
+        index: null,
+      },
+    },
     vuejsRoute: {
       path: '/bulk-import',
       component: KRouteWrapper,
@@ -63,21 +70,21 @@ export const dashboardWidgets: DashboardWidget[] = [
   // Public Lighting
   {
     name: 'statusMap',
-    label: 'Status Map',
+    label: 'locales.widget.status-map.label',
     component: StatusMapWidget,
     formComponent: StatusMapWidgetForm,
     icon: 'map',
   },
   {
     name: 'light-level',
-    label: 'Light level',
+    label: 'locales.widget.level.label',
     component: LevelWidget,
     formComponent: LevelWidgetForm,
     icon: 'sun',
   },
   {
     name: 'on-off',
-    label: 'On / Off',
+    label: 'locales.widget.on-off.label',
     component: OnOffWidget,
     formComponent: OnOffWidgetForm,
     icon: 'toggle-on',

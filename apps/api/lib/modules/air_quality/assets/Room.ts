@@ -4,10 +4,10 @@ import {
   HumidityMeasurement,
   Metadata,
   TemperatureMeasurement,
-} from "kuzzle-device-manager";
+} from 'kuzzle-device-manager';
 
-import { CO2Measurement } from "../devices/CO2Measurement";
-import { IlluminanceMeasurement } from "../devices/IlluminanceMeasurement";
+import { CO2Measurement } from '../devices/CO2Measurement';
+import { IlluminanceMeasurement } from '../devices/IlluminanceMeasurement';
 
 /**
  * Type representing the metadata of a "Room" asset.
@@ -42,9 +42,8 @@ export type RoomMeasurements = {
  *
  * This is optional and can be omitted if you don't want strong typing
  */
-export interface RoomAssetContent
-  extends AssetContent<RoomMeasurements, RoomMetadata> {
-  model: "Room";
+export interface RoomAssetContent extends AssetContent<RoomMeasurements, RoomMetadata> {
+  model: 'Room';
 }
 
 /**
@@ -55,24 +54,24 @@ export const roomAssetDefinition: AssetModelDefinition = {
   defaultMetadata: {},
   measures: [
     {
-      name: "temperature",
-      type: "temperature",
+      name: 'temperature',
+      type: 'temperature',
     },
     {
-      name: "humidity",
-      type: "humidity",
+      name: 'humidity',
+      type: 'humidity',
     },
     {
-      name: "co2",
-      type: "co2",
+      name: 'co2',
+      type: 'co2',
     },
     {
-      name: "illuminance",
-      type: "illuminance",
+      name: 'illuminance',
+      type: 'illuminance',
     },
   ],
   metadataMappings: {
-    floor: { type: "integer" },
-    width: { type: "float" },
+    floor: { type: 'integer' },
+    width: { type: 'float' },
   },
 };

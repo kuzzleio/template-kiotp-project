@@ -3,28 +3,28 @@ import {
   DecodedPayload,
   Decoder,
   TemperatureMeasurement,
-} from "kuzzle-device-manager";
-import { JSONObject } from "kuzzle";
-import { has } from "lodash";
+} from 'kuzzle-device-manager';
+import { JSONObject } from 'kuzzle';
+import { has } from 'lodash';
 
 export class EnginkoDecoder extends Decoder {
   public measures = [
-    { name: "temperature", type: "temperature" },
-    { name: "battery", type: "battery" },
+    { name: 'temperature', type: 'temperature' },
+    { name: 'battery', type: 'battery' },
   ] as const;
 
   constructor() {
     super();
 
     this.payloadsMappings = {
-      deviceEUI: { type: "keyword" },
+      deviceEUI: { type: 'keyword' },
     };
   }
 
   async validate(payload: JSONObject): Promise<boolean> {
-    this.ensureProperties(payload, ["deviceEUI"]);
+    this.ensureProperties(payload, ['deviceEUI']);
 
-    const properties = ["temperature", "battery"];
+    const properties = ['temperature', 'battery'];
 
     return properties.every((property) => has(payload, property));
   }
@@ -37,21 +37,17 @@ export class EnginkoDecoder extends Decoder {
 
     const measuredAt = payload.timestamp || Date.now();
 
-    decodedPayload.addMeasurement<TemperatureMeasurement>(
-      deviceId,
-      "temperature",
-      {
-        measuredAt,
-        type: "temperature",
-        values: {
-          temperature: payload.temperature,
-        },
-      },
-    );
-
-    decodedPayload.addMeasurement<BatteryMeasurement>(deviceId, "battery", {
+    decodedPayload.addMeasurement<TemperatureMeasurement>(deviceId, 'temperature', {
       measuredAt,
-      type: "battery",
+      type: 'temperature',
+      values: {
+        temperature: payload.temperature,
+      },
+    });
+
+    decodedPayload.addMeasurement<BatteryMeasurement>(deviceId, 'battery', {
+      measuredAt,
+      type: 'battery',
       values: {
         battery: payload.battery,
       },

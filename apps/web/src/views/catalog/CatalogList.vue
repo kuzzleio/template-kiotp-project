@@ -1,9 +1,8 @@
 <template>
   <div class="tw-flex tw-flex-col tw-h-full">
-    <OldKHero
-      :title="$i18n.t('locales.catalog.title')"
-      :description="$i18n.t('locales.catalog.description')"
-    />
+    <KHero :help="$i18n.t('locales.catalog.description')">
+      {{ $i18n.t('locales.catalog.title') }}
+    </KHero>
 
     <!-- CONTAINER -->
     <div class="tw-flex tw-grow tw-rounded tw-bg-white tw-p-4">
@@ -40,7 +39,7 @@
       <DeviceInfoViewVue v-if="currentItem" class="tw-ml-6 tw-w-96" :current-item="currentItem" />
     </div>
     <DeviceCreateForm
-      :is-open.sync="createModal"
+      :open.sync="createModal"
       :current-index="currentIndex"
       :device-model-id="deviceModelId"
     />
@@ -49,7 +48,7 @@
 
 <script lang="ts" setup>
 import { computed, onBeforeMount, ref } from 'vue';
-import { OldKHero, OldKTable, MeasureNameLabels, useI18n } from '@kuzzleio/iot-platform-frontend';
+import { KHero, OldKTable, MeasureNameLabels, useI18n } from '@kuzzleio/iot-platform-frontend';
 import { BIconPlusSquareDotted, type BTable } from 'bootstrap-vue';
 
 import catalogData from '~/assets/data/catalog/sensors.json';

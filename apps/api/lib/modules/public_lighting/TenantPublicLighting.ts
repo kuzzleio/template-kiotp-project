@@ -1,8 +1,8 @@
-import { Module } from "../shared";
+import { Module } from '../shared';
 
-import { AssetsModule } from "./assets";
-import { DevicesModule } from "./devices";
-import { PermissionsModule } from "./permissions";
+import { AssetsModule } from './assets';
+import { DevicesModule } from './devices';
+import { PermissionsModule } from './permissions';
 
 export class TenantPublicLighting extends Module {
   private modules: Module[] = [];

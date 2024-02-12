@@ -3,7 +3,7 @@ import { KuzzleProtocol } from 'vue-plugin-kuzzle';
 export default {
   backends: {
     main: {
-      host: 'api-main-<project>.paas.kuzzle.io',
+      host: 'api-main-<projectName>.paas.kuzzle.io',
       protocol: KuzzleProtocol.WEBSOCKET,
       options: {
         port: 443,
@@ -11,7 +11,7 @@ export default {
       },
     },
     uat: {
-      host: 'api-uat-<project>.paas.kuzzle.io',
+      host: 'api-main-<projectName>.paas.kuzzle.io',
       protocol: KuzzleProtocol.WEBSOCKET,
       options: {
         port: 443,
@@ -70,5 +70,14 @@ export default {
   customizations: {
     index: 'customizations',
     collection: 'config',
+  },
+  authentication: {
+    type: 'keycloak',
+    clientConfig: {
+      authority: 'https://sso.paas.kuzzle.io/realms/<projectName>',
+      client_id: 'kiotp-front',
+      response_type: 'code',
+      scope: 'openid',
+    },
   },
 };

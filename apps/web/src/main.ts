@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { iotPlatformPlugin } from '@kuzzleio/iot-platform-frontend';
+import { authenticationPlugin, iotPlatformPlugin } from '@kuzzleio/iot-platform-frontend';
 import {
   BootstrapVue,
   BootstrapVueIcons,
@@ -12,6 +12,7 @@ import {
 import VueRouter from 'vue-router';
 
 import { appDefinitions, dashboardWidgets } from './appDefinition';
+import config from './config';
 import { createRouter } from './router';
 import i18n from './services/i18n';
 import store from './store';
@@ -24,6 +25,7 @@ import '@fortawesome/fontawesome-free/js/all.js';
 
 // Kuzzle Vue
 Vue.use(iotPlatformPlugin, { widgets: dashboardWidgets });
+Vue.use(authenticationPlugin, config.authentication);
 
 // BOOTSTRAP DIRECTIVEs
 Vue.directive('b-modal', VBModal);

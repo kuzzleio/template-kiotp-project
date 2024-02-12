@@ -1,28 +1,40 @@
 <template>
-  <BModal
-    v-model="openModal"
-    size="md"
-    :title="$i18n.t('locales.devices.modals.create')"
-    title-tag="h3"
-    header-class="Modal-header"
-    modal-class="Modal"
-    centered
-    @ok="onSubmit"
-  >
-    <p class="tw-text-base tw-text-secondary-light">
+  <KModal v-model="isOpen" :title="$i18n.t('locales.devices.modals.create')" @submit="onSubmit">
+    <p
+      class="tw-mb-2 tw-flex tw-items-center tw-justify-center tw-p-2 tw-text-base tw-text-secondary-light"
+    >
       {{ $i18n.t('locales.devices.modals.createDescription') }}
     </p>
 
     <!-- FORM -->
-    <BForm>
+    <KForm>
       <!-- MODEL -->
-      <BFormGroup :label="$i18n.t('digitalTwin.model')" label-for="model">
-        <BFormSelect id="model" v-model.trim="model" :options="deviceModels" required />
-      </BFormGroup>
+      <KFormField :label="$i18n.t('digitalTwin.model')">
+        <select
+          v-model="form.model"
+          class="tw-w-full"
+          :class="{
+            'tw-border-red-500': $v.model?.$error,
+          }"
+          required
+        >
+          <option v-for="(deviceModel, key) in deviceModels" :key="key">
+            {{ deviceModel }}
+          </option>
+        </select>
+      </KFormField>
       <!-- REFERENCE -->
-      <BFormGroup :label="$i18n.t('digitalTwin.reference')" label-for="reference">
-        <BFormInput id="reference" v-model.trim="reference" required pattern="\S+" />
-      </BFormGroup>
+      <KFormField :label="$i18n.t('digitalTwin.reference')" required>
+        <input
+          v-model="form.reference"
+          class="tw-w-full"
+          type="text"
+          :class="{
+            'tw-border-red-500': $v.reference?.$error,
+          }"
+          required
+        />
+      </KFormField>
 
       <!-- INPUT -->
 
@@ -34,31 +46,16 @@
           </div>
         </div>
       </div>
-    </BForm>
-
-    <template #modal-footer="{ ok, cancel }">
-      <BButton variant="outline-secondary" @click="cancel">
-        {{ $i18n.t('action.cancel') }}
-      </BButton>
-      <BButton variant="danger" @click="ok">
-        {{ $i18n.t('action.submit') }}
-      </BButton>
-    </template>
-  </BModal>
+    </KForm>
+  </KModal>
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, watch, withDefaults } from 'vue';
-import { useKuzzle, useRights, useToast, useI18n } from '@kuzzleio/iot-platform-frontend';
-import {
-  BButton,
-  BForm,
-  BFormGroup,
-  BFormInput,
-  BFormSelect,
-  BModal,
-  BSpinner,
-} from 'bootstrap-vue';
+import { computed, onMounted, ref, watch } from 'vue';
+import { useKuzzle, useRights, useToast, useI18n, KModal, KForm, KFormField } from '@kuzzleio/iot-platform-frontend';
+import { ValidationArgs, useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import { BSpinner } from 'bootstrap-vue';
 import type {
   ApiDeviceCreateRequest,
   ApiDeviceCreateResult,
@@ -67,20 +64,42 @@ import type {
 } from 'kuzzle-device-manager-types';
 import { useRouter } from 'vue-router/composables';
 
-export interface DeviceCreateFormProps {
-  currentIndex: string;
-  deviceModelId?: string;
-  isOpen?: boolean;
+
+// Types
+export interface DeviceFields {
+  model: string;
+  reference: string;
 }
+export type ValidationRules = ValidationArgs<DeviceFields>;
+
+// Constants
+const formFields: DeviceFields = {
+  model: '',
+  reference: '',
+};
+const validationRules = {
+  model: {
+    required,
+  },
+  reference: {
+    required,
+  },
+};
 
 // Props
-const props = withDefaults(defineProps<DeviceCreateFormProps>(), {
-  isOpen: false,
-  deviceModelId: '',
-});
+export interface DeviceCreateFormProps {
+  currentIndex: string;
+  open: boolean;
+  deviceModelId?: string;
+}
+const props = defineProps<DeviceCreateFormProps>();
 
 // Emits
-type EmitTypes = (name: 'update:isOpen', value: boolean) => void;
+interface EmitTypes {
+  (name: 'update:open', open: boolean): void;
+  (name: 'cancel'): void;
+  (name: 'submit'): void;
+}
 const emit = defineEmits<EmitTypes>();
 
 // Composables
@@ -91,18 +110,20 @@ const $toast = useToast();
 const { canUpdateDevice } = useRights(props.currentIndex);
 
 // Refs
+const isLoading = ref(false);
+const form = ref<DeviceFields>({ ...formFields });
 const isBusy = ref(false);
-const model = ref('');
-const reference = ref('');
+const model = ref<string>();
 const deviceModels = ref<string[]>([]);
 
+// Validations
+const $v = useVuelidate<DeviceFields, ValidationRules>(validationRules, form);
+
 // Computeds
-const openModal = computed<boolean>({
-  get() {
-    return props.isOpen;
-  },
-  set(value) {
-    emit('update:isOpen', value);
+const isOpen = computed<boolean>({
+  get: () => props.open,
+  set() {
+    emit('update:open', !props.open);
   },
 });
 
@@ -116,10 +137,25 @@ watch(
 
 // Hooks
 onMounted(() => {
-  void fetchDeviceModels();
+  void fetchData();
 });
 
 // Functions
+async function fetchData(): Promise<void> {
+  try {
+    await fetchDeviceModels();
+    if (deviceModels.value.length > 0) {
+      form.value.model = deviceModels.value[0];
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function closeModal(): void {
+  isOpen.value = false;
+}
+
 async function fetchDeviceModels(): Promise<void> {
   try {
     const { result } = await $kuzzle.query<ApiModelListDevicesRequest, ApiModelListDevicesResult>({
@@ -140,30 +176,39 @@ async function onSubmit(): Promise<void> {
   if (!canUpdateDevice.value) {
     $toast.showError($i18n.t('locales.errors.rights.devicesCreate'));
   }
+  $v.value.$reset();
+  await $v.value.$validate();
 
+  if ($v.value.$invalid) {
+    return;
+  }
   try {
+    isLoading.value = true;
     isBusy.value = true;
 
     const { result: device } = await $kuzzle.query<ApiDeviceCreateRequest, ApiDeviceCreateResult>({
       controller: 'device-manager/devices',
       action: 'create',
       engineId: props.currentIndex,
-      body: {
-        model: model.value,
-        reference: reference.value,
-      },
+      body: form.value,
     });
 
     await $router.push({
       name: 'device-details',
-      params: { deviceId: device._id },
+      params: { deviceId: device._id, activeTab: 'general-info' },
     });
   } catch (error) {
     console.error(error);
     $toast.showError((error as Error).message);
   } finally {
-    openModal.value = false;
     isBusy.value = false;
+    resetForm();
+    closeModal();
+  }
+
+  function resetForm(): void {
+    form.value = JSON.parse(JSON.stringify(formFields));
+    $v.value.$reset();
   }
 }
 </script>

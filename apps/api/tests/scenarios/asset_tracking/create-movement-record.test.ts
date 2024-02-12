@@ -1,15 +1,15 @@
-import { AssetContent, MeasureContent } from "kuzzle-device-manager";
+import { AssetContent, MeasureContent } from 'kuzzle-device-manager';
 
 import {
   beforeAllCreateTenants,
   beforeEachTruncateCollections,
   sendPayloads,
   useSdk,
-} from "../../../../../helpers";
+} from '../../../../../helpers';
 
-jest.setTimeout(30000);
+jest.setTimeout(10000);
 
-describe("Geofencing: create movement record measure", () => {
+describe('Geofencing: create movement record measure', () => {
   const sdk = useSdk();
 
   const insideIDFSud = [
@@ -44,9 +44,9 @@ describe("Geofencing: create movement record measure", () => {
   ];
 
   function moveTruck(position: { lat: number; lon: number }) {
-    return sendPayloads(sdk, "loka", [
+    return sendPayloads(sdk, 'loka', [
       {
-        deviceEUI: "LOK2",
+        deviceEUI: 'LOK2',
         battery: 100,
         ...position,
       },
@@ -58,10 +58,10 @@ describe("Geofencing: create movement record measure", () => {
     await beforeAllCreateTenants(sdk);
     // update the workflows
     await sdk.query({
-      controller: "multi-tenancy/tenant",
-      action: "update",
-      name: "kuzzle",
-      group: "asset_tracking",
+      controller: 'multi-tenancy/tenant',
+      action: 'update',
+      name: 'kuzzle',
+      group: 'asset_tracking',
       // should be available in the next version of the workflows plugin (>0.5.2)
       force: true,
     });
@@ -70,61 +70,81 @@ describe("Geofencing: create movement record measure", () => {
   beforeEach(async () => {
     await beforeEachTruncateCollections(sdk);
     await sdk.query({
-      controller: "fixtures",
-      action: "load",
-      tenant: "asset_tracking",
-      stage: "digital-twins",
+      controller: 'fixtures',
+      action: 'load',
+      tenant: 'asset_tracking',
+      stage: 'digital_twins',
     });
     // create rules associated to Warehouses
     // @todo remove this when we have global pipes
-    await sdk.collection.refresh("tenant-asset_tracking-kuzzle", "assets");
-    await sdk.document.updateByQuery(
-      "tenant-asset_tracking-kuzzle",
-      "assets",
-      {},
-      {},
-    );
+    await sdk.collection.refresh('tenant-asset_tracking-kuzzle', 'assets');
+    await sdk.document.updateByQuery('tenant-asset_tracking-kuzzle', 'assets', {}, {});
   });
 
   afterAll(async () => {
     sdk.disconnect();
   });
 
-  it("asset outside of everything moving inside a geofence", async () => {
+  it('asset outside of everything moving inside a geofence', async () => {
     await moveTruck(outsideEverything[0]);
 
     await moveTruck(insideIDFSud[0]);
-    await sdk.collection.refresh("tenant-asset_tracking-kuzzle", "measures");
+    await sdk.collection.refresh('tenant-asset_tracking-kuzzle', 'measures');
+
+    const measures = await sdk.document.search<MeasureContent>(
+      'tenant-asset_tracking-kuzzle',
+      'measures',
+      {
+        query: {
+          equals: { type: 'movementRecord' },
+        },
+        sort: { measuredAt: 'asc' },
+      },
+      { lang: 'koncorde' },
+    );
+
+    expect(measures.hits).toHaveLength(2);
+    expect(measures.hits[0]._source).toMatchObject({
+      values: {
+        in: null,
+      },
+    });
+    expect(measures.hits[1]._source).toMatchObject({
+      values: {
+        out: null,
+        in: 'IDFSud',
+      },
+    });
 
     const assets = await sdk.document.get<AssetContent>(
-      "tenant-asset_tracking-kuzzle",
-      "assets",
-      "Truck-sierra",
+      'tenant-asset_tracking-kuzzle',
+      'assets',
+      'Truck-sierra',
     );
 
     expect(assets._source.metadata).toMatchObject({
       geofencing: {
-        state: "IDFSud",
+        state: 'IDFSud',
       },
     });
   });
 
-  it("asset outside everything moving outside everything", async () => {
+  it('asset outside everything moving outside everything', async () => {
     await moveTruck(outsideEverything[0]);
 
     await moveTruck(outsideEverything[1]);
-    await sdk.collection.refresh("tenant-asset_tracking-kuzzle", "measures");
+    await sdk.collection.refresh('tenant-asset_tracking-kuzzle', 'measures');
 
     const measures = await sdk.document.search<MeasureContent>(
-      "tenant-asset_tracking-kuzzle",
-      "measures",
+      'tenant-asset_tracking-kuzzle',
+      'measures',
       {
         query: {
-          equals: { type: "movementRecord" },
+          equals: { type: 'movementRecord' },
         },
-        sort: { measuredAt: "asc" },
+        sort: { measuredAt: 'asc' },
       },
-      { lang: "koncorde" },
+      { lang: 'koncorde' },
     );
 
     expect(measures.hits).toHaveLength(1);
@@ -135,9 +155,9 @@ describe("Geofencing: create movement record measure", () => {
     });
 
     const assets = await sdk.document.get<AssetContent>(
-      "tenant-asset_tracking-kuzzle",
-      "assets",
-      "Truck-sierra",
+      'tenant-asset_tracking-kuzzle',
+      'assets',
+      'Truck-sierra',
     );
 
     expect(assets._source.metadata).toMatchObject({
@@ -147,123 +167,123 @@ describe("Geofencing: create movement record measure", () => {
     });
   });
 
-  it("asset inside a geofence moving inside the same geofence", async () => {
+  it('asset inside a geofence moving inside the same geofence', async () => {
     await moveTruck(insideIDFSud[0]);
 
     await moveTruck(insideIDFSud[1]);
-    await sdk.collection.refresh("tenant-asset_tracking-kuzzle", "measures");
+    await sdk.collection.refresh('tenant-asset_tracking-kuzzle', 'measures');
 
     const result = await sdk.document.search<MeasureContent>(
-      "tenant-asset_tracking-kuzzle",
-      "measures",
+      'tenant-asset_tracking-kuzzle',
+      'measures',
       {
         query: {
-          equals: { type: "movementRecord" },
+          equals: { type: 'movementRecord' },
         },
-        sort: { measuredAt: "asc" },
+        sort: { measuredAt: 'asc' },
       },
-      { lang: "koncorde" },
+      { lang: 'koncorde' },
     );
 
     expect(result.hits).toHaveLength(1);
     expect(result.hits[0]._source).toMatchObject({
       values: {
-        in: "IDFSud",
+        in: 'IDFSud',
       },
     });
 
     const assets = await sdk.document.get<AssetContent>(
-      "tenant-asset_tracking-kuzzle",
-      "assets",
-      "Truck-sierra",
+      'tenant-asset_tracking-kuzzle',
+      'assets',
+      'Truck-sierra',
     );
 
     expect(assets._source.metadata).toMatchObject({
       geofencing: {
-        state: "IDFSud",
+        state: 'IDFSud',
       },
     });
   });
 
-  it("asset inside a geofence moving inside another geofence", async () => {
+  it('asset inside a geofence moving inside another geofence', async () => {
     await moveTruck(insideIDFSud[0]);
 
     await moveTruck(insideIDFNord[0]);
-    await sdk.collection.refresh("tenant-asset_tracking-kuzzle", "measures");
+    await sdk.collection.refresh('tenant-asset_tracking-kuzzle', 'measures');
 
     const result = await sdk.document.search<MeasureContent>(
-      "tenant-asset_tracking-kuzzle",
-      "measures",
+      'tenant-asset_tracking-kuzzle',
+      'measures',
       {
         query: {
-          equals: { type: "movementRecord" },
+          equals: { type: 'movementRecord' },
         },
-        sort: { measuredAt: "asc" },
+        sort: { measuredAt: 'asc' },
       },
-      { lang: "koncorde" },
+      { lang: 'koncorde' },
     );
 
     expect(result.hits).toHaveLength(2);
     expect(result.hits[0]._source).toMatchObject({
       values: {
-        in: "IDFSud",
+        in: 'IDFSud',
       },
     });
     expect(result.hits[1]._source).toMatchObject({
       values: {
-        out: "IDFSud",
-        in: "IDFNord",
+        out: 'IDFSud',
+        in: 'IDFNord',
       },
     });
 
     const assets = await sdk.document.get<AssetContent>(
-      "tenant-asset_tracking-kuzzle",
-      "assets",
-      "Truck-sierra",
+      'tenant-asset_tracking-kuzzle',
+      'assets',
+      'Truck-sierra',
     );
 
     expect(assets._source.metadata).toMatchObject({
       geofencing: {
-        state: "IDFNord",
+        state: 'IDFNord',
       },
     });
   });
 
-  it("asset inside a geofence moving outside everything", async () => {
+  it('asset inside a geofence moving outside everything', async () => {
     await moveTruck(insideIDFSud[0]);
 
     await moveTruck(outsideEverything[0]);
-    await sdk.collection.refresh("tenant-asset_tracking-kuzzle", "measures");
+    await sdk.collection.refresh('tenant-asset_tracking-kuzzle', 'measures');
 
     const result = await sdk.document.search<MeasureContent>(
-      "tenant-asset_tracking-kuzzle",
-      "measures",
+      'tenant-asset_tracking-kuzzle',
+      'measures',
       {
         query: {
-          equals: { type: "movementRecord" },
+          equals: { type: 'movementRecord' },
         },
-        sort: { measuredAt: "asc" },
+        sort: { measuredAt: 'asc' },
       },
-      { lang: "koncorde" },
+      { lang: 'koncorde' },
     );
 
     expect(result.hits).toHaveLength(2);
     expect(result.hits[0]._source).toMatchObject({
       values: {
-        in: "IDFSud",
+        in: 'IDFSud',
       },
     });
     expect(result.hits[1]._source).toMatchObject({
       values: {
-        out: "IDFSud",
+        out: 'IDFSud',
         in: null,
       },
     });
 
     const assets = await sdk.document.get<AssetContent>(
-      "tenant-asset_tracking-kuzzle",
-      "assets",
-      "Truck-sierra",
+      'tenant-asset_tracking-kuzzle',
+      'assets',
+      'Truck-sierra',
     );
 
     expect(assets._source.metadata).toMatchObject({

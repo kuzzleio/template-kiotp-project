@@ -1,10 +1,10 @@
-import { DeviceContent } from "kuzzle-device-manager";
+import { DeviceContent } from 'kuzzle-device-manager';
 
-import { useSdk, truncateCollection } from "../../../../../helpers";
+import { useSdk, truncateCollection } from '../../../../../helpers';
 
-jest.setTimeout(30000);
+jest.setTimeout(10000);
 
-describe("EnginkoDecoder", () => {
+describe('EnginkoDecoder', () => {
   const sdk = useSdk();
 
   beforeAll(async () => {
@@ -12,30 +12,26 @@ describe("EnginkoDecoder", () => {
   });
 
   beforeEach(async () => {
-    await truncateCollection(sdk, "platform", "devices");
+    await truncateCollection(sdk, 'platform', 'devices');
   });
 
   afterAll(async () => {
     sdk.disconnect();
   });
 
-  it("should decode temperature measures", async () => {
+  it('should decode temperature measures', async () => {
     await sdk.query({
-      controller: "device-manager/payloads",
-      action: "enginko",
+      controller: 'device-manager/payloads',
+      action: 'enginko',
       body: {
-        deviceEUI: "unlinked",
+        deviceEUI: 'unlinked',
         temperature: 21,
         battery: 99,
         timestamp: 1673959649017,
       },
     });
 
-    const device = await sdk.document.get<DeviceContent>(
-      "platform",
-      "devices",
-      "Enginko-unlinked",
-    );
+    const device = await sdk.document.get<DeviceContent>('platform', 'devices', 'Enginko-unlinked');
 
     expect(device._source.measures.temperature).toMatchObject({
       measuredAt: 1673959649017,

@@ -1,1 +1,1 @@
-export * from "./PermissionsModule";
+export * from './PermissionsModule';

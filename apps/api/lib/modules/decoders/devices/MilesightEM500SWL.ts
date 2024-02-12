@@ -3,10 +3,10 @@ import {
   DeviceModelDefinition,
   Metadata,
   BatteryMeasurement,
-} from "kuzzle-device-manager";
-import { WaterMeasurement } from "../../air_quality/devices/WaterMeasurement";
+} from 'kuzzle-device-manager';
+import { WaterMeasurement } from '../../air_quality/devices/WaterMeasurement';
 
-import { MilesightEM500SWLDecoder } from "./MilesightEM500SWLDecoder";
+import { MilesightEM500SWLDecoder } from './MilesightEM500SWLDecoder';
 
 /**
  * Type representing the metadata of a "MilesightEM500SWL" device.
@@ -36,20 +36,17 @@ export type MilesightEM500SWLMeasurements = {
  * This is optional and can be omitted if you don't want strong typing
  */
 export interface MilesightEM500SWLDeviceContent
-  extends DeviceContent<
-    MilesightEM500SWLMeasurements,
-    MilesightEM500SWLMetadata
-  > {
-  model: "MilesightEM500SWL";
+  extends DeviceContent<MilesightEM500SWLMeasurements, MilesightEM500SWLMetadata> {
+  model: 'MilesightEM500SWL';
 }
 
 export const MilesightEM500SWLDeviceDefinition: DeviceModelDefinition = {
   decoder: new MilesightEM500SWLDecoder(),
   defaultMetadata: {
-    trackerType: "Embedded",
+    trackerType: 'Embedded',
   },
   metadataMappings: {
-    trackerType: { type: "keyword" },
-    serialNumber: { type: "keyword" },
+    trackerType: { type: 'keyword' },
+    serialNumber: { type: 'keyword' },
   },
 };

@@ -4,36 +4,30 @@ import {
   Decoder,
   PositionMeasurement,
   TemperatureMeasurement,
-} from "kuzzle-device-manager";
-import { JSONObject } from "kuzzle";
-import { has } from "lodash";
+} from 'kuzzle-device-manager';
+import { JSONObject } from 'kuzzle';
+import { has } from 'lodash';
 
 export class AbeewayDecoder extends Decoder {
   public measures = [
-    { name: "position", type: "position" },
-    { name: "externalTemperature", type: "temperature" },
-    { name: "internalTemperature", type: "temperature" },
-    { name: "battery", type: "battery" },
+    { name: 'position', type: 'position' },
+    { name: 'externalTemperature', type: 'temperature' },
+    { name: 'internalTemperature', type: 'temperature' },
+    { name: 'battery', type: 'battery' },
   ] as const;
 
   constructor() {
     super();
 
     this.payloadsMappings = {
-      deviceEUI: { type: "keyword" },
+      deviceEUI: { type: 'keyword' },
     };
   }
 
   async validate(payload: JSONObject): Promise<boolean> {
-    this.ensureProperties(payload, ["deviceEUI"]);
+    this.ensureProperties(payload, ['deviceEUI']);
 
-    const properties = [
-      "lat",
-      "lon",
-      "battery",
-      "externalTemperature",
-      "internalTemperature",
-    ];
+    const properties = ['lat', 'lon', 'battery', 'externalTemperature', 'internalTemperature'];
 
     return properties.every((property) => has(payload, property));
   }
@@ -46,9 +40,9 @@ export class AbeewayDecoder extends Decoder {
 
     const measuredAt = payload.timestamp || Date.now();
 
-    decodedPayload.addMeasurement<PositionMeasurement>(deviceId, "position", {
+    decodedPayload.addMeasurement<PositionMeasurement>(deviceId, 'position', {
       measuredAt,
-      type: "position",
+      type: 'position',
       values: {
         position: {
           lat: payload.lat,
@@ -57,37 +51,29 @@ export class AbeewayDecoder extends Decoder {
       },
     });
 
-    decodedPayload.addMeasurement<BatteryMeasurement>(deviceId, "battery", {
+    decodedPayload.addMeasurement<BatteryMeasurement>(deviceId, 'battery', {
       measuredAt,
-      type: "battery",
+      type: 'battery',
       values: {
         battery: payload.battery,
       },
     });
 
-    decodedPayload.addMeasurement<TemperatureMeasurement>(
-      deviceId,
-      "externalTemperature",
-      {
-        measuredAt,
-        type: "temperature",
-        values: {
-          temperature: payload.externalTemperature,
-        },
+    decodedPayload.addMeasurement<TemperatureMeasurement>(deviceId, 'externalTemperature', {
+      measuredAt,
+      type: 'temperature',
+      values: {
+        temperature: payload.externalTemperature,
       },
-    );
+    });
 
-    decodedPayload.addMeasurement<TemperatureMeasurement>(
-      deviceId,
-      "internalTemperature",
-      {
-        measuredAt,
-        type: "temperature",
-        values: {
-          temperature: payload.internalTemperature,
-        },
+    decodedPayload.addMeasurement<TemperatureMeasurement>(deviceId, 'internalTemperature', {
+      measuredAt,
+      type: 'temperature',
+      values: {
+        temperature: payload.internalTemperature,
       },
-    );
+    });
 
     return decodedPayload;
   }

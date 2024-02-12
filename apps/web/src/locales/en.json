@@ -100,7 +100,8 @@
         "sent-successfully": "Action sent sucessfully to the Kara device"
       },
       "level": {
-        "title": "Manage Power of street lamp"
+        "title": "Manage Power of street lamp",
+        "label": "Ligth level"
       },
       "on-off": {
         "apply": "Action takes effect",
@@ -109,7 +110,8 @@
         "on": "On",
         "off": "Off",
         "scheduled": "Later",
-        "title": "Switch street light lighting"
+        "title": "Switch street light lighting",
+        "label": "On / Off"
       },
       "scheduler": {
         "chooseMode": "Choose period mode",
@@ -123,7 +125,8 @@
         "title": "Schedule street lamp lighting"
       },
       "status-map": {
-        "empty-form": "The form is empty. Nothing to show"
+        "empty-form": "The form is empty. Nothing to show",
+        "label" : "Status Map"
       }
     }
   }

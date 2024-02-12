@@ -1,0 +1,31 @@
+{
+  "application": {
+    "keycloak": {
+      "backend": {
+        "apiPath": "https://sso.paas.kuzzle.io/admin/realms/<projectName>/",
+        "clientId": "kiotp-back",
+        "issuer": "https://sso.paas.kuzzle.io/realms/<projectName>"
+      },
+      "frontend": {
+        "clientId": "kiotp-front",
+        "strategyName": "keycloak"
+      }
+    }
+  },
+  "plugins": {
+    "keycloak": {
+      "clientConfig": {
+        "client_id": "kiotp-front",
+        "redirect_uris": [
+          "https://api-main-<projectName>.paas.kuzzle.io/_login/keycloak"
+        ],
+        "response_type": "code",
+        "token_endpoint_auth_method": "none"
+      },
+      "issuerAutoDiscover": true,
+      "issuerConfig": {
+        "issuer": "https://sso.paas.kuzzle.io/realms/<projectName>"
+      }
+    }
+  }
+}

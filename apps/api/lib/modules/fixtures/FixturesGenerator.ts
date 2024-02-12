@@ -1,13 +1,19 @@
-import { Backend, BadRequestError, JSONObject } from "kuzzle";
+import { Backend, BadRequestError, JSONObject } from 'kuzzle';
 import {
-  ApiAssetCreateRequest,
+  ApiAssetCreateRequest as BaseAssetCreateRequest,
   ApiAssetDeleteRequest,
   ApiDeviceCreateRequest,
   ApiDeviceDeleteRequest,
   ApiDeviceLinkAssetRequest,
   ApiGroupAddAssetsRequest,
   ApiGroupCreateRequest,
-} from "kuzzle-device-manager";
+} from 'kuzzle-device-manager';
+
+import { FixtureStage, Tenant } from '../../types';
+
+interface ApiAssetCreateRequest extends BaseAssetCreateRequest {
+  softTenantId?: string;
+}
 
 export abstract class FixturesGenerator {
   protected app: Backend;
@@ -37,27 +43,25 @@ export abstract class FixturesGenerator {
   async reset() {
     await this.resetDigitalTwins();
     await this.resetMeasures();
-    await this.truncate("alerts");
-    await this.truncate("assets-history");
+    await this.truncate('alerts');
+    await this.truncate('assets-history');
     await this.loadDigitalTwins();
     await this.loadMeasures();
   }
 
-  async runStage(
-    stage: "all" | "users" | "digital-twins" | "dashboards" | "measures",
-  ) {
+  async runStage(stage: keyof typeof FixtureStage) {
     await this.createIfNoExists();
 
     switch (stage) {
-      case "all":
+      case FixtureStage.all:
         return this.runAll();
-      case "users":
+      case FixtureStage.users:
         return this.loadUsers();
-      case "digital-twins":
+      case FixtureStage.digital_twins:
         return this.loadDigitalTwins();
-      case "dashboards":
+      case FixtureStage.dashboards:
         return this.loadDashboards();
-      case "measures":
+      case FixtureStage.measures:
         return this.loadMeasures();
       default:
         throw new BadRequestError(`Unknown stage: ${stage}`);
@@ -71,51 +75,32 @@ export abstract class FixturesGenerator {
    */
   async createIfNoExists() {
     const { result } = await this.app.sdk.query({
-      controller: "multi-tenancy/tenant",
-      action: "exists",
+      controller: 'multi-tenancy/tenant',
+      action: 'exists',
       name: this.tenantName,
       group: this.tenantGroup,
     });
 
     if (!result.exists) {
-      await this.app.sdk.query({
-        controller: "multi-tenancy/tenant",
-        action: "create",
+      const { result: tenant } = await this.app.sdk.query({
+        controller: 'multi-tenancy/tenant',
+        action: 'create',
         name: this.tenantName,
         group: this.tenantGroup,
       });
 
-      await this.createEngine(
-        "device-manager",
-        "create",
-        this.tenantIndex,
-        this.tenantGroup,
-      );
-      await this.createEngine(
-        "workflows",
-        "create",
-        this.tenantIndex,
-        this.tenantGroup,
-      );
-      await this.createEngine(
-        "scheduler",
-        "create",
-        this.tenantIndex,
-        this.tenantGroup,
-      );
-      await this.createEngine(
-        "dashboard-builder",
-        "create",
-        this.tenantIndex,
-        this.tenantGroup,
-      );
+      await this.createEngine('device-manager', 'create', this.tenantIndex, this.tenantGroup);
+      await this.createEngine('workflows', 'create', this.tenantIndex, this.tenantGroup);
+      await this.createEngine('scheduler', 'create', this.tenantIndex, this.tenantGroup);
+      await this.createEngine('dashboard-builder', 'create', this.tenantIndex, this.tenantGroup);
+      await this.createSoftTenant(tenant as Exclude<Tenant, '_id'>, 'sdet');
     }
   }
 
   async loadUsers() {
     await Promise.all([
-      this.createUser("tenant_admin", this.tenantGroup),
-      this.createUser("tenant_reader", this.tenantGroup),
+      this.createUser('tenant_admin', this.tenantGroup),
+      this.createUser('tenant_reader', this.tenantGroup),
     ]);
   }
 
@@ -123,12 +108,14 @@ export abstract class FixturesGenerator {
     model: string,
     reference: string,
     metadata: TMetadata = {} as TMetadata,
+    softTenantId?: string,
   ) {
     try {
       await this.app.sdk.query<ApiAssetCreateRequest>({
-        controller: "device-manager/assets",
-        action: "create",
+        controller: 'device-manager/assets',
+        action: 'create',
         engineId: this.tenantIndex,
+        softTenantId,
         body: {
           model,
           reference,
@@ -138,7 +125,7 @@ export abstract class FixturesGenerator {
 
       return `Create Asset: ${model}-${reference}`;
     } catch (error) {
-      if (error.id !== "services.storage.document_already_exists") {
+      if (error.id !== 'services.storage.document_already_exists') {
         throw error;
       }
     }
@@ -147,8 +134,8 @@ export abstract class FixturesGenerator {
   async deleteAsset(model: string, reference: string) {
     try {
       await this.app.sdk.query<ApiAssetDeleteRequest>({
-        controller: "device-manager/assets",
-        action: "delete",
+        controller: 'device-manager/assets',
+        action: 'delete',
         engineId: this.tenantIndex,
         _id: `${model}-${reference}`,
       });
@@ -162,8 +149,8 @@ export abstract class FixturesGenerator {
   async createDevice(model: string, reference: string) {
     try {
       await this.app.sdk.query<ApiDeviceCreateRequest>({
-        controller: "device-manager/devices",
-        action: "create",
+        controller: 'device-manager/devices',
+        action: 'create',
         engineId: this.tenantIndex,
         body: {
           model,
@@ -173,7 +160,7 @@ export abstract class FixturesGenerator {
 
       return `Create Device: ${model}-${reference}`;
     } catch (error) {
-      if (error.id !== "services.storage.document_already_exists") {
+      if (error.id !== 'services.storage.document_already_exists') {
         throw error;
       }
     }
@@ -182,8 +169,8 @@ export abstract class FixturesGenerator {
   async deleteDevice(model: string, reference: string) {
     try {
       await this.app.sdk.query<ApiDeviceDeleteRequest>({
-        controller: "device-manager/devices",
-        action: "delete",
+        controller: 'device-manager/devices',
+        action: 'delete',
         engineId: this.tenantIndex,
         _id: `${model}-${reference}`,
       });
@@ -197,12 +184,12 @@ export abstract class FixturesGenerator {
   async linkAsset(
     assetId: string,
     deviceId: string,
-    measureNames: ApiDeviceLinkAssetRequest["body"]["measureNames"],
+    measureNames: ApiDeviceLinkAssetRequest['body']['measureNames'],
   ) {
     try {
       await this.app.sdk.query<ApiDeviceLinkAssetRequest>({
-        controller: "device-manager/devices",
-        action: "linkAsset",
+        controller: 'device-manager/devices',
+        action: 'linkAsset',
         engineId: this.tenantIndex,
         _id: deviceId,
         assetId,
@@ -216,16 +203,16 @@ export abstract class FixturesGenerator {
   }
 
   async groupAssets(groupName: string, assetIds: string[]) {
-    const groupId = groupName.toLocaleLowerCase().replace(" ", "-");
+    const groupId = groupName.toLocaleLowerCase().replace(' ', '-');
     const groupExist = await this.app.sdk.document.exists(
       this.tenantIndex,
-      "assets-groups",
+      'assets-groups',
       groupId,
     );
     if (!groupExist) {
       await this.app.sdk.query<ApiGroupCreateRequest>({
-        controller: "device-manager/assetsGroup",
-        action: "create",
+        controller: 'device-manager/assetsGroup',
+        action: 'create',
         engineId: this.tenantIndex,
         _id: groupId,
         body: {
@@ -234,8 +221,8 @@ export abstract class FixturesGenerator {
       });
     }
     return this.app.sdk.query<ApiGroupAddAssetsRequest>({
-      controller: "device-manager/assetsGroup",
-      action: "addAsset",
+      controller: 'device-manager/assetsGroup',
+      action: 'addAsset',
       engineId: this.tenantIndex,
       _id: groupId,
       body: {
@@ -247,8 +234,8 @@ export abstract class FixturesGenerator {
   async createUser(profile: string, name: string) {
     try {
       await this.app.sdk.query({
-        controller: "multi-tenancy/user",
-        action: "create",
+        controller: 'multi-tenancy/user',
+        action: 'create',
         profile,
         _id: `${name}.${profile}`,
         tenantId: this.tenantIndex,
@@ -256,7 +243,7 @@ export abstract class FixturesGenerator {
           credentials: {
             local: {
               username: `${name}.${profile}`,
-              password: "password",
+              password: 'password',
             },
           },
         },
@@ -269,7 +256,7 @@ export abstract class FixturesGenerator {
   }
 
   async resetMeasures() {
-    await this.truncate("measures");
+    await this.truncate('measures');
   }
 
   async truncate(collection: string) {
@@ -281,7 +268,7 @@ export abstract class FixturesGenerator {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  createEngine(plugin: string, action: string, index: string, group?: string) {
+  async createEngine(plugin: string, action: string, index: string, group?: string) {
     return this.app.sdk
       .query({
         action,
@@ -290,11 +277,25 @@ export abstract class FixturesGenerator {
         index,
       })
       .catch((error) => {
-        this.app.log.error(
-          `[${index}] Cannot ${action} ${plugin} engine: ${error}`,
-        );
+        this.app.log.error(`[${index}] Cannot ${action} ${plugin} engine: ${error}`);
 
         throw error;
       });
+  }
+
+  async createSoftTenant(tenant: Exclude<Tenant, '_id'>, name: string) {
+    return this.app.sdk.query({
+      controller: 'multi-tenancy/soft-tenant',
+      action: 'create',
+      tenantId: tenant.group,
+      _tenant: {
+        _id: tenant.index,
+        _source: {
+          group: tenant.group,
+          name: tenant.name,
+        },
+      },
+      name,
+    });
   }
 }

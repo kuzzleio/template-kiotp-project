@@ -1,1 +1,1 @@
-export * from "./MovementRecordMeasurement";
+export * from './MovementRecordMeasurement';

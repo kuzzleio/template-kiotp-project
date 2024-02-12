@@ -1,10 +1,10 @@
-import { DeviceContent } from "kuzzle-device-manager";
+import { DeviceContent } from 'kuzzle-device-manager';
 
-import { useSdk, truncateCollection } from "../../../../../helpers";
+import { useSdk, truncateCollection } from '../../../../../helpers';
 
-jest.setTimeout(30000);
+jest.setTimeout(10000);
 
-describe("AirlyDecoder", () => {
+describe('AirlyDecoder', () => {
   const sdk = useSdk();
 
   beforeAll(async () => {
@@ -12,19 +12,19 @@ describe("AirlyDecoder", () => {
   });
 
   beforeEach(async () => {
-    await truncateCollection(sdk, "platform", "devices");
+    await truncateCollection(sdk, 'platform', 'devices');
   });
 
   afterAll(async () => {
     sdk.disconnect();
   });
 
-  it("should decode position and battery measures", async () => {
+  it('should decode position and battery measures', async () => {
     await sdk.query({
-      controller: "device-manager/payloads",
-      action: "airly",
+      controller: 'device-manager/payloads',
+      action: 'airly',
       body: {
-        deviceId: "unlinked",
+        deviceId: 'unlinked',
         temperature: 27,
         humidity: 69,
         co2: 650,
@@ -33,11 +33,7 @@ describe("AirlyDecoder", () => {
       },
     });
 
-    const device = await sdk.document.get<DeviceContent>(
-      "platform",
-      "devices",
-      "Airly-unlinked",
-    );
+    const device = await sdk.document.get<DeviceContent>('platform', 'devices', 'Airly-unlinked');
 
     expect(device._source.measures.temperature).toMatchObject({
       measuredAt: 1673959649017,

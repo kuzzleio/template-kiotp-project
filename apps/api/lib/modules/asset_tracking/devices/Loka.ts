@@ -4,9 +4,9 @@ import {
   DeviceModelDefinition,
   Metadata,
   PositionMeasurement,
-} from "kuzzle-device-manager";
+} from 'kuzzle-device-manager';
 
-import { LokaDecoder } from "./LokaDecoder";
+import { LokaDecoder } from './LokaDecoder';
 
 /**
  * Type representing the metadata of a "Loka" device.
@@ -34,14 +34,13 @@ export type LokaMeasurements = {
  *
  * This is optional and can be omitted if you don't want strong typing
  */
-export interface LokaDeviceContent
-  extends DeviceContent<LokaMeasurements, LokaMetadata> {
-  model: "Loka";
+export interface LokaDeviceContent extends DeviceContent<LokaMeasurements, LokaMetadata> {
+  model: 'Loka';
 }
 
 export const lokaDeviceDefinition: DeviceModelDefinition = {
   decoder: new LokaDecoder(),
   metadataMappings: {
-    lns: { type: "keyword" },
+    lns: { type: 'keyword' },
   },
 };

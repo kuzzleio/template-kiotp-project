@@ -1,9 +1,6 @@
-import { AssetContent } from "kuzzle-device-manager";
+import { AssetContent } from 'kuzzle-device-manager';
 
-import {
-  GeofencePolygonMetadata,
-  makeGeofence,
-} from "@kuzzleio/iot-platform-backend";
+import { GeofencePolygonMetadata, makeGeofence } from '@kuzzleio/iot-platform-backend';
 
 /**
  * Type representing the metadata of a "Warehouse" asset.
@@ -31,7 +28,7 @@ export type WarehouseMeasurements = Record<string, never>;
  */
 export interface WarehouseAssetContent
   extends AssetContent<WarehouseMeasurements, WarehouseMetadata> {
-  model: "Warehouse";
+  model: 'Warehouse';
 }
 
 /**
@@ -41,7 +38,7 @@ export interface WarehouseAssetContent
 export const warehouseAssetDefinition = makeGeofence({
   measures: [],
   metadataMappings: {
-    surface: { type: "float" },
-    loadingBays: { type: "float" },
+    surface: { type: 'float' },
+    loadingBays: { type: 'float' },
   },
 });

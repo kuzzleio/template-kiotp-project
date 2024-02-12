@@ -3,28 +3,28 @@ import {
   DecodedPayload,
   Decoder,
   PositionMeasurement,
-} from "kuzzle-device-manager";
-import { JSONObject } from "kuzzle";
-import { has } from "lodash";
+} from 'kuzzle-device-manager';
+import { JSONObject } from 'kuzzle';
+import { has } from 'lodash';
 
 export class LokaDecoder extends Decoder {
   public measures = [
-    { name: "position", type: "position" },
-    { name: "battery", type: "battery" },
+    { name: 'position', type: 'position' },
+    { name: 'battery', type: 'battery' },
   ] as const;
 
   constructor() {
     super();
 
     this.payloadsMappings = {
-      deviceEUI: { type: "keyword" },
+      deviceEUI: { type: 'keyword' },
     };
   }
 
   async validate(payload: JSONObject): Promise<boolean> {
-    this.ensureProperties(payload, ["deviceEUI"]);
+    this.ensureProperties(payload, ['deviceEUI']);
 
-    const properties = ["lat", "lon", "battery"];
+    const properties = ['lat', 'lon', 'battery'];
 
     return properties.every((property) => has(payload, property));
   }
@@ -37,9 +37,9 @@ export class LokaDecoder extends Decoder {
 
     const measuredAt = payload.timestamp || Date.now();
 
-    decodedPayload.addMeasurement<PositionMeasurement>(deviceId, "position", {
+    decodedPayload.addMeasurement<PositionMeasurement>(deviceId, 'position', {
       measuredAt,
-      type: "position",
+      type: 'position',
       values: {
         position: {
           lat: payload.lat,
@@ -48,9 +48,9 @@ export class LokaDecoder extends Decoder {
       },
     });
 
-    decodedPayload.addMeasurement<BatteryMeasurement>(deviceId, "battery", {
+    decodedPayload.addMeasurement<BatteryMeasurement>(deviceId, 'battery', {
       measuredAt,
-      type: "battery",
+      type: 'battery',
       values: {
         battery: payload.battery,
       },

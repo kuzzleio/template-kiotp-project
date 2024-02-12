@@ -1,6 +1,6 @@
 <template>
   <div v-if="!$store.state.backend.waitingForConnection" id="app" data-cy="kiotp">
-    <RouterView :key="$route.fullPath" />
+    <RouterView />
   </div>
   <KOffline v-else />
 </template>

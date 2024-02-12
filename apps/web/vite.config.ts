@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import vue from '@vitejs/plugin-vue2';
 import autoprefixer from 'autoprefixer';
 import tailwindcss from 'tailwindcss';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig, loadEnv, splitVendorChunkPlugin } from 'vite';
 
 import packageJson from './package.json';
 
@@ -48,6 +48,6 @@ export default defineConfig(({ mode }) => {
         plugins: [tailwindcss, autoprefixer],
       },
     },
-    plugins: [vue(), htmlPlugin(htmlTitle)],
+    plugins: [vue(), htmlPlugin(htmlTitle), splitVendorChunkPlugin()],
   };
 });

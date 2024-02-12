@@ -4,11 +4,11 @@ import {
   Metadata,
   HumidityMeasurement,
   TemperatureMeasurement,
-} from "kuzzle-device-manager";
+} from 'kuzzle-device-manager';
 
-import { CO2Measurement } from "./CO2Measurement";
-import { IlluminanceMeasurement } from "./IlluminanceMeasurement";
-import { AirlyDecoder } from "./AirlyDecoder";
+import { CO2Measurement } from './CO2Measurement';
+import { IlluminanceMeasurement } from './IlluminanceMeasurement';
+import { AirlyDecoder } from './AirlyDecoder';
 
 /**
  * Type representing the metadata of a "Airly" device.
@@ -39,18 +39,17 @@ export type AbeewayMeasurements = {
  *
  * This is optional and can be omitted if you don't want strong typing
  */
-export interface AirlyDeviceContent
-  extends DeviceContent<AbeewayMeasurements, AirlyMetadata> {
-  model: "Airly";
+export interface AirlyDeviceContent extends DeviceContent<AbeewayMeasurements, AirlyMetadata> {
+  model: 'Airly';
 }
 
 export const AirlyDeviceDefinition: DeviceModelDefinition = {
   decoder: new AirlyDecoder(),
   defaultMetadata: {
-    trackerType: "Embedded",
+    trackerType: 'Embedded',
   },
   metadataMappings: {
-    trackerType: { type: "keyword" },
-    serialNumber: { type: "keyword" },
+    trackerType: { type: 'keyword' },
+    serialNumber: { type: 'keyword' },
   },
 };

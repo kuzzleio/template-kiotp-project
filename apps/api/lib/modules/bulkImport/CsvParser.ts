@@ -1,10 +1,8 @@
-import { JSONObject } from "kuzzle";
+import { JSONObject } from 'kuzzle';
 
 export function parseCsv(content: string): JSONObject {
-  const lineBreakerUsed = content.includes("\r\n") ? "\r\n" : "\n";
-  const lines = content
-    .split(lineBreakerUsed)
-    .filter((line) => line.length > 0);
+  const lineBreakerUsed = content.includes('\r\n') ? '\r\n' : '\n';
+  const lines = content.split(lineBreakerUsed).filter((line) => line.length > 0);
   const data: JSONObject[] = [];
   const headers = parseRow(lines[0]);
 
@@ -12,7 +10,7 @@ export function parseCsv(content: string): JSONObject {
     const line = lines[i];
     const row = parseRow(line);
     if (row.length !== headers.length) {
-      throw new Error("Invalid CSV file");
+      throw new Error('Invalid CSV file');
     }
     const object: JSONObject = {};
     for (let j = 0; j < headers.length; j++) {
@@ -29,7 +27,7 @@ const parseRow = (line: string): string[] => {
   const row: string[] = [];
   const characters: string[] = [];
   let insideQuote = false;
-  let quoteType = "";
+  let quoteType = '';
 
   for (let i = 0; i < line.length; i++) {
     const char = line[i];
@@ -46,19 +44,19 @@ const parseRow = (line: string): string[] => {
       }
     }
 
-    if (char === "," && !insideQuote) {
-      row.push(characters.join(""));
+    if (char === ',' && !insideQuote) {
+      row.push(characters.join(''));
       characters.length = 0;
       continue;
     }
 
-    if ((char === " " || char === "\t") && !insideQuote) {
+    if ((char === ' ' || char === '\t') && !insideQuote) {
       continue;
     }
 
     characters.push(char);
   }
 
-  row.push(characters.join(""));
+  row.push(characters.join(''));
   return row;
 };

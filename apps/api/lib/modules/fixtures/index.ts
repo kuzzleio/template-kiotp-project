@@ -1,1 +1,1 @@
-export * from "./FixturesModule";
+export * from './FixturesModule';

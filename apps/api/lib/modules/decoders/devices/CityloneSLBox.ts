@@ -3,8 +3,8 @@ import {
   DeviceModelDefinition,
   Metadata,
   BatteryMeasurement,
-} from "kuzzle-device-manager";
-import { CityloneSLBoxDecoder } from "./CityloneSLBoxDecoder";
+} from 'kuzzle-device-manager';
+import { CityloneSLBoxDecoder } from './CityloneSLBoxDecoder';
 
 /**
  * Type representing the metadata of a "CityloneSLBox" device.
@@ -34,16 +34,16 @@ export type CityloneSLBoxMeasurements = {
  */
 export interface CityloneSLBoxDeviceContent
   extends DeviceContent<CityloneSLBoxMeasurements, CityloneSLBoxMetadata> {
-  model: "CityloneSLBox";
+  model: 'CityloneSLBox';
 }
 
 export const CityloneSLBoxDeviceDefinition: DeviceModelDefinition = {
   decoder: new CityloneSLBoxDecoder(),
   defaultMetadata: {
-    trackerType: "Embedded",
+    trackerType: 'Embedded',
   },
   metadataMappings: {
-    trackerType: { type: "keyword" },
-    serialNumber: { type: "keyword" },
+    trackerType: { type: 'keyword' },
+    serialNumber: { type: 'keyword' },
   },
 };

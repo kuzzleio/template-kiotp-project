@@ -29,7 +29,12 @@
                   {{ paragraph }}
                 </p>
               </div>
-              <RouterLink :to="{ name: 'asset-details', params: { assetId: marker._id } }">
+              <RouterLink
+                :to="{
+                  name: 'asset-details',
+                  params: { assetId: marker._id, activeTab: 'general-info' },
+                }"
+              >
                 {{ $t('locales.widget.common.see-asset') }}
               </RouterLink>
             </LPopup>
@@ -79,6 +84,13 @@ interface StatusMapWidgetProps {
   engineIndex: string;
 }
 const props = defineProps<StatusMapWidgetProps>();
+
+// Emits
+interface EmitTypes {
+  (name: 'loading'): void;
+  (name: 'loaded'): void;
+}
+const emit = defineEmits<EmitTypes>();
 
 // Composables
 const $i18n = useI18n();
@@ -167,6 +179,7 @@ const positionMarkers = computed(() => {
 
 // Hooks
 onMounted(() => {
+  emit('loading');
   void fetchAssets();
 
   initMapSequence();
@@ -199,6 +212,8 @@ async function fetchAssets(): Promise<void> {
   const assetsWithPosition = hits.filter((device) => device._source.measures.position != null);
 
   assets.value = assetsWithPosition;
+
+  emit('loaded');
 }
 
 function initMapSequence(): void {

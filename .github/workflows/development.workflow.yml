@@ -20,8 +20,10 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Login to PaaS NPM registry
-        uses: kuzzleio/paas-action@v0.7.3
+        uses: kuzzleio/paas-action@v1.0.3
         with:
+          paas_api: https://console.paas-local.kuzzle.io
+          paas_packages: packages.paas.kuzzle.io
           username: ${{ secrets.CORE_TEAM_PAAS_USERNAME }}
           password: ${{ secrets.CORE_TEAM_PAAS_PASSWORD }}
           login_only: true
@@ -47,8 +49,10 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Login to PaaS NPM registry
-        uses: kuzzleio/paas-action@v0.7.3
+        uses: kuzzleio/paas-action@v1.0.3
         with:
+          paas_api: https://console.paas-local.kuzzle.io
+          paas_packages: packages.paas.kuzzle.io
           username: ${{ secrets.CORE_TEAM_PAAS_USERNAME }}
           password: ${{ secrets.CORE_TEAM_PAAS_PASSWORD }}
           login_only: true

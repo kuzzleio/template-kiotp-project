@@ -1,9 +1,9 @@
-import { MeasureDefinition } from "kuzzle-device-manager";
+import { MeasureDefinition } from 'kuzzle-device-manager';
 
 export type IlluminanceMeasurement = {
   illuminance: number;
 };
 
 export const illuminanceMeasureDefinition: MeasureDefinition = {
-  valuesMappings: { illuminance: { type: "float" } },
+  valuesMappings: { illuminance: { type: 'float' } },
 };
