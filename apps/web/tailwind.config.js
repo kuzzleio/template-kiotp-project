@@ -4,7 +4,7 @@ import config from '@kuzzleio/iot-platform-frontend/tailwind.config.js';
 export default {
   ...config,
   content: [
+     require.resolve('@kuzzleio/iot-platform-frontend/dist/iot-platform-frontend.es.js'),
     './src/**/*.{vue,js,ts,jsx,tsx}',
-    '../../packages/frontend/src/**/*.{vue,js,ts,jsx,tsx}',
   ],
 };

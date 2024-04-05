@@ -59,25 +59,5 @@ export class IoTApplication extends Backend {
     }
 
     this.log.info('Application started');
-
-    await this.createPlatformScheduler();
-  }
-
-  private async createPlatformScheduler() {
-    const { result } = await this.sdk.query({
-      controller: 'scheduler/engine',
-      action: 'exists',
-      index: 'platform',
-      group: 'platform',
-    });
-
-    const action = result.exists ? 'update' : 'create';
-
-    await this.sdk.query({
-      controller: 'scheduler/engine',
-      action,
-      index: 'platform',
-      group: 'platform',
-    });
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "kiotp-demo-api",
+  "name": "template-iot-api",
   "version": "0.0.0",
   "description": "",
   "author": "",
@@ -22,7 +22,7 @@
   "main": "app.ts",
   "license": "Apache-2.0",
   "dependencies": {
-    "@kuzzleio/iot-platform-backend": "3.1.0-beta.31",
+    "@kuzzleio/iot-platform-backend": "3.1.0-beta.41",
     "kuzzle": "^2",
     "lodash": "^4.17.21"
   },

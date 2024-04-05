@@ -8,13 +8,15 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
+    "dev:web": "npm --workspace ./apps/web run dev",
+    "dev:api": "npm --workspace ./apps/api run dev",
     "test:lint": "turbo run test:lint",
     "test:functional": "turbo run test:functional"
   },
   "devDependencies": {
     "eslint": "8.50.0",
     "eslint-plugin-kuzzle": "0.0.12",
-    "prettier": "2.8.8",
+    "prettier": "^3.0.1",
     "turbo": "latest"
   },
   "engines": {

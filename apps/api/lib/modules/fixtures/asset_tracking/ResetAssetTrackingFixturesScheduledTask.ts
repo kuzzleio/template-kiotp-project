@@ -1,20 +1,26 @@
-import { ScheduledTask, ScheduledTaskContent } from '@kuzzleio/iot-platform-backend/node_modules/@kuzzleio/scheduler';
+import { Workflow, WorkflowContent } from '@kuzzleio/plugin-workflows';
 
-const taskContent: ScheduledTaskContent = {
+const content: WorkflowContent = {
   name: 'reset-asset-tracking-fixtures',
-  action: {
-    type: 'api',
-    request: {
-      controller: 'fixtures',
-      action: 'reset',
-      tenant: 'asset_tracking',
+  description: 'Reset asset tracking fixtures every day at 4am',
+  payloadPath: '.',
+  trigger: {
+    type: 'scheduler',
+    schedule: {
+      syntax: 'cron',
+      value: '0 4 30 * *',
     },
   },
-  description: 'Reset asset tracking fixtures every day at 4am',
-  schedule: {
-    syntax: 'cron',
-    value: '0 4 30 * *',
-  },
+  actions: [
+    {
+      type: 'api',
+      request: {
+        controller: 'fixtures',
+        action: 'reset',
+        tenant: 'asset_tracking',
+      },
+    },
+  ],
 };
 
-export const resetAssetTrackingFixturesScheduledTask = new ScheduledTask(taskContent);
+export const resetAssetTrackingFixturesScheduledTask = new Workflow(content);

@@ -1,4 +1,4 @@
-import { SchedulerPlugin } from '@kuzzleio/iot-platform-backend/node_modules/@kuzzleio/scheduler';
+import { WorkflowsPlugin } from '@kuzzleio/plugin-workflows';
 
 import { Module } from '../shared';
 
@@ -8,14 +8,11 @@ import { FixturesController } from './FixturesController';
 
 export class FixturesModule extends Module {
   register(): void {
-    const schedulerPlugin = this.app.plugin.get<SchedulerPlugin>('scheduler');
+    const workflows = this.app.plugin.get<WorkflowsPlugin>('workflows');
 
-    schedulerPlugin.registerEngineTask(resetAirQualityFixturesScheduledTask, {
-      group: 'platform',
-    });
-    schedulerPlugin.registerEngineTask(resetAssetTrackingFixturesScheduledTask, {
-      group: 'platform',
-    });
+    workflows.registerDefaultWorkflow(resetAirQualityFixturesScheduledTask);
+    workflows.registerDefaultWorkflow(resetAssetTrackingFixturesScheduledTask);
+
     this.app.controller.use(new FixturesController(this.app));
   }
 }
