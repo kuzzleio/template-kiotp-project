@@ -72,7 +72,7 @@ export default {
     collection: 'config',
   },
   authentication: {
-    type: 'keycloak',
+    type: 'local',
     clientConfig: {
       authority: 'https://sso.paas.kuzzle.io/realms/<projectName>',
       client_id: 'kiotp-front',

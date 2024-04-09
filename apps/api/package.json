@@ -14,15 +14,12 @@
     "test:lint:fix": "npm run test:lint -- --fix",
     "test:types": "tsc --noEmit -p tsconfig.test.json",
     "test:functional": "jest --runInBand --detectOpenHandles --forceExit",
-    "ci:types": "tsc --version && npm run test:types",
-    "fixtures": "npm run fixtures:asset_tracking && npm run fixtures:air_quality",
-    "fixtures:asset_tracking": "kourou fixtures:load -a tenant=asset_tracking",
-    "fixtures:air_quality": "kourou fixtures:load -a tenant=air_quality"
+    "ci:types": "tsc --version && npm run test:types"
   },
   "main": "app.ts",
   "license": "Apache-2.0",
   "dependencies": {
-    "@kuzzleio/iot-platform-backend": "3.1.0-beta.41",
+    "@kuzzleio/iot-platform-backend": "3.1.0-beta.43",
     "kuzzle": "^2",
     "lodash": "^4.17.21"
   },

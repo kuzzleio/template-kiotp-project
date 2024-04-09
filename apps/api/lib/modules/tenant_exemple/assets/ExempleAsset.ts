@@ -6,21 +6,20 @@ import {
   TemperatureMeasurement,
 } from 'kuzzle-device-manager';
 
-import { CO2Measurement } from '../devices/CO2Measurement';
-import { IlluminanceMeasurement } from '../devices/IlluminanceMeasurement';
+export const assetModelName = 'ExempleAsset';
 
 /**
  * Type representing the metadata of a "Room" asset.
  *
  * This is optional and can be omitted if you don't want strong typing
  */
-export interface RoomMetadata extends Metadata {
-  buildingName: string;
+export interface ExempleAssetMetadata extends Metadata {
+  aStringMetadata: string;
   position: {
     lat: number;
     lon: number;
   };
-  roomName: string;
+  aNumberMetadata: number;
 }
 
 /**
@@ -28,11 +27,9 @@ export interface RoomMetadata extends Metadata {
  *
  * This is optional and can be omitted if you don't want strong typing
  */
-export type RoomMeasurements = {
+export type ExempleAssetMeasurements = {
   temperature: TemperatureMeasurement;
   humidity: HumidityMeasurement;
-  co2: CO2Measurement;
-  illuminance: IlluminanceMeasurement;
 };
 
 /**
@@ -42,15 +39,16 @@ export type RoomMeasurements = {
  *
  * This is optional and can be omitted if you don't want strong typing
  */
-export interface RoomAssetContent extends AssetContent<RoomMeasurements, RoomMetadata> {
-  model: 'Room';
+export interface ExempleAssetContent
+  extends AssetContent<ExempleAssetMeasurements, ExempleAssetMetadata> {
+  model: 'ExempleAsset';
 }
 
 /**
  * Asset definition used by the plugin to create associated ressources
  * and updates mappings.
  */
-export const roomAssetDefinition: AssetModelDefinition = {
+export const exempleAssetDefinition: AssetModelDefinition = {
   defaultMetadata: {},
   measures: [
     {
@@ -61,17 +59,10 @@ export const roomAssetDefinition: AssetModelDefinition = {
       name: 'humidity',
       type: 'humidity',
     },
-    {
-      name: 'co2',
-      type: 'co2',
-    },
-    {
-      name: 'illuminance',
-      type: 'illuminance',
-    },
   ],
   metadataMappings: {
-    floor: { type: 'integer' },
-    width: { type: 'float' },
+    aStringMetadata: { type: 'keyword' },
+    position: { type: 'geo_point' },
+    aNumberMetadata: { type: 'float' },
   },
 };
