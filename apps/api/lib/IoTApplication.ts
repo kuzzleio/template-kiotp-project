@@ -8,6 +8,8 @@ import { Backend } from 'kuzzle';
 import { BulkImportModule } from './modules/bulkImport/BulkImportModule';
 import { registerExempleTenant } from './modules/tenant_exemple';
 import { Module } from './modules/shared';
+import { DevicesModule } from './modules/devices';
+import { MeasuresModule } from './modules/measures/MeasuresModule';
 
 export type IoTApplicationConfig = {
   someValue: string;
@@ -32,6 +34,9 @@ export class IoTApplication extends Backend {
     this.kiotpModules = registerKIoTP(this);
 
     this.modules.push(new BulkImportModule(this));
+
+    this.modules.push(new MeasuresModule(this));
+    this.modules.push(new DevicesModule(this));
 
     this.config.content.plugins['kuzzle-plugin-logger'].services.stdout.level = 'debug';
 
