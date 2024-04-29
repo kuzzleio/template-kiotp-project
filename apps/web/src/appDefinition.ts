@@ -10,7 +10,6 @@ import {
 import BulkImport from '~/views/bulkImport/BulkImport.vue';
 import SampleWidget from '~/widgets/sample-widget/SampleWidget.vue';
 import SampleWidgetForm from '~/widgets/sample-widget/SampleWidgetForm.vue';
-// import CatalogList from '~/views/catalog/CatalogList.vue';
 
 const admin = IoTPlatformChunks.find((chunk) => chunk.name === 'admin');
 if (admin?.children !== undefined) {
@@ -44,30 +43,14 @@ if (admin?.children !== undefined) {
 
 export const appDefinitions: AppChunk[] = [
   ...IoTPlatformChunks,
-  // {
-  //   name: 'catalog',
-  //   label: 'locales.sidebar.catalog',
-  //   icon: faBookmark,
-  //   vuejsRoute: {
-  //     path: '/catalog',
-  //     component: KRouteWrapper,
-  //     children: [
-  //       {
-  //         path: '',
-  //         name: 'catalog',
-  //         component: CatalogList,
-  //       },
-  //     ],
-  //   },
-  // },
 ];
 
 export const dashboardWidgets: DashboardWidget[] = [
   {
-    name: 'pie',
-    label: 'locales.widget.pie.label',
+    name: 'sample-widget',
+    label: 'My Sample Widget', // TODO : i18n
     component: SampleWidget,
     formComponent:SampleWidgetForm,
-    icon: 'chart-pie',
+    icon: 'face-meh',
   },
 ];
