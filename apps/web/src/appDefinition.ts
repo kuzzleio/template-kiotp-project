@@ -8,13 +8,9 @@ import {
 } from '@kuzzleio/iot-platform-frontend';
 
 import BulkImport from '~/views/bulkImport/BulkImport.vue';
-import CatalogList from '~/views/catalog/CatalogList.vue';
-import LevelWidget from '~/widgets/level-widget/LevelWidget.vue';
-import LevelWidgetForm from '~/widgets/level-widget/LevelWidgetForm.vue';
-import OnOffWidget from '~/widgets/on-off-widget/OnOffWidget.vue';
-import OnOffWidgetForm from '~/widgets/on-off-widget/OnOffWidgetForm.vue';
-import StatusMapWidget from '~/widgets/statusMap-widget/StatusMapWidget.vue';
-import StatusMapWidgetForm from '~/widgets/statusMap-widget/StatusMapWidgetForm.vue';
+import SampleWidget from '~/widgets/sample-widget/SampleWidget.vue';
+import SampleWidgetForm from '~/widgets/sample-widget/SampleWidgetForm.vue';
+// import CatalogList from '~/views/catalog/CatalogList.vue';
 
 const admin = IoTPlatformChunks.find((chunk) => chunk.name === 'admin');
 if (admin?.children !== undefined) {
@@ -48,45 +44,30 @@ if (admin?.children !== undefined) {
 
 export const appDefinitions: AppChunk[] = [
   ...IoTPlatformChunks,
-  {
-    name: 'catalog',
-    label: 'locales.sidebar.catalog',
-    icon: faBookmark,
-    vuejsRoute: {
-      path: '/catalog',
-      component: KRouteWrapper,
-      children: [
-        {
-          path: '',
-          name: 'catalog',
-          component: CatalogList,
-        },
-      ],
-    },
-  },
+  // {
+  //   name: 'catalog',
+  //   label: 'locales.sidebar.catalog',
+  //   icon: faBookmark,
+  //   vuejsRoute: {
+  //     path: '/catalog',
+  //     component: KRouteWrapper,
+  //     children: [
+  //       {
+  //         path: '',
+  //         name: 'catalog',
+  //         component: CatalogList,
+  //       },
+  //     ],
+  //   },
+  // },
 ];
 
 export const dashboardWidgets: DashboardWidget[] = [
-  // Public Lighting
   {
-    name: 'statusMap',
-    label: 'locales.widget.status-map.label',
-    component: StatusMapWidget,
-    formComponent: StatusMapWidgetForm,
-    icon: 'map',
-  },
-  {
-    name: 'light-level',
-    label: 'locales.widget.level.label',
-    component: LevelWidget,
-    formComponent: LevelWidgetForm,
-    icon: 'sun',
-  },
-  {
-    name: 'on-off',
-    label: 'locales.widget.on-off.label',
-    component: OnOffWidget,
-    formComponent: OnOffWidgetForm,
-    icon: 'toggle-on',
+    name: 'pie',
+    label: 'locales.widget.pie.label',
+    component: SampleWidget,
+    formComponent:SampleWidgetForm,
+    icon: 'chart-pie',
   },
 ];

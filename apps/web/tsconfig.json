@@ -31,21 +31,18 @@
     // Default true when target are higher than `ES2022` (include ESnext)
     "useDefineForClassFields": true,
     "allowSyntheticDefaultImports": true,
-  
+
     /* Paths */
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "~/*": ["./src/*"],
-      "@/*": ["../../packages/frontend/src/*"]
+      "~/*": ["./src/*"]
     }
   },
   "include": [
     "vite.config.ts",
     "./src/**/*.ts",
-    "./src/**/*.vue",
-    "../../packages/frontend/src/**/*.ts",
-    "../../packages/frontend/src/**/*.vue"
+    "./src/**/*.vue"
   ],
   "exclude": ["node_modules"]
 }
