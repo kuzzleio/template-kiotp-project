@@ -68,7 +68,6 @@ const data = ref<Array<{ [x: string]: number }>>([]);
 // Hooks
 onMounted(async () => {
   emit('loading');
-  console.log('onmounted!!!!!');
 
   await fetchData();
 
