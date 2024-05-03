@@ -20,9 +20,9 @@
 </template>
 
 <script setup lang="ts">
-import { BFormSelect, BFormSelectOption, BRow, BCol, BFormInput, BButton } from 'bootstrap-vue';
 import { reactive } from 'vue';
 import cloneDeep from 'lodash/cloneDeep';
+
 // Types
 import { SampleWidgetSettingsType } from './SampleWidgetSettings';
 export interface SampleWidgetFormProps {
@@ -45,7 +45,6 @@ const widgetSettings = reactive(cloneDeep(props.editedWidgetSettings));
 // Emits
 type EmitTypes = (name: 'change', widgetSettings: SampleWidgetSettingsType) => void;
 const emit = defineEmits<EmitTypes>();
-
 
 function emitChange(): void {
   emit('change', widgetSettings);

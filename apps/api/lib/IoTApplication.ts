@@ -5,11 +5,11 @@ import {
 } from '@kuzzleio/iot-platform-backend';
 import { Backend } from 'kuzzle';
 
-import { BulkImportModule } from './modules/bulkImport/BulkImportModule';
 import { registerExempleTenant } from './modules/tenant_exemple';
 import { Module } from './modules/shared';
 import { DevicesModule } from './modules/devices';
 import { MeasuresModule } from './modules/measures/MeasuresModule';
+import { WorkflowsModule } from './modules/workflows';
 
 export type IoTApplicationConfig = {
   someValue: string;
@@ -31,18 +31,25 @@ export class IoTApplication extends Backend {
       this.log.error(error);
     });
 
+    // this.config.content.plugins['kuzzle-plugin-logger'].services.stdout.level = 'debug';
+
     this.kiotpModules = registerKIoTP(this);
 
-    this.modules.push(new BulkImportModule(this));
-
-    this.modules.push(new MeasuresModule(this));
-    this.modules.push(new DevicesModule(this));
-
-    this.config.content.plugins['kuzzle-plugin-logger'].services.stdout.level = 'debug';
+    // Register custom modules here
+    this.modules.push(new MeasuresModule(this)); // Register the measures models for your application
+    this.modules.push(new DevicesModule(this)); // Register the devices models and decoders for your application
+    this.modules.push(new WorkflowsModule(this)); // Register the  Workflows, Tasks, Predicates for your application
 
     for (const module of this.modules) {
       module.register();
     }
+
+    // Register the exemple tenant that will be used to demonstrate the application
+    // It defines a tenant with :
+    // * custom asset model,
+    // * custom roles, profiles, and policies,
+    // * additionnal data collections
+
     registerExempleTenant(this);
   }
 
