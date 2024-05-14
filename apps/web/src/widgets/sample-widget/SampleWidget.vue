@@ -71,13 +71,7 @@ const data = ref<Array<{ [x: string]: number }>>([]);
 // Hooks
 onMounted(async () => {
   emit('loading');
-
   await fetchData();
-
-  // kuzzle search avec props buckettingField
-  // charger les données dans un chartjs
-  // update front
-
   emit('loaded');
 });
 
