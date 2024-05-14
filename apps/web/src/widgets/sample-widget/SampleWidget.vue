@@ -20,7 +20,7 @@
 import { computed, onMounted, ref } from 'vue';
 // Use I18N to translate your widget texts
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { useKuzzle, useI18n, KTable, KTableHeader } from '@kuzzleio/iot-platform-frontend';
+import { useKuzzle, useI18n, useToast, KTable, KTableHeader } from '@kuzzleio/iot-platform-frontend';
 import type { AssetContent } from 'kuzzle-device-manager-types';
 
 // Types
@@ -69,10 +69,11 @@ const data = ref<Array<{ [x: string]: number }>>([]);
 // Computeds
 
 // Hooks
-onMounted(async () => {
+onMounted(() => {
   emit('loading');
-  await fetchData();
-  emit('loaded');
+  fetchData().catch((e) => {
+    useToast().showError('An error occurred while fetching data');
+  });
 });
 
 // Functions
