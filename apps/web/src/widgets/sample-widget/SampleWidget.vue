@@ -18,6 +18,8 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue';
+// Use I18N to translate your widget texts
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useKuzzle, useI18n, KTable, KTableHeader } from '@kuzzleio/iot-platform-frontend';
 import type { AssetContent } from 'kuzzle-device-manager-types';
 
@@ -37,6 +39,7 @@ const props = defineProps<SampleWidgetProps>();
 const headers = computed<KTableHeader[]>(() => [
   {
     key: 'name',
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     label: props.widgetSettings?.buckettingField || '--', // $i18n.t('locales.notifications.list.notificationName'),
     sortable: true,
   },
