@@ -19,9 +19,9 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue';
 // Use I18N to translate your widget texts
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {
   useKuzzle,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   useI18n,
   useToast,
   KTable,
