@@ -20,13 +20,13 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Login to PaaS NPM registry
-        uses: kuzzleio/paas-action@v1.0.3
+        uses: kuzzleio/paas-action@v1.1.0
         with:
           username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
           password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
           login_only: true
           npmrc_output_dir: ./
-      
+
       - name: Copy NPMRC
         run: cp .npmrc ~/.npmrc
 
@@ -47,7 +47,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Login to PaaS NPM registry
-        uses: kuzzleio/paas-action@v1.0.3
+        uses: kuzzleio/paas-action@v1.1.0
         with:
           username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
           password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
