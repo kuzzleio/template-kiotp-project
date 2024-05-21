@@ -2,7 +2,7 @@ import { WorkflowsPlugin } from '@kuzzleio/plugin-workflows';
 import { SampleLogTask } from './SampleLogTask';
 import { sampleEventWorkflow } from './SampleEventWorkflow';
 import { sampleNotificationWorkflow } from './SampleNotificationWorkflow';
-import { sampleScheduledWorkflow } from './SampleSchudledWorkflow';
+import { sampleScheduledWorkflow } from './SampleScheduledWorkflow';
 
 import { Module } from '../shared';
 
