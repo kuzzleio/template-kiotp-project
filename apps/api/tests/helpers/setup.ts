@@ -5,6 +5,7 @@ export function setupHooks() {
 
   beforeAll(async () => {
     await sdk.connect();
+    await sdk.auth.login('local', { username: 'test-admin', password: 'password' });
   });
 
   afterAll(async () => {

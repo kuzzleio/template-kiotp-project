@@ -2,14 +2,15 @@ import { DeviceContent } from 'kuzzle-device-manager';
 
 import { setupHooks, truncateCollection } from '../../helpers';
 
-describe('ExampleDecoder', () => {
+describe('SampleDeviceDecoder', () => {
   const sdk = setupHooks();
 
   beforeEach(async () => {
     await truncateCollection('platform', 'devices');
+
   });
 
-  it('should be ok', async () => {
+  it('should ba able to auto-provision and decode sample payload', async () => {
     await sdk.query({
       controller: 'device-manager/payloads',
       action: 'sample-device',
