@@ -7,7 +7,6 @@ describe('SampleDeviceDecoder', () => {
 
   beforeEach(async () => {
     await truncateCollection('platform', 'devices');
-
   });
 
   it('should ba able to auto-provision and decode sample payload', async () => {
