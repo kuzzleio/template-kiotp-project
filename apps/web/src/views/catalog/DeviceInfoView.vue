@@ -12,7 +12,7 @@
             <p class="tw-font-bold">{{ $i18n.t('locales.catalog.manufacturer') }}</p>
             <span>{{ currentItem.manufacturer }}</span>
           </div>
-          <div class="mt-1">
+          <div class="tw-mt-1">
             <p class="tw-font-bold">{{ $i18n.t('locales.catalog.reference') }}</p>
             <span>{{ currentItem.reference }}</span>
           </div>
@@ -51,8 +51,8 @@
               <FontAwesomeIcon :icon="['fas', 'link-slash']" size="xs" />
             </span>
           </div>
-          <div class="mt-1">
-            <p class="mt-2 tw-font-bold">{{ $i18n.t('locales.catalog.datasheet') }}</p>
+          <div class="tw-mt-1">
+            <p class="tw-mt-2 tw-font-bold">{{ $i18n.t('locales.catalog.datasheet') }}</p>
             <a
               v-if="currentItem.datasheet.length > 0"
               :href="currentItem.datasheet"

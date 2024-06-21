@@ -1,8 +1,11 @@
 <template>
-  <KModal v-model="isOpen" :title="$i18n.t('locales.devices.modals.create')" @submit="onSubmit">
-    <p
-      class="tw-mb-2 tw-flex tw-items-center tw-justify-center tw-p-2 tw-text-base tw-text-secondary-light"
-    >
+  <KModal
+    v-model="isOpen"
+    modal-class="tw-max-w-[40%]"
+    :title="$i18n.t('locales.devices.modals.create')"
+    @submit="onSubmit"
+  >
+    <p class="tw-mb-2 tw-p-2 tw-text-base tw-text-secondary-light">
       {{ $i18n.t('locales.devices.modals.createDescription') }}
     </p>
 
@@ -35,27 +38,26 @@
           required
         />
       </KFormField>
-
-      <!-- INPUT -->
-
-      <div v-if="isBusy" class="Modal-loader">
-        <div class="Modal-loaderContainer">
-          <div class="my-2 text-center text-danger">
-            <BSpinner class="align-middle" />
-            <strong>{{ $i18n.t('common.loading') }}</strong>
-          </div>
-        </div>
-      </div>
     </KForm>
+
+    <KLoader v-if="isLoading" class="tw-rounded-lg" background />
   </KModal>
 </template>
 
 <script lang="ts" setup>
 import { computed, onMounted, ref, watch } from 'vue';
-import { useKuzzle, useRights, useToast, useI18n, KModal, KForm, KFormField } from '@kuzzleio/iot-platform-frontend';
+import {
+  useKuzzle,
+  useRights,
+  useToast,
+  useI18n,
+  KLoader,
+  KModal,
+  KForm,
+  KFormField,
+} from '@kuzzleio/iot-platform-frontend';
 import { ValidationArgs, useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import { BSpinner } from 'bootstrap-vue';
 import type {
   ApiDeviceCreateRequest,
   ApiDeviceCreateResult,
@@ -63,7 +65,6 @@ import type {
   ApiModelListDevicesResult,
 } from 'kuzzle-device-manager-types';
 import { useRouter } from 'vue-router/composables';
-
 
 // Types
 export interface DeviceFields {
@@ -112,7 +113,6 @@ const { canUpdateDevice } = useRights(props.currentIndex);
 // Refs
 const isLoading = ref(false);
 const form = ref<DeviceFields>({ ...formFields });
-const isBusy = ref(false);
 const model = ref<string>();
 const deviceModels = ref<string[]>([]);
 
@@ -184,7 +184,6 @@ async function onSubmit(): Promise<void> {
   }
   try {
     isLoading.value = true;
-    isBusy.value = true;
 
     const { result: device } = await $kuzzle.query<ApiDeviceCreateRequest, ApiDeviceCreateResult>({
       controller: 'device-manager/devices',
@@ -201,7 +200,7 @@ async function onSubmit(): Promise<void> {
     console.error(error);
     $toast.showError((error as Error).message);
   } finally {
-    isBusy.value = false;
+    isLoading.value = false;
     resetForm();
     closeModal();
   }

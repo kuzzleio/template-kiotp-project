@@ -1,8 +1,6 @@
 <template>
-  <div class="position-relative p-2 h-100 d-flex flex-column justify-content-between">
-    <Loader :load="load" />
-
-    <h5 class="text-center">
+  <div class="tw-relative tw-p-2 tw-h-full tw-flex tw-flex-col tw-justify-between">
+    <h5 class="tw-text-center">
       {{ $i18n.t('locales.widget.scheduler.title') }}
     </h5>
 
@@ -21,7 +19,7 @@
     </BFormSelect>
 
     <!-- Dropdown driver -->
-    <div class="py-2">
+    <div class="tw-py-2">
       <label for="lamp-driver">
         {{ $i18n.t('locales.widget.common.chooseDriver') }}
       </label>
@@ -38,7 +36,7 @@
     </div>
 
     <!-- Min/Max level -->
-    <BRow class="py-2">
+    <BRow class="tw-py-2">
       <BCol sm="6" role="group">
         <label for="min-level">
           {{ $i18n.t('locales.widget.common.minLevel') }}
@@ -54,15 +52,15 @@
     </BRow>
 
     <!-- Period Mode -->
-    <div class="py-2">
+    <div class="tw-py-2">
       <label class="label-timepicker">
         {{ $i18n.t('locales.widget.scheduler.chooseMode') }}
       </label>
-      <div class="d-flex">
+      <div class="tw-flex">
         <BFormRadioGroup
           v-model="modeState"
           :options="localModes"
-          class="w-100"
+          class="tw-w-full"
           button-variant="outline-primary"
           size="lg"
           buttons
@@ -71,36 +69,39 @@
       </div>
     </div>
 
-    <div class="py-2">
+    <div class="tw-py-2">
       <!-- Repeat mode -->
       <BFormCheckbox v-if="modeState === modes.single" v-model="repeatMode">
         {{ $i18n.t('locales.widget.scheduler.repeat') }}
       </BFormCheckbox>
       <!-- Week Days -->
-      <BButonGroup v-else-if="modeState === modes.daily" class="d-flex flex-wrap">
+      <BButonGroup v-else-if="modeState === modes.daily" class="tw-flex tw-flex-wrap">
         <!-- Having 2 arrays is the only workaround to update localization but keep states -->
-        <BButton
+        <KButton
           v-for="(day, idx) in localeDays"
           :key="idx"
-          :pressed.sync="daysState[idx]"
-          class="p-2 m-1"
-          squared
+          class="tw-p-2 tw-m-1"
+          :class="{
+            'tw-bg-primary': daysState[idx],
+            'tw-bg-secondary-light tw-border-secondary-light': !daysState[idx],
+          }"
+          @click="toggleDay(idx)"
         >
           {{ day }}
-        </BButton>
+        </KButton>
       </BButonGroup>
     </div>
 
-    <BRow class="py-2">
+    <BRow class="tw-py-2">
       <BCol sm="6" role="group">
         <label class="label-timepicker">
           {{ $i18n.t('locales.widget.scheduler.start') }}
         </label>
-        <div class="d-flex flex-column align-items-center">
+        <div class="tw-flex tw-flex-col tw-items-center">
           <BCalendar v-model="startDate" />
           <BFormTimepicker
             v-model="startTime"
-            class="my-2"
+            class="tw-my-2"
             locale="fr"
             :label-no-time-selected="$i18n.t('locales.widget.common.no-time')"
           />
@@ -110,11 +111,11 @@
         <label class="label-timepicker">
           {{ $i18n.t('locales.widget.scheduler.end') }}
         </label>
-        <div class="d-flex flex-column align-items-center">
+        <div class="tw-flex tw-flex-col tw-items-center">
           <BCalendar v-model="endDate" />
           <BFormTimepicker
             v-model="endTime"
-            class="my-2"
+            class="tw-my-2"
             locale="fr"
             :label-no-time-selected="$i18n.t('locales.widget.common.no-time')"
           />
@@ -123,22 +124,22 @@
     </BRow>
 
     <!-- Send Button -->
-    <BButton variant="primary" :disabled="!isValid(modeState)" @click="send">
-      <span class="h4">{{ $i18n.t('locales.widget.common.send') }}</span>
-    </BButton>
+    <KButton variant="primary" :disabled="!isValid(modeState)" @click="send">
+      <span class="tw-font-bold">{{ $i18n.t('locales.widget.common.send') }}</span>
+    </KButton>
+
+    <KLoader v-if="load" class="tw-z-[1]" background />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
-import { useI18n } from '@kuzzleio/iot-platform-frontend';
+import { computed, ref, set } from 'vue';
+import { useI18n, KLoader, KButton } from '@kuzzleio/iot-platform-frontend';
 
 import { useLamp } from '~/composables/useLamp';
 import timePickerToDate from '~/helpers/timePickerToDate';
 import { LightingScheduler } from '~/types/LightingPayload';
 import { WidgetSettingsType } from '~/types/WidgetProps';
-
-import Loader from '~/components/shared/Loader.vue';
 
 const modes = {
   single: 0,
@@ -151,7 +152,7 @@ type ModeState = (typeof modes)[keyof typeof modes];
 interface LevelWidgetProps {
   widgetSettings: WidgetSettingsType;
   widgetHeight: number;
-  widgetWidth: string;
+  widgetWidth: number;
   engineIndex: string;
 }
 const props = defineProps<LevelWidgetProps>();
@@ -212,6 +213,10 @@ const activeWDay = computed(() => {
 });
 
 // Functions
+function toggleDay(idx: number): void {
+  set(daysState.value, idx, !daysState.value[idx]);
+}
+
 function isValid(mode: ModeState): boolean {
   if (currentStreetlamp.value === null) {
     return false;

@@ -1,5 +1,5 @@
 <template>
-  <div class="text-left h-100">
+  <div class="tw-h-full">
     <div class="status-map-widget">
       <LMap ref="map" :center="center" :zoom="zoom" :options="options" @ready="resizeMap()">
         <LControlScale position="bottomleft" :imperial="false" />
@@ -23,9 +23,9 @@
             :name="marker.label"
           >
             <LPopup>
-              <h6 class="font-weight-bold">{{ marker.label }}</h6>
+              <h6 class="tw-font-bold">{{ marker.label }}</h6>
               <div>
-                <p v-for="paragraph in marker.description" :key="paragraph" class="m-0">
+                <p v-for="paragraph in marker.description" :key="paragraph" class="tw-m-0">
                   {{ paragraph }}
                 </p>
               </div>
@@ -54,7 +54,7 @@ import L, { TileLayerOptions } from 'leaflet';
 import { LControlLayers, LControlScale, LMap, LMarker, LPopup, LTileLayer } from 'vue2-leaflet';
 import VueMarkercluster from 'vue2-leaflet-markercluster';
 
-import config from '~/config';
+import { mapsConfig } from '~/config';
 import { LatLon } from '~/types/Data';
 
 // Types
@@ -106,7 +106,7 @@ const crossingsPoints = ref([]);
 const zoom = 3;
 const center = [47.41322, -1.219482];
 const options = { attributionControl: true };
-const tileProviders = config.maps.tileProviders as unknown as Record<string, TileProvider>;
+const tileProviders = mapsConfig.tileProviders as unknown as Record<string, TileProvider>;
 const clusterOptions = {
   iconCreateFunction: (cluster: ClusterLayer): L.DivIcon => {
     const childCount = cluster.getChildCount();

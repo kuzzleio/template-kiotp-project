@@ -1,51 +1,74 @@
-import Vue from 'vue';
-import { authenticationPlugin, iotPlatformPlugin } from '@kuzzleio/iot-platform-frontend';
-import {
-  BootstrapVue,
-  BootstrapVueIcons,
-  ModalPlugin,
-  ToastPlugin,
-  VBModal,
-  VBToggle,
-  VBTooltip,
-} from 'bootstrap-vue';
-import VueRouter from 'vue-router';
+import { faBookmark } from '@fortawesome/free-solid-svg-icons/faBookmark';
+import { faDatabase } from '@fortawesome/free-solid-svg-icons/faDatabase';
+import { IotPlatform } from '@kuzzleio/iot-platform-frontend';
 
-import { appDefinitions, dashboardWidgets } from './appDefinition';
-import config from './config';
-import { createRouter } from './router';
-import i18n from './services/i18n';
-import store from './store';
+import { appConfig } from './config';
+import locales from './locales';
 
-import App from './App.vue';
+// Views
+import BulkImport from '~/views/bulkImport/BulkImport.vue';
+import CatalogList from '~/views/catalog/CatalogList.vue';
+// Widgets
+import LevelWidget from '~/widgets/level-widget/LevelWidget.vue';
+import LevelWidgetForm from '~/widgets/level-widget/LevelWidgetForm.vue';
+import OnOffWidget from '~/widgets/on-off-widget/OnOffWidget.vue';
+import OnOffWidgetForm from '~/widgets/on-off-widget/OnOffWidgetForm.vue';
+import StatusMapWidget from '~/widgets/statusMap-widget/StatusMapWidget.vue';
+import StatusMapWidgetForm from '~/widgets/statusMap-widget/StatusMapWidgetForm.vue';
 
-// TODO remove when loading of svg icon are solved in package
-import '@fortawesome/fontawesome-free/css/all.css';
-import '@fortawesome/fontawesome-free/js/all.js';
+const app = new IotPlatform({
+  locales,
+  config: appConfig,
+});
 
-// Kuzzle Vue
-Vue.use(iotPlatformPlugin, { widgets: dashboardWidgets });
-Vue.use(authenticationPlugin, config.authentication);
+// Views
+app.appChunks.get('admin')?.addChildrenView({
+  name: 'bulk-import',
+  label: 'locales.sidebar.bulkImport',
+  icon: faDatabase,
+  enabled: {
+    rights: {
+      controller: 'bulk-import',
+      action: 'import',
+      index: null,
+    },
+  },
+  route: {
+    path: '/bulk-import',
+    meta: {
+      breadcrumb: 'locales.sidebar.bulkImport',
+    },
+    component: BulkImport,
+  },
+});
 
-// BOOTSTRAP DIRECTIVEs
-Vue.directive('b-modal', VBModal);
-Vue.directive('b-toggle', VBToggle);
-Vue.directive('b-tooltip', VBTooltip);
+app.appChunks.set('catalog', {
+  label: 'locales.sidebar.catalog',
+  icon: faBookmark,
+  route: {
+    path: '/catalog',
+    component: CatalogList,
+  },
+});
 
-// VUE PLUGINS
-Vue.use(VueRouter);
-Vue.use(ToastPlugin);
-Vue.use(ModalPlugin);
-Vue.use(BootstrapVueIcons);
-Vue.use(BootstrapVue);
+// Widgets
+app.widgets.set('statusMap', {
+  label: 'locales.widget.status-map.label',
+  component: StatusMapWidget,
+  formComponent: StatusMapWidgetForm,
+  icon: 'map',
+});
 
-Vue.config.productionTip = false;
+app.widgets.set('light-level', {
+  label: 'locales.widget.level.label',
+  component: LevelWidget,
+  formComponent: LevelWidgetForm,
+  icon: 'sun',
+});
 
-const router = createRouter(store, appDefinitions);
-
-new Vue({
-  router,
-  store,
-  i18n,
-  render: (h) => h(App),
-}).$mount('#app');
+app.widgets.set('on-off', {
+  label: 'locales.widget.on-off.label',
+  component: OnOffWidget,
+  formComponent: OnOffWidgetForm,
+  icon: 'toggle-on',
+});

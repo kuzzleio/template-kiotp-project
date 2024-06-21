@@ -80,17 +80,17 @@ const namespace = 'CatalogList';
 const fields = computed<BTable['fields']>(() => [
   {
     key: 'manufacturer',
-    tdClass: 'align-middle',
+    tdClass: 'tw-align-middle',
     label: $i18n.t('locales.catalog.manufacturer') as string,
   },
   {
     key: 'reference',
-    tdClass: 'align-middle',
+    tdClass: 'tw-align-middle',
     label: $i18n.t('locales.catalog.reference') as string,
   },
   {
     key: 'measure',
-    tdClass: 'align-middle',
+    tdClass: 'tw-align-middle',
     label: $i18n.t('locales.catalog.measures') as string,
     thAttr: {
       width: '600px',
@@ -98,7 +98,7 @@ const fields = computed<BTable['fields']>(() => [
   },
   {
     key: 'actions',
-    tdClass: 'text-center align-middle',
+    tdClass: 'tw-text-center tw-align-middle',
     label: $i18n.t('locales.catalog.action') as string,
     thAttr: {
       width: '160px',
@@ -172,9 +172,5 @@ function saveTableState(): void {
 .no-focus:focus {
   outline: none;
   box-shadow: none;
-}
-
-.w-48 {
-  width: 12rem;
 }
 </style>

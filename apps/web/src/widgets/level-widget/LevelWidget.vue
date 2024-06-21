@@ -1,8 +1,6 @@
 <template>
-  <div class="position-relative p-2 h-100 d-flex flex-column justify-content-between">
-    <Loader :load="load" />
-
-    <h5 class="text-center">
+  <div class="tw-relative tw-p-2 tw-h-full tw-flex tw-flex-col tw-justify-between">
+    <h5 class="tw-text-center">
       {{ $i18n.t('locales.widget.level.title') }}
     </h5>
 
@@ -21,7 +19,7 @@
     </BFormSelect>
 
     <!-- Dropdown driver -->
-    <div class="py-2">
+    <div class="tw-py-2">
       <label for="lamp-driver">
         {{ $i18n.t('locales.widget.common.chooseDriver') }}
       </label>
@@ -38,7 +36,7 @@
     </div>
 
     <!-- Min/Max level -->
-    <BRow class="py-2">
+    <BRow class="tw-py-2">
       <BCol sm="6" role="group">
         <label for="min-level">
           {{ $i18n.t('locales.widget.common.minLevel') }}
@@ -54,28 +52,28 @@
     </BRow>
 
     <!-- Send Button -->
-    <BButton class="mr-2" variant="primary" :disabled="!isValid" @click="send()">
-      <span class="h4">{{ $i18n.t('locales.widget.common.send') }}</span>
-    </BButton>
+    <KButton class="tw-mt-2" variant="primary" :disabled="!isValid" @click="send()">
+      {{ $i18n.t('locales.widget.common.send') }}
+    </KButton>
+
+    <KLoader v-if="load" background />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import { useI18n } from '@kuzzleio/iot-platform-frontend';
-import { BFormSelect, BFormSelectOption, BRow, BCol, BFormInput, BButton } from 'bootstrap-vue';
+import { useI18n, KLoader, KButton } from '@kuzzleio/iot-platform-frontend';
+import { BFormSelect, BFormSelectOption, BRow, BCol, BFormInput } from 'bootstrap-vue';
 
 import { useLamp } from '~/composables/useLamp';
 import { LightingLevel } from '~/types/LightingPayload';
 import { WidgetSettingsType } from '~/types/WidgetProps';
 
-import Loader from '~/components/shared/Loader.vue';
-
 // Props
 interface LevelWidgetProps {
   widgetSettings: WidgetSettingsType;
   widgetHeight: number;
-  widgetWidth: string;
+  widgetWidth: number;
   engineIndex: string;
 }
 const props = defineProps<LevelWidgetProps>();

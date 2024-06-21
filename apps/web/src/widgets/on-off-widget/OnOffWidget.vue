@@ -1,8 +1,6 @@
 <template>
-  <div class="position-relative p-2 h-100 d-flex flex-column justify-content-between">
-    <Loader :load="load" />
-
-    <h5 class="text-center">
+  <div class="tw-relative tw-p-2 tw-h-full tw-flex tw-flex-col tw-justify-between">
+    <h5 class="tw-text-center">
       {{ $i18n.t('locales.widget.on-off.title') }}
     </h5>
 
@@ -23,26 +21,26 @@
     <!-- "Apply When" Switch -->
     <div>
       <h6>{{ $i18n.t('locales.widget.on-off.apply') }}</h6>
-      <div class="d-flex flex-row align-center">
-        <h5 :class="{ 'text-secondary': scheduled }">
+      <div class="tw-flex tw-flex-row tw-content-center">
+        <h5 :class="{ 'tw-text-secondary-light': scheduled }">
           {{ $i18n.t('locales.widget.on-off.immediate') }}
         </h5>
-        <label for="scheduled" class="toggle-switch mx-2">
+        <label for="scheduled" class="toggle-switch tw-mx-2">
           <input id="scheduled" v-model="scheduled" type="checkbox" hidden />
           <span class="slider" />
         </label>
-        <h5 :class="{ 'text-secondary': !scheduled }">
+        <h5 :class="{ 'tw-text-secondary-light': !scheduled }">
           {{ $i18n.t('locales.widget.on-off.scheduled') }}
         </h5>
       </div>
     </div>
 
     <div v-if="scheduled">
-      <div class="d-flex flex-column align-items-center">
+      <div class="tw-flex tw-flex-col tw-items-center">
         <!-- Date Select -->
         <BCalendar v-model="date" />
         <!-- Time Select -->
-        <div class="w-100">
+        <div class="tw-w-full">
           <div class="label-container">
             <label class="label-timepicker">
               {{ $i18n.t('locales.widget.on-off.executionTime') }}
@@ -58,27 +56,27 @@
     </div>
 
     <!-- Send Button -->
-    <div class="d-flex justify-content-center">
-      <BButton class="mr-2" variant="primary" :disabled="!isValid" @click="send(OFF)">
-        <span class="h4">{{ $i18n.t('locales.widget.on-off.off') }}</span>
-      </BButton>
-      <BButton variant="primary" :disabled="!isValid" @click="send(ON)">
-        <span class="h4">{{ $i18n.t('locales.widget.on-off.on') }}</span>
-      </BButton>
+    <div class="tw-flex tw-justify-center">
+      <KButton class="tw-mr-2" variant="danger" size="xl" :disabled="!isValid" @click="send(OFF)">
+        {{ $i18n.t('locales.widget.on-off.off') }}
+      </KButton>
+      <KButton variant="primary" size="xl" :disabled="!isValid" @click="send(ON)">
+        {{ $i18n.t('locales.widget.on-off.on') }}
+      </KButton>
     </div>
+
+    <KLoader v-if="load" background />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import { useI18n } from '@kuzzleio/iot-platform-frontend';
+import { useI18n, KLoader, KButton } from '@kuzzleio/iot-platform-frontend';
 
 import { useLamp } from '~/composables/useLamp';
 import timePickerToDate from '~/helpers/timePickerToDate';
 import { LightingOnOff } from '~/types/LightingPayload';
 import { WidgetSettingsType } from '~/types/WidgetProps';
-
-import Loader from '~/components/shared/Loader.vue';
 
 const ON = 'on';
 const OFF = 'off';
@@ -88,7 +86,7 @@ const ACTIONS = [ON, OFF];
 interface OnOffWidgetProps {
   widgetSettings: WidgetSettingsType;
   widgetHeight: number;
-  widgetWidth: string;
+  widgetWidth: number;
   engineIndex: string;
 }
 const props = defineProps<OnOffWidgetProps>();

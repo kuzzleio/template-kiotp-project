@@ -1,7 +1,11 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "tasks": {
     "build": {
+      "env": [
+        "VITE_*",
+        "VUE_*"
+      ],
       "dependsOn": [
         "^build"
       ],
