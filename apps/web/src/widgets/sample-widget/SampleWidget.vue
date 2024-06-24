@@ -18,7 +18,15 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue';
-import { useKuzzle, useI18n, KTable, KTableHeader } from '@kuzzleio/iot-platform-frontend';
+// Use I18N to translate your widget texts
+import {
+  useKuzzle,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  useI18n,
+  useToast,
+  KTable,
+  KTableHeader,
+} from '@kuzzleio/iot-platform-frontend';
 import type { AssetContent } from 'kuzzle-device-manager-types';
 
 // Types
@@ -37,6 +45,7 @@ const props = defineProps<SampleWidgetProps>();
 const headers = computed<KTableHeader[]>(() => [
   {
     key: 'name',
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     label: props.widgetSettings?.buckettingField || '--', // $i18n.t('locales.notifications.list.notificationName'),
     sortable: true,
   },
@@ -66,16 +75,11 @@ const data = ref<Array<{ [x: string]: number }>>([]);
 // Computeds
 
 // Hooks
-onMounted(async () => {
+onMounted(() => {
   emit('loading');
-
-  await fetchData();
-
-  // kuzzle search avec props buckettingField
-  // charger les données dans un chartjs
-  // update front
-
-  emit('loaded');
+  fetchData().catch((e) => {
+    useToast().showError('An error occurred while fetching data: ', e);
+  });
 });
 
 // Functions

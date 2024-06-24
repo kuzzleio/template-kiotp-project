@@ -1,4 +1,3 @@
-import { faBookmark } from '@fortawesome/free-solid-svg-icons/faBookmark';
 import { faDatabase } from '@fortawesome/free-solid-svg-icons/faDatabase';
 import {
   AppChunk,
@@ -41,16 +40,14 @@ if (admin?.children !== undefined) {
   });
 }
 
-export const appDefinitions: AppChunk[] = [
-  ...IoTPlatformChunks,
-];
+export const appDefinitions: AppChunk[] = [...IoTPlatformChunks];
 
 export const dashboardWidgets: DashboardWidget[] = [
   {
     name: 'sample-widget',
     label: 'My Sample Widget', // TODO : i18n
     component: SampleWidget,
-    formComponent:SampleWidgetForm,
+    formComponent: SampleWidgetForm,
     icon: 'face-meh',
   },
 ];
