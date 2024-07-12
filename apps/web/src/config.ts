@@ -70,14 +70,7 @@ export default {
   customizations: {
     index: 'customizations',
     collection: 'config',
-  },
-  authentication: {
-    type: 'local',
-    clientConfig: {
-      authority: 'https://sso.paas.kuzzle.io/realms/<projectName>',
-      client_id: 'kiotp-front',
-      response_type: 'code',
-      scope: 'openid',
-    },
+    logo: undefined,
+    loginLogo: undefined,
   },
 };

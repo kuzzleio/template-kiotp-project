@@ -9,13 +9,13 @@
     "build": "vite build",
     "test": "npm run test:lint && npm run test:types",
     "test:lint": "eslint src --ext .ts,.vue",
-    "test:lint:fix": "npm run test:lint -- -fix",
+    "test:lint:fix": "eslint --fix src --ext .ts,.vue",
     "test:types": "vue-tsc --noEmit -p tsconfig.test.json",
     "ci:types": "vue-tsc --version && npm run test:types"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "6.2.*",
-    "@kuzzleio/iot-platform-frontend": "3.1.0-beta.45",
+    "@kuzzleio/iot-platform-frontend": "3.1.0-beta.52",
     "@vuelidate/core": "2.0.*",
     "kuzzle-device-manager-types": "2.4.0-beta.16",
     "lodash": "^4.17.21",

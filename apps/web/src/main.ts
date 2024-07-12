@@ -1,51 +1,52 @@
-import Vue from 'vue';
-import { authenticationPlugin, iotPlatformPlugin } from '@kuzzleio/iot-platform-frontend';
-import {
-  BootstrapVue,
-  BootstrapVueIcons,
-  ModalPlugin,
-  ToastPlugin,
-  VBModal,
-  VBToggle,
-  VBTooltip,
-} from 'bootstrap-vue';
-import VueRouter from 'vue-router';
+import './style.css';
+import { faDatabase } from '@fortawesome/free-solid-svg-icons/faDatabase';
+import { IotPlatform } from '@kuzzleio/iot-platform-frontend';
 
-import { appDefinitions, dashboardWidgets } from './appDefinition';
-import config from './config';
-import { createRouter } from './router';
-import i18n from './services/i18n';
-import store from './store';
+import appConfig from './config';
+import locales from './locales';
 
-import App from './App.vue';
+import BulkImport from '~/views/bulkImport/BulkImport.vue';
+import SampleWidget from '~/widgets/sample-widget/SampleWidget.vue';
+import SampleWidgetForm from '~/widgets/sample-widget/SampleWidgetForm.vue';
 
-// TODO remove when loading of svg icon are solved in package
-import '@fortawesome/fontawesome-free/css/all.css';
-import '@fortawesome/fontawesome-free/js/all.js';
+const app = new IotPlatform({
+  locales,
+  config: appConfig,
+});
 
-// Kuzzle Vue
-Vue.use(iotPlatformPlugin, { widgets: dashboardWidgets });
-Vue.use(authenticationPlugin, config.authentication);
+// Load custom views :
+app.appChunks.get('admin')?.addChildrenView({
+  name: 'bulk-import',
+  label: 'locales.sidebar.bulkImport',
+  icon: faDatabase,
+  route: {
+    path: '/bulk-import',
+    component: BulkImport,
+    meta: {
+      breadcrumb: 'locales.sidebar.bulkImport',
+    },
+  },
+  enabled: {
+    rights: {
+      controller: 'bulk-import',
+      action: 'import',
+      index: null,
+    },
+  },
+});
 
-// BOOTSTRAP DIRECTIVEs
-Vue.directive('b-modal', VBModal);
-Vue.directive('b-toggle', VBToggle);
-Vue.directive('b-tooltip', VBTooltip);
+// Load custom widgets :
+app.widgets.set('sample-widget', {
+  label: 'locales.widget.sampleWidget.label',
+  component: SampleWidget,
+  formComponent: SampleWidgetForm,
+  icon: 'face-meh',
+});
 
-// VUE PLUGINS
-Vue.use(VueRouter);
-Vue.use(ToastPlugin);
-Vue.use(ModalPlugin);
-Vue.use(BootstrapVueIcons);
-Vue.use(BootstrapVue);
+// ! Fix unwanted triggered events on window refresh
+// This behavior should be added in kuzzle-sdk package to clean listener before unload
+window.addEventListener('beforeunload', () => {
+  kuzzle.removeAllListeners('disconnected');
+});
 
-Vue.config.productionTip = false;
-
-const router = createRouter(store, appDefinitions);
-
-new Vue({
-  router,
-  store,
-  i18n,
-  render: (h) => h(App),
-}).$mount('#app');
+app.initVue()
