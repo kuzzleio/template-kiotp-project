@@ -1,8 +1,8 @@
 <template>
   <div class="text-left h-100">
     <div class="sample-widget">
-      <H2> This is a sample widget</H2>
-      <h3>Bucketting field : {{ props.widgetSettings.buckettingField }}</h3>
+      <h2> {{ $i18n.t('locales.widget.sample-widget.title') }} </h2>
+      <h3>{{ $i18n.t('locales.widget.sample-widget.buckettingField') }} {{ props.widgetSettings.buckettingField }}</h3>
 
       <KTable :items="data" :total="data.length" :headers="headers">
         <template #cell(name)="itemData">
@@ -66,7 +66,7 @@ const emit = defineEmits<EmitTypes>();
 // Composables
 // const $i18n = useI18n();
 const $kuzzle = useKuzzle();
-
+const $i18n = useI18n();
 // Refs
 const data = ref<Array<{ [x: string]: number }>>([]);
 
