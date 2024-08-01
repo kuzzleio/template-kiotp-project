@@ -1,6 +1,29 @@
 {
+  "files.trimTrailingWhitespace": true,
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.associations": {
+    "kuzzlerc": "jsonc",
+    ".kuzzlerc": "jsonc"
+  },
+  // Vue config
   "i18n-ally.localesPaths": [
     "apps/web/src/locales"
   ],
-  "i18n-ally.keystyle": "nested"
+  "i18n-ally.keystyle": "nested",
+  // Format
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  // Styles (css, scss)
+  "css.customData": [
+    ".vscode/tailwind.json"
+  ],
+  "css.lint.zeroUnits": "warning",
+  "scss.lint.zeroUnits": "warning",
 }

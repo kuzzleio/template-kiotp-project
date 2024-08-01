@@ -9,8 +9,6 @@
     "vite.config.ts",
     "**/*.json",
     "./src/**/*.ts",
-    "./src/**/*.vue",
-    "../../packages/frontend/src/**/*.ts",
-    "../../packages/frontend/src/**/*.vue"
+    "./src/**/*.vue"
   ]
 }

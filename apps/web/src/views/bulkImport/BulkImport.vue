@@ -1,46 +1,46 @@
 <template>
-  <div class="tw-h-full tw-flex tw-flex-col">
+  <div class="h-100 d-flex flex-column">
     <!-- HEADER -->
     <KHero :help="$i18n.t('locales.bulkImport.description')">
       {{ $i18n.t('locales.bulkImport.title') }}
     </KHero>
 
     <!-- CONTAINER -->
-    <div class="tw-grow tw-flex tw-flex-col tw-w-full tw-mx-auto tw-pt-12">
-      <BFormFile ref="file-input" v-model="file" accept=".csv" required class="tw-mb-2">
+    <div class="flex-grow-1 d-flex flex-column w-100 mx-auto pt-5">
+      <BFormFile ref="file-input" v-model="file" accept=".csv" required class="mb-2">
         <template #drop-placeholder>
-          <div class="tw-flex tw-flex-col">
+          <div class="d-flex flex-column">
             <FontAwesomeIcon class="bulkImport-icon-colored" :icon="['fa', 'cloud-arrow-up']" />
-            <p class="tw-text-xl tw-font-bold tw-text-center tw-mt-6">
+            <p class="fa-xl font-weight-bold text-center mt-4">
               {{ $i18n.t('locales.bulkImport.drop') }}
             </p>
           </div>
         </template>
         <template #placeholder>
-          <div class="tw-flex tw-flex-col">
+          <div class="d-flex flex-column">
             <FontAwesomeIcon class="bulkImport-icon" :icon="['fa', 'cloud-arrow-up']" />
-            <p class="tw-text-xl tw-font-bold tw-text-center tw-mt-6">
+            <p class="fa-xl font-weight-bold text-center mt-4">
               {{ $i18n.t('locales.bulkImport.browse') }}
             </p>
           </div>
         </template>
         <template #file-name="{ names: [name] }">
-          <div class="tw-flex tw-flex-col">
+          <div class="d-flex flex-column">
             <FontAwesomeIcon class="bulkImport-icon-colored" :icon="['fa', 'file-csv']" />
-            <p class="tw-text-xl tw-font-bold tw-text-center tw-mt-6">
+            <p class="fa-xl font-weight-bold text-center mt-4">
               {{ name }}
             </p>
           </div>
         </template>
       </BFormFile>
-      <KButton
-        class="tw-mt-4 tw-flex tw-mx-auto"
+      <BButton
+        class="mt-4 d-flex mx-auto"
         variant="primary"
         :disabled="!file"
         @click.prevent="sendData"
       >
         {{ $i18n.t('locales.bulkImport.import') }}
-      </KButton>
+      </BButton>
     </div>
     <BulkImportLogModal
       :current-index="currentIndex"
@@ -53,8 +53,8 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { KButton, KHero } from '@kuzzleio/iot-platform-frontend';
-import { BFormFile } from 'bootstrap-vue';
+import { KHero } from '@kuzzleio/iot-platform-frontend';
+import { BButton, BFormFile } from 'bootstrap-vue';
 
 import BulkImportLogModal from '~/components/bulkImport/modals/BulkImportLogModal.vue';
 

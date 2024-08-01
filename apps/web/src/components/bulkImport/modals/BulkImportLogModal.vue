@@ -10,11 +10,11 @@
     @hide="onHide"
     @hidden="emit('hidden', $event)"
   >
-    <div class="tw-flex tw-justify-between">
-      <KButton variant="primary" @click.prevent="copyLogs">
+    <div class="d-flex justify-content-between">
+      <BButton variant="primary" @click.prevent="copyLogs">
         <FontAwesomeIcon :icon="['fa', 'copy']" />
         {{ $i18n.t('locales.bulkImport.logModal.copy') }}
-      </KButton>
+      </BButton>
 
       <BDropdown class="bulkImportLogModal-dropdown" variant="outline-primary" right>
         <template #button-content>
@@ -34,16 +34,16 @@
       </BDropdown>
     </div>
 
-    <div class="bulkImportLogModal-mainDiv tw-mt-4 tw-mb-6">
+    <div class="bulkImportLogModal-mainDiv mt-3 mb-4">
       <FontAwesomeIcon
         v-if="loading"
         class="bulkImportLogModal-spinner fa-2xl"
         :icon="['fa', 'spinner']"
         spin
       />
-      <div ref="logsContainer" class="bulkImportLogModal-contentDiv tw-p-6">
+      <div ref="logsContainer" class="bulkImportLogModal-contentDiv p-3">
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <p v-for="(log, i) in displayedLogs" :key="log + i" class="tw-mb-0" v-html="log" />
+        <p v-for="(log, i) in displayedLogs" :key="log + i" class="mb-0" v-html="log" />
       </div>
     </div>
   </BModal>
@@ -52,8 +52,8 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { KButton, useI18n, useKuzzle, useToast } from '@kuzzleio/iot-platform-frontend';
-import { BModal } from 'bootstrap-vue';
+import { useI18n, useKuzzle, useToast } from '@kuzzleio/iot-platform-frontend';
+import { BButton, BModal } from 'bootstrap-vue';
 import { DocumentNotification } from 'kuzzle-sdk';
 
 import { BulkImportContent, LogType } from '~/components/bulkImport/LogType';

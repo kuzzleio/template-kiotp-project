@@ -14,29 +14,27 @@
     "test:lint:fix": "npm run test:lint -- --fix",
     "test:types": "tsc --noEmit -p tsconfig.test.json",
     "test:functional": "jest --runInBand --detectOpenHandles --forceExit",
-    "ci:types": "tsc --version && npm run test:types",
-    "fixtures": "npm run fixtures:asset_tracking && npm run fixtures:air_quality",
-    "fixtures:asset_tracking": "kourou fixtures:load -a tenant=asset_tracking",
-    "fixtures:air_quality": "kourou fixtures:load -a tenant=air_quality"
+    "ci:types": "tsc --version && npm run test:types"
   },
   "main": "app.ts",
   "license": "Apache-2.0",
   "dependencies": {
-    "@kuzzleio/iot-platform-backend": "3.1.0-beta.49",
+    "@kuzzleio/iot-platform-backend": "3.1.0-beta.52",
     "kuzzle": "^2",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@types/jest": "^29.4.0",
-    "@types/lodash": "4.17.4",
+    "@types/lodash": "^4.14.191",
     "@types/node": "^18.18.13",
     "ergol": "^1.0.2",
     "eslint-plugin-kuzzle": "^0.0.12",
     "jest": "^29.4.3",
     "kuzzle-sdk": "^7.11.*",
-    "ts-jest": "^29.0.5",
+    "ts-jest": "^29.1.2",
     "ts-node": "^10.9.1",
-    "typescript": "5.4.*"
+    "typescript": "5.4.*",
+    "@kuzzleio/plugin-multi-tenancy": "*"
   },
   "files": [
     "dist/**/"

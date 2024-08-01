@@ -23,7 +23,7 @@
     // "skipLibCheck": true,
     // "noUnusedParameters": true,
     // "noFallthroughCasesInSwitch": true
-  
+
     "listEmittedFiles": true,
     "baseUrl": ".",
     "sourceMap": true,

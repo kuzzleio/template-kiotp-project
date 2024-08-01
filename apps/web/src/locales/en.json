@@ -1,12 +1,6 @@
 {
   "Home": "Home",
   "locales": {
-    "assets": {
-      "metadata": {
-        "capacity": "Capacity",
-        "numberplate": "Plate Number"
-      }
-    },
     "bulkImport": {
       "browse": "Drag and drop or browse to upload your file",
       "description": "You can import assets and devices in bulk using a CSV file to automate creation",
@@ -70,63 +64,18 @@
         "createDescription": "Provide a new Sensor with her Decoder by providing here its Model and Reference. The Model must correspond to an existing Decoder, which is installed on the Platform. The Reference is a unique ID you can arbitrarily choose."
       }
     },
-    "labels": {
-      "illuminance": "Illuminance",
-      "lux": "Lux",
-      "parts per million": "Parts per million"
-    },
     "sidebar": {
       "bulkImport": "Bulk Import",
       "catalog": "Catalog"
     },
     "widget": {
       "common": {
-        "allDrivers": "All drivers",
-        "asset-model": "Asset Model",
-        "street-name": "Street",
-        "cant-search-asset": "Sorry you don't have the rights to list the assets",
-        "chooseDriver": "Choose a driver",
-        "chooseLamp": "Choose a street lamp",
-        "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-        "error": "Error",
-        "maxLevel": "Maximum level",
-        "minLevel": "Minimum level",
-        "no-kara-devices-linked": "No Kara devices are linked to the asset",
-        "no-time": "No time selected",
-        "ok": "Ok",
-        "see-asset": "see the asset",
-        "send": "Send",
-        "sent": "Sent",
-        "sent-successfully": "Action sent sucessfully to the Kara device"
+        "asset-model": "Asset Model"
       },
-      "level": {
-        "title": "Manage Power of street lamp",
-        "label": "Ligth level"
-      },
-      "on-off": {
-        "apply": "Action takes effect",
-        "executionTime": "Execution time",
-        "immediate": "Immediately",
-        "on": "On",
-        "off": "Off",
-        "scheduled": "Later",
-        "title": "Switch street light lighting",
-        "label": "On / Off"
-      },
-      "scheduler": {
-        "chooseMode": "Choose period mode",
-        "end": "End day/hour",
-        "modes": {
-          "single": "Single",
-          "daily": "Daily"
-        },
-        "repeat": "Repeat every year",
-        "start": "Start day/hour",
-        "title": "Schedule street lamp lighting"
-      },
-      "status-map": {
-        "empty-form": "The form is empty. Nothing to show",
-        "label" : "Status Map"
+      "sampleWidget": {
+        "title": "This is sample widget",
+        "label": "Sample Widget",
+        "buckettingField": "bucketting field :"
       }
     }
   }
