@@ -19,7 +19,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "prettier": "^3.2.5",
     "turbo": "latest",
-    "typescript": "5.1.*"
+    "typescript": "5.4.*"
   },
   "engines": {
     "node": ">=18.17.1"

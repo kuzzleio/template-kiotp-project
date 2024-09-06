@@ -1,12 +1,7 @@
-import {
-  registerKIoTP,
-  EventIoTPlatformErrorSave,
-  Module as KIoTPModule,
-} from '@kuzzleio/iot-platform-backend';
+import { registerKIoTP, EventIoTPlatformErrorSave, Module } from '@kuzzleio/iot-platform-backend';
 import { Backend } from 'kuzzle';
 
 import { registerExempleTenant } from './modules/tenant_exemple';
-import { Module } from './modules/shared';
 import { DevicesModule } from './modules/devices';
 import { MeasuresModule } from './modules/measures/MeasuresModule';
 import { WorkflowsModule } from './modules/workflows';
@@ -16,8 +11,6 @@ export type IoTApplicationConfig = {
 };
 
 export class IoTApplication extends Backend {
-  private readonly kiotpModules: KIoTPModule[] = [];
-
   private modules: Module[] = [];
 
   get appConfig() {
@@ -33,7 +26,7 @@ export class IoTApplication extends Backend {
 
     // this.config.content.plugins['kuzzle-plugin-logger'].services.stdout.level = 'debug';
 
-    this.kiotpModules = registerKIoTP(this);
+    this.modules = registerKIoTP(this, false);
 
     // Register custom modules here
     this.modules.push(new MeasuresModule(this)); // Register the measures models for your application
@@ -56,7 +49,7 @@ export class IoTApplication extends Backend {
   async start() {
     await super.start();
 
-    for (const module of this.kiotpModules) {
+    for (const module of this.modules) {
       await module.init();
     }
 

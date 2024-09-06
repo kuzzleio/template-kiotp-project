@@ -1,5 +1,6 @@
-import { Module } from '../shared';
+import { Module } from '@kuzzleio/iot-platform-backend';
 import { DeviceManagerPlugin } from 'kuzzle-device-manager';
+
 import { sampleMeasureDefinition } from './SampleMeasurement';
 
 export class MeasuresModule extends Module {

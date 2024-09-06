@@ -1,6 +1,6 @@
+import { Module } from '@kuzzleio/iot-platform-backend';
 import { DeviceManagerPlugin } from 'kuzzle-device-manager';
 
-import { Module } from '../shared';
 import { SampleDeviceDefinition } from './SampleDevice';
 export class DevicesModule extends Module {
   register(): void {
