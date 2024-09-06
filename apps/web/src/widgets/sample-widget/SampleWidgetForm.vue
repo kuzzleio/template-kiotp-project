@@ -4,7 +4,7 @@
     <BRow>
       <BCol>
         <BFormGroup
-          :label="$i18n.t('locales.widget.common.asset-model')"
+          :label="$i18n.t('widget.sample-widget.asset-model')"
           label-for="asset-model-field"
         >
           <BFormInput

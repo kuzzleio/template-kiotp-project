@@ -1,11 +1,9 @@
 import './style.css';
-import { faDatabase } from '@fortawesome/free-solid-svg-icons/faDatabase';
 import { IotPlatform } from '@kuzzleio/iot-platform-frontend';
 
 import appConfig from './config';
 import locales from './locales';
 
-import BulkImport from '~/views/bulkImport/BulkImport.vue';
 import SampleWidget from '~/widgets/sample-widget/SampleWidget.vue';
 import SampleWidgetForm from '~/widgets/sample-widget/SampleWidgetForm.vue';
 
@@ -15,29 +13,29 @@ const app = new IotPlatform({
 });
 
 // Load custom views :
-app.appChunks.get('admin')?.addChildrenView({
-  name: 'bulk-import',
-  label: 'locales.sidebar.bulkImport',
-  icon: faDatabase,
-  route: {
-    path: '/bulk-import',
-    component: BulkImport,
-    meta: {
-      breadcrumb: 'locales.sidebar.bulkImport',
-    },
-  },
-  enabled: {
-    rights: {
-      controller: 'bulk-import',
-      action: 'import',
-      index: null,
-    },
-  },
-});
+// app.appChunks.get('admin')?.addChildrenView({
+//   name: 'bulk-import',
+//   label: 'locales.sidebar.bulkImport',
+//   icon: faDatabase,
+//   route: {
+//     path: '/bulk-import',
+//     component: BulkImport,
+//     meta: {
+//       breadcrumb: 'locales.sidebar.bulkImport',
+//     },
+//   },
+//   enabled: {
+//     rights: {
+//       controller: 'bulk-import',
+//       action: 'import',
+//       index: null,
+//     },
+//   },
+// });
 
 // Load custom widgets :
 app.widgets.set('sample-widget', {
-  label: 'locales.widget.sampleWidget.label',
+  label: 'widget.sample-widget.label',
   component: SampleWidget,
   formComponent: SampleWidgetForm,
   icon: 'face-meh',

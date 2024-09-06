@@ -1,8 +1,8 @@
 <template>
   <div class="text-left h-100">
     <div class="sample-widget">
-      <h2> {{ $i18n.t('locales.widget.sample-widget.title') }} </h2>
-      <h3>{{ $i18n.t('locales.widget.sample-widget.buckettingField') }} {{ props.widgetSettings.buckettingField }}</h3>
+      <h2> {{ $i18n.t('widget.sample-widget.title') }} </h2>
+      <h3>{{ $i18n.t('widget.sample-widget.buckettingField') }} {{ props.widgetSettings.buckettingField }}</h3>
 
       <KTable :items="data" :total="data.length" :headers="headers">
         <template #cell(name)="itemData">
