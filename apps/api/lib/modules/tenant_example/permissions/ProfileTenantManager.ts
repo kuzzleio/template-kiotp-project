@@ -1,15 +1,11 @@
-import { ProfileTenantAdmin, ProfileTenantReader } from '@kuzzleio/iot-platform-backend';
-import { MultiTenancyPlugin } from '@kuzzleio/plugin-multi-tenancy';
-
-import { IoTApplication } from '../../../IoTApplication';
-export const tenantName = 'exemple_tenant';
+import { KuzzleProfile } from '@kuzzleio/iot-platform-backend';
 
 /**
  * Users with this profile are tenant managers.
  *
  * They can manipulate every resource of the tenant they belong to, except for users.
  */
-export const ProfileTenantManager = {
+export const ProfileTenantManager: KuzzleProfile = {
   name: 'tenant_manager',
   definition: {
     policies: [
@@ -107,49 +103,3 @@ export const ProfileTenantManager = {
     ],
   },
 };
-
-export function registerPermissionsModule(app: IoTApplication) {
-  const multiTenancy = app.plugin.get<MultiTenancyPlugin>('multi-tenancy');
-
-  multiTenancy.registerProfilesTemplates(tenantName, {
-    [ProfileTenantAdmin.name]: ProfileTenantAdmin.definition,
-    [ProfileTenantReader.name]: ProfileTenantReader.definition,
-  });
-
-  multiTenancy.registerProfilesTemplates(tenantName, {
-    [ProfileTenantManager.name]: ProfileTenantManager.definition,
-  });
-
-  multiTenancy.registerProfilesTemplates(tenantName, {
-    monProfileUtilisateur: {
-      policies: [
-        {
-          roleId: 'documents.reader',
-          restrictedTo: [
-            {
-              index: '{tenantIndex}',
-            },
-          ],
-        },
-        {
-          roleId: 'default',
-          restrictedTo: [
-            {
-              index: '{tenantIndex}',
-            },
-          ],
-        },
-      ],
-    },
-  });
-
-  multiTenancy.registerCollectionsTemplates(tenantName, {
-    ma_collection: {
-      mappings: {
-        properties: {
-          field: { type: 'keyword' },
-        },
-      },
-    },
-  });
-}

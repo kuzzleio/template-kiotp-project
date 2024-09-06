@@ -2,7 +2,7 @@ import { DecodedPayload, Decoder } from 'kuzzle-device-manager';
 import { JSONObject } from 'kuzzle';
 import { has } from 'lodash';
 
-import { SampleMeasurement } from '../measures/SampleMeasurement';
+import { SampleMeasurement } from '../../measures';
 
 export class SampleDeviceDecoder extends Decoder {
   public measures = [

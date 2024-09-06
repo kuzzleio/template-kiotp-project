@@ -1,13 +1,7 @@
-import { Module } from '@kuzzleio/iot-platform-backend';
-import { DeviceManagerPlugin } from 'kuzzle-device-manager';
+import { MeasureModel, ModelsModule } from '@kuzzleio/iot-platform-backend';
 
-import { sampleMeasureDefinition } from './SampleMeasurement';
+import { sampleMeasurement } from './SampleMeasurement';
 
-export class MeasuresModule extends Module {
-  register(): void {
-    const deviceManager = this.app.plugin.get<DeviceManagerPlugin>('device-manager');
-
-    // register measures here
-    deviceManager.models.registerMeasure('SampleMeasure', sampleMeasureDefinition);
-  }
+export class MeasuresModule extends ModelsModule {
+  protected measuresModels: MeasureModel[] = [sampleMeasurement];
 }
