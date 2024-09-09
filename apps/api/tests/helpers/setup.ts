@@ -1,3 +1,5 @@
+import { beforeAllAuth } from './auth';
+import { admin_user } from './user';
 import { useSdk } from './useSdk';
 
 export function setupHooks() {
@@ -5,7 +7,7 @@ export function setupHooks() {
 
   beforeAll(async () => {
     await sdk.connect();
-    await sdk.auth.login('local', { username: 'test-admin', password: 'password' });
+    await beforeAllAuth(admin_user);
   });
 
   afterAll(async () => {
