@@ -20,6 +20,9 @@ export class IoTApplication extends Backend {
   constructor() {
     super('iot-application');
 
+    // ? Enable logger to debug level on stdout
+    // this.config.content.plugins['kuzzle-plugin-logger'].services.stdout.level = 'debug';
+
     this.hook.register<EventIoTPlatformErrorSave>('iot-platform:error:save', ({ error }) => {
       this.log.error(error);
     });
