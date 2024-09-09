@@ -1,80 +1,10 @@
 {
-  "Home": "Accueil",
   "locales": {
-    "bulkImport": {
-      "browse": "Glissez et déposez ou sélectionnez votre fichier",
-      "description": "Vous pouvez importer des actifs ainsi que des capteurs en lot en utilisant un fichier CSV afin d'automatiser la création.",
-      "drop": "Déposez votre fichier ici",
-      "import": "Importer les données",
-      "log": {
-        "asset-created": "Actif {assetModel} {assetReference} créé",
-        "csv-parse-error": "Erreur lors de l'analyse du fichier CSV ! Veuillez vérifier votre fichier et réessayer.",
-        "device-created": "Capteur {deviceModel} {deviceReference} créé",
-        "device-link-to-another-tenant": "Capteur {deviceModel} {deviceReference} déjà lié au client {otherTenant}, sautée (L{lineNumber})",
-        "device-linked": "Capteur {deviceModel} {deviceReference} lié à l'actif {assetModel} {assetReference}",
-        "invalid": "Ligne {lineNumber} invalide, sautée",
-        "metadata-updated": "{type} {model} {reference} trouvé, mise à jour des métadonnées",
-        "orphan-device-link": "Capteur {deviceModel} {deviceReference} trouvé dans les capteurs orphelins, liaison au client actuel ({currentIndex})"
-      },
-      "logModal": {
-        "copy": "Copier les résultats",
-        "copySuccess": "Résultats copiés dans le presse-papier",
-        "filter": "Filtrer les résultats",
-        "filters": {
-          "all": "Tout",
-          "error": "Erreur",
-          "success": "Succès",
-          "warning": "Avertissement"
-        },
-        "title": "Résultat de l'import"
-      },
-      "title": "Import en lot"
-    },
-    "catalog": {
-      "action": "Provisionner un capteur",
-      "detail": "Détails du capteur",
-      "description": "Catalogue de capteurs pour la Plateforme Kuzzle IoT.",
-      "doc": "Détails sur la Documentation",
-      "datasheet": "Technique (Datasheet)",
-      "decoder": "Provisionner un capteur",
-      "edit": "Modifier",
-      "empty": "Aucune information à afficher",
-      "emptyLinkedAsset": "Cliquez ici pour lier un Actif",
-      "generalInfo": "Informations Générales",
-      "linkAsset": "Lier un Actif",
-      "linkedAsset": "Actif lié",
-      "link": "Lien",
-      "measureType": "Type de mesure",
-      "measures": "Mesures",
-      "metadata": "Métadonnées",
-      "model": "Modèle",
-      "manufacturer": "Constructeur",
-      "network": "Réseaux",
-      "power": "Source d'Alimentation",
-      "reference": "Référence",
-      "sales": "Commercial",
-      "technical": "Détails Techniques",
-      "type": "Type",
-      "title": "Catalogue de Capteurs IoT",
-      "unknown-link": "Lien non disponible"
-    },
-    "devices": {
-      "modals": {
-        "create": "Provisionner un capteur",
-        "createDescription": "Provisionnez un nouveau Capteur avec son Décodeur en renseignant son Modèle et sa Référence. Le Modèle doit correspondre à un Décodeur actuellement installé sur la Plate-forme, alors que la Référence est un ID unique que vous pouvez choisir arbitrairement."
-      }
-    },
-    "sidebar": {
-      "bulkImport": "Import en lot",
-      "catalog": "Catalogue"
-    },
     "widget": {
-      "common": {
-        "asset-model": "Modèle d'Actif"
-      },
-      "sampleWidget": {
+      "sample-widget": {
         "title": "Ceci est un widget d'exemple",
         "label": "Widget d'exemple",
+        "asset-model": "Modèle d'Actif",
         "buckettingField": "Champ de regroupement :"
       }
     }

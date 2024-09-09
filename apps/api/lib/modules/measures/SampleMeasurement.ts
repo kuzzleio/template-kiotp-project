@@ -1,4 +1,4 @@
-import { MeasureDefinition } from 'kuzzle-device-manager';
+import { MeasureModel } from '@kuzzleio/iot-platform-backend';
 
 /**
  * Definition of a Sample measurement type
@@ -8,13 +8,18 @@ export type SampleMeasurement = {
   anotherMeasure: string;
 };
 
-/**
- * Definition of a Sample measurement Elasticsearch mapping
- *
- */
-export const sampleMeasureDefinition: MeasureDefinition = {
-  valuesMappings: {
-    aMeasure: { type: 'float' },
-    anotherMeasure: { type: 'keyword' },
+export const sampleMeasurement: MeasureModel = {
+  /**
+   * * Name of measurement
+   */
+  modelName: 'SampleMeasure',
+  /**
+   * * Definition of a Sample measurement Elasticsearch mapping
+   */
+  definition: {
+    valuesMappings: {
+      aMeasure: { type: 'float' },
+      anotherMeasure: { type: 'keyword' },
+    },
   },
 };

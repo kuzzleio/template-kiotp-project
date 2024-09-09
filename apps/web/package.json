@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "6.2.*",
-    "@kuzzleio/iot-platform-frontend": "3.1.0-beta.52",
+    "@kuzzleio/iot-platform-frontend": "3.1.0-beta.61",
     "@vuelidate/core": "2.0.*",
     "kuzzle-device-manager-types": "2.4.0-beta.16",
     "lodash": "^4.17.21",
@@ -29,7 +29,7 @@
     "eslint-plugin-vue-kuzzle": "^0.0.12",
     "sass": "1.63.*",
     "tailwindcss": "^3.4.1",
-    "typescript": "5.1.*",
+    "typescript": "5.4.*",
     "vite": "^4.4.6",
     "vue-tsc": "^1.8.10"
   }

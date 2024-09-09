@@ -1,23 +1,16 @@
-import {
-  registerKIoTP,
-  EventIoTPlatformErrorSave,
-  Module as KIoTPModule,
-} from '@kuzzleio/iot-platform-backend';
+import { registerKIoTP, EventIoTPlatformErrorSave, Module } from '@kuzzleio/iot-platform-backend';
 import { Backend } from 'kuzzle';
 
-import { registerExempleTenant } from './modules/tenant_exemple';
-import { Module } from './modules/shared';
 import { DevicesModule } from './modules/devices';
 import { MeasuresModule } from './modules/measures/MeasuresModule';
 import { WorkflowsModule } from './modules/workflows';
+import { TenantExample } from './modules/tenant_example/TenantExample';
 
 export type IoTApplicationConfig = {
   someValue: string;
 };
 
 export class IoTApplication extends Backend {
-  private readonly kiotpModules: KIoTPModule[] = [];
-
   private modules: Module[] = [];
 
   get appConfig() {
@@ -27,36 +20,36 @@ export class IoTApplication extends Backend {
   constructor() {
     super('iot-application');
 
+    // ? Enable logger to debug level on stdout
+    // this.config.content.plugins['kuzzle-plugin-logger'].services.stdout.level = 'debug';
+
     this.hook.register<EventIoTPlatformErrorSave>('iot-platform:error:save', ({ error }) => {
       this.log.error(error);
     });
 
-    // this.config.content.plugins['kuzzle-plugin-logger'].services.stdout.level = 'debug';
-
-    this.kiotpModules = registerKIoTP(this);
+    this.modules = registerKIoTP(this, false);
 
     // Register custom modules here
     this.modules.push(new MeasuresModule(this)); // Register the measures models for your application
     this.modules.push(new DevicesModule(this)); // Register the devices models and decoders for your application
     this.modules.push(new WorkflowsModule(this)); // Register the  Workflows, Tasks, Predicates for your application
 
-    for (const module of this.modules) {
-      module.register();
-    }
-
-    // Register the exemple tenant that will be used to demonstrate the application
+    // Register the example tenant that will be used to demonstrate the application
     // It defines a tenant with :
     // * custom asset model,
     // * custom roles, profiles, and policies,
     // * additionnal data collections
+    this.modules.push(new TenantExample(this));
 
-    registerExempleTenant(this);
+    for (const module of this.modules) {
+      module.register();
+    }
   }
 
   async start() {
     await super.start();
 
-    for (const module of this.kiotpModules) {
+    for (const module of this.modules) {
       await module.init();
     }
 
