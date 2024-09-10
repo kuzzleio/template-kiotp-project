@@ -1,7 +1,7 @@
 import './style.css';
 import { IotPlatform } from '@kuzzleio/iot-platform-frontend';
 
-import appConfig from './config';
+import { appConfig } from './config';
 import locales from './locales';
 
 import SampleWidget from '~/widgets/sample-widget/SampleWidget.vue';
