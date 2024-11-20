@@ -9,7 +9,7 @@ RUN npm run build
 RUN npm prune --production
 
 
-FROM node:18-bullseye-slim
+FROM node:18-bookworm-slim
 
 ARG KUZZLE_ENV="local"
 
