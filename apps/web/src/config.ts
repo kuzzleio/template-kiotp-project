@@ -5,15 +5,7 @@ export const appConfig: AppConfig = {
   kuzzle: {
     backends: {
       main: {
-        host: 'api-main-<projectName>.paas.kuzzle.io',
-        protocol: KuzzleProtocol.WEBSOCKET,
-        options: {
-          port: 443,
-          sslConnection: true,
-        },
-      },
-      uat: {
-        host: 'api-main-<projectName>.paas.kuzzle.io',
+        host: 'api-main-<projectId>.paas.kuzzle.io',
         protocol: KuzzleProtocol.WEBSOCKET,
         options: {
           port: 443,

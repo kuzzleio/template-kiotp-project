@@ -3,7 +3,7 @@
 set -e
 
 tries=0
-max_tries=60
+max_tries=180
 echo "[$(date)] - Waiting Kuzzle..."
 echo ""
 
@@ -14,7 +14,7 @@ do
     ((tries=tries+1))
 
     if [ $tries -eq $max_tries ]; then
-        docker-compose logs
+        docker compose logs
         curl http://localhost:7512?pretty
         echo "Cannot connect to Kuzzle after $tries tries. Aborting."
         exit 1

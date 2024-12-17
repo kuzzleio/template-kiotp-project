@@ -4,7 +4,7 @@ on:
   pull_request: # All pull requests
 
 env:
-  NODE_VERSION: "18"
+  NODE_VERSION: "20"
 
 jobs:
   lint:
@@ -12,26 +12,23 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Login to PaaS NPM registry
-        uses: kuzzleio/paas-action@v1.1.0
+        uses: kuzzleio/paas-action@v1.2.2
         with:
           username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
           password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
           login_only: true
-          npmrc_output_dir: ./
+          npmrc_output_dir: .
 
-      - name: Copy NPMRC
-        run: cp .npmrc ~/.npmrc
-
-
-      - uses: ./.github/actions/lint
+      - name: Lint the app
+        uses: ./.github/actions/lint
 
   functional-tests-backend:
     name: Functional Tests
@@ -39,23 +36,20 @@ jobs:
     needs: [lint]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Login to PaaS NPM registry
-        uses: kuzzleio/paas-action@v1.1.0
+        uses: kuzzleio/paas-action@v1.2.2
         with:
           username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
           password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
           login_only: true
-          npmrc_output_dir: ./
+          npmrc_output_dir: .
 
-      - name: Copy NPMRC
-        run: cp .npmrc ~/.npmrc
-
-
-      - uses: ./.github/actions/functional-test-backend
+      - name: Functionnal tests
+        uses: ./.github/actions/functional-test-backend
