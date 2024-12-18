@@ -48,4 +48,4 @@ window.addEventListener('beforeunload', () => {
   kuzzle.removeAllListeners('disconnected');
 });
 
-app.initVue()
+app.initVue();
