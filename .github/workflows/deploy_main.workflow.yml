@@ -26,6 +26,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install additional libraries
+        uses: ./.github/actions/install-packages
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -50,6 +53,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install additional libraries
+        uses: ./.github/actions/install-packages
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -72,6 +78,9 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
+
+      - name: Install additional libraries
+        uses: ./.github/actions/install-packages
 
       - name: Get current commit short SHA
         id: vars
@@ -115,6 +124,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install additional libraries
+        uses: ./.github/actions/install-packages
+
       - name: Get current commit short SHA
         id: vars
         shell: bash
@@ -144,6 +156,9 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
+
+      - name: Install additional libraries
+        uses: ./.github/actions/install-packages
 
       - name: Get current commit short SHA
         id: vars
@@ -186,6 +201,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install additional libraries
+        uses: ./.github/actions/install-packages
+
       - name: Get current commit short SHA
         id: vars
         shell: bash
@@ -219,6 +237,9 @@ jobs:
   #   runs-on: ubuntu-20.04
   #   steps:
   #     - uses: actions/checkout@v4
+
+  #     - name: Install additional libraries
+  #       uses: ./.github/actions/install-packages
 
   #     - name: Get current commit short SHA
   #       id: vars
@@ -260,6 +281,9 @@ jobs:
   #   needs: [push_exporter]
   #   steps:
   #     - uses: actions/checkout@v4
+
+  #     - name: Install additional libraries
+  #       uses: ./.github/actions/install-packages
 
   #     - name: Get current commit short SHA
   #       id: vars
