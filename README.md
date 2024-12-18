@@ -19,7 +19,7 @@ This is a product under license that require private packages in order to work. 
 ## Installation and run
 
 Requirement:
- - Node.js = 18
+ - Node.js >= 18
  - NPM = 10.1.0
  - Docker
  - Docker-Compose
@@ -36,13 +36,14 @@ This turborepo uses [npm](https://www.npmjs.com/) as a package manager. It inclu
 
 ### Install dependencies
 
-Log to Kuzzle npm private repository : https://docs.kuzzle.io/paas-console/1/guides/access-private-plugins/ 
+Log to Kuzzle npm private repository : https://docs.kuzzle.io/paas-console/1/guides/access-private-plugins/
 
 Go to the repository root and run `npm install`
 
 ### Run the stack
 
 ```bash
+docker compose run --rm api npm install
 docker compose up -d
 ```
 

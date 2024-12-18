@@ -9,9 +9,10 @@ runs:
         set +e
         npm ci
         export CI=true
+        docker compose run --rm kuzzle npm install
         docker compose up -d
         bash ./.github/actions/functional-test-backend/wait-kuzzle.sh
-        npm run test:functional
+        docker compose exec api npm run test:functional
         exitcode="$?"
         [[ "$exitcode" == "0" ]] || docker compose logs api
         exit "$exitcode"
