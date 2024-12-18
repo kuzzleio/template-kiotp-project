@@ -48,6 +48,9 @@ export default defineConfig(({ mode }) => {
         plugins: [tailwindcss, autoprefixer],
       },
     },
+    build: {
+      assetsDir: 'static-assets',
+    },
     plugins: [vue(), htmlPlugin(htmlTitle), splitVendorChunkPlugin()],
   };
 });
