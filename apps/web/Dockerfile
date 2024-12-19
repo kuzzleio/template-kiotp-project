@@ -1,5 +1,5 @@
 # Build step
-FROM kuzzleio/kuzzle-runner:18 AS builder
+FROM kuzzleio/kuzzle-runner:20 AS builder
 
 ARG VUE_APP_BACKEND
 ENV VUE_APP_BACKEND=$VUE_APP_BACKEND
@@ -8,11 +8,12 @@ WORKDIR /app
 COPY package*.json ./
 COPY . .
 
-RUN npm install
-RUN npm run build
+RUN npm install \
+  && npm run build \
+  && npm prune --omit=dev
 
 # Server step
-FROM nginx:stable-alpine AS production-stage
+FROM nginx:1.27.3-alpine AS production-stage
 
 COPY --from=builder /app/.nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/dist /usr/share/nginx/html

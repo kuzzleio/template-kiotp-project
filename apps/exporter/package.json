@@ -1,0 +1,21 @@
+{
+  "name": "exporter",
+  "scripts": {
+    "test:types": "tsc --noEmit",
+    "test:lint": "eslint ./src --ext .ts --config .eslintrc.json",
+    "test:lint:fix": "eslint ./src --ext .ts --config .eslintrc.json --fix",
+    "build": "tsc --build tsconfig.json",
+    "prepack": "npm run build",
+    "dev": "nodemon index.ts"
+  },
+  "dependencies": {
+    "@kuzzleio/puppeteer-exporter": "1.5.2"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "devDependencies": {
+    "nodemon": "2.0.22",
+    "typescript": "5.1.*"
+  }
+}

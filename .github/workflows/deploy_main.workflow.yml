@@ -6,23 +6,87 @@ on:
       - main
 
 env:
-  NODE_VERSION: "18"
+  NODE_VERSION: '20'
   KUZZLE_PAAS_REGISTRY: harbor.paas.kuzzle.io
-  KUZZLE_PAAS_PROJECT: <projectId>
+  KUZZLE_PAAS_PROJECT: projectId
+
+######################################
+# Uncomment this to deploy the expoter
+######################################
+
+  # IOT_CONSOLE_URL: https://iot-main-projectId.paas.kuzzle.io
+  # PUPPETEER_SERVER_URL: http://exporter-main-projectId
+  # PUPPETEER_SERVER_PORT: 3000
 
 jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install additional libraries
+        uses: ./.github/actions/install-packages
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Login to PaaS NPM registry
+        uses: kuzzleio/paas-action@v1.2.2
+        with:
+          username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
+          password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
+          login_only: true
+          npmrc_output_dir: .
+
+      - name: Lint the app
+        uses: ./.github/actions/lint
+
+  functional-tests-backend:
+    name: Functional Tests
+    runs-on: ubuntu-24.04
+    needs: [lint]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install additional libraries
+        uses: ./.github/actions/install-packages
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Login to PaaS NPM registry
+        uses: kuzzleio/paas-action@v1.2.2
+        with:
+          username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
+          password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
+          login_only: true
+          npmrc_output_dir: .
+
+      - name: Functionnal tests
+        uses: ./.github/actions/functional-test-backend
+
   push_backend:
     name: Backend artefact
-    runs-on: ubuntu-20.04
+    needs: [functional-tests-backend]
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
+      - name: Install additional libraries
+        uses: ./.github/actions/install-packages
 
       - name: Get current commit short SHA
         id: vars
         shell: bash
         run: |
-          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-          echo "::set-output name=ref::$(echo $GITHUB_REF | cut -d / -f 3)"
+          echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Login to registry
         uses: docker/login-action@v3
@@ -32,7 +96,7 @@ jobs:
           password: ${{ secrets.KUZZLE_PAAS_REGISTRY_PASSWORD }}
 
       - name: Login PaaS
-        uses: kuzzleio/paas-action@v1.1.0
+        uses: kuzzleio/paas-action@v1.2.2
         with:
           username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
           password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
@@ -43,7 +107,7 @@ jobs:
         run: cp ./package-lock.json ./apps/api
 
       - name: Build and push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v6
         with:
           file: ./apps/api/Dockerfile
           context: ./apps/api
@@ -51,51 +115,56 @@ jobs:
           build-args: |
             KUZZLE_VAULT_KEY=${{ secrets.KUZZLE_VAULT_KEY }}
             KUZZLE_ENV=main
-          tags: ${{ env.KUZZLE_PAAS_REGISTRY }}/${{ env.KUZZLE_PAAS_PROJECT }}/${{ steps.vars.outputs.ref }}/kuzzle:${{ steps.vars.outputs.sha_short }}
+          tags: ${{ env.KUZZLE_PAAS_REGISTRY }}/${{ env.KUZZLE_PAAS_PROJECT }}/${{ github.ref_name }}/kuzzle:${{ steps.vars.outputs.sha_short }}
 
   deploy_backend:
     name: Deploy backend artefact
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     needs: [push_backend]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
+      - name: Install additional libraries
+        uses: ./.github/actions/install-packages
 
       - name: Get current commit short SHA
         id: vars
         shell: bash
         run: |
-          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-          echo "::set-output name=ref::$(echo $GITHUB_REF | cut -d / -f 3)"
+          echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Install NodeJS
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Deploy to PaaS
-        uses: kuzzleio/paas-action@v1.1.0
+        uses: kuzzleio/paas-action@v1.2.2
         with:
           username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
           password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
           project: ${{ env.KUZZLE_PAAS_PROJECT }}
-          environment: ${{ steps.vars.outputs.ref }}
+          environment: ${{ github.ref_name }}
           application: api
           rollback: true
           timeout: 180
-          image: ${{ env.KUZZLE_PAAS_REGISTRY }}/${{ env.KUZZLE_PAAS_PROJECT }}/${{ steps.vars.outputs.ref }}/kuzzle:${{ steps.vars.outputs.sha_short }}
+          image: ${{ env.KUZZLE_PAAS_REGISTRY }}/${{ env.KUZZLE_PAAS_PROJECT }}/${{ github.ref_name }}/kuzzle:${{ steps.vars.outputs.sha_short }}
 
   push_iot_console:
     name: IoT Console artefact
-    runs-on: ubuntu-20.04
+    needs: [functional-tests-backend]
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
+      - name: Install additional libraries
+        uses: ./.github/actions/install-packages
 
       - name: Get current commit short SHA
         id: vars
         shell: bash
         run: |
-          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-          echo "::set-output name=ref::$(echo $GITHUB_REF | cut -d / -f 3)"
+          echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Login to registry
         uses: docker/login-action@v3
@@ -105,7 +174,7 @@ jobs:
           password: ${{ secrets.KUZZLE_PAAS_REGISTRY_PASSWORD }}
 
       - name: Login PaaS
-        uses: kuzzleio/paas-action@v1.1.0
+        uses: kuzzleio/paas-action@v1.2.2
         with:
           username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
           password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
@@ -116,42 +185,120 @@ jobs:
         run: cp ./package-lock.json ./apps/web
 
       - name: Build and push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v6
         with:
           build-args: |
-            VUE_APP_BACKEND=${{ steps.vars.outputs.ref }}
+            VUE_APP_BACKEND=${{ github.ref_name }}
           file: ./apps/web/Dockerfile
           context: ./apps/web
           push: true
-          tags: ${{ env.KUZZLE_PAAS_REGISTRY }}/${{ env.KUZZLE_PAAS_PROJECT }}/${{ steps.vars.outputs.ref }}/iot:${{ steps.vars.outputs.sha_short }}
+          tags: ${{ env.KUZZLE_PAAS_REGISTRY }}/${{ env.KUZZLE_PAAS_PROJECT }}/${{ github.ref_name }}/iot:${{ steps.vars.outputs.sha_short }}
 
   deploy_iot_console:
     name: Deploy IoT Console App to server
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     needs: [push_iot_console]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
+      - name: Install additional libraries
+        uses: ./.github/actions/install-packages
 
       - name: Get current commit short SHA
         id: vars
         shell: bash
         run: |
-          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-          echo "::set-output name=ref::$(echo $GITHUB_REF | cut -d / -f 3)"
+          echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Install NodeJS
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Deploy to PaaS
-        uses: kuzzleio/paas-action@v1.1.0
+        uses: kuzzleio/paas-action@v1.2.2
         with:
           username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
           password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
           project: ${{ env.KUZZLE_PAAS_PROJECT }}
-          environment: ${{ steps.vars.outputs.ref }}
+          environment: ${{ github.ref_name }}
           application: iot
           rollback: true
           timeout: 180
-          image: ${{ env.KUZZLE_PAAS_REGISTRY }}/${{ env.KUZZLE_PAAS_PROJECT }}/${{ steps.vars.outputs.ref }}/iot:${{ steps.vars.outputs.sha_short }}
+          image: ${{ env.KUZZLE_PAAS_REGISTRY }}/${{ env.KUZZLE_PAAS_PROJECT }}/${{ github.ref_name }}/iot:${{ steps.vars.outputs.sha_short }}
+
+######################################
+# Uncomment this to deploy the expoter
+######################################
+
+  # push_exporter:
+  #   name: Exporter artefact
+  #   needs: [functional-tests-backend]
+  #   runs-on: ubuntu-24.04
+  #   steps:
+  #     - uses: actions/checkout@v4
+
+  #     - name: Install additional libraries
+  #       uses: ./.github/actions/install-packages
+
+  #     - name: Get current commit short SHA
+  #       id: vars
+  #       shell: bash
+  #       run: |
+  #         echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+  #     - name: Login to registry
+  #       uses: docker/login-action@v3
+  #       with:
+  #         registry: ${{ env.KUZZLE_PAAS_REGISTRY }}
+  #         username: ${{ secrets.KUZZLE_PAAS_REGISTRY_USERNAME }}
+  #         password: ${{ secrets.KUZZLE_PAAS_REGISTRY_PASSWORD }}
+
+  #     - name: Login PaaS
+  #       uses: kuzzleio/paas-action@v1.2.2
+  #       with:
+  #         username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
+  #         password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
+  #         npmrc_output_dir: ./apps/exporter
+  #         login_only: true
+
+  #     - name: Copy package-lock.json
+  #       run: cp ./package-lock.json ./apps/exporter
+
+  #     - name: Build and push
+  #       uses: docker/build-push-action@v6
+  #       with:
+  #         build-args: |
+  #           IOT_CONSOLE_URL=${{ env.IOT_CONSOLE_URL}}
+  #         file: ./apps/exporter/Dockerfile
+  #         context: ./apps/exporter
+  #         push: true
+  #         tags: ${{ env.KUZZLE_PAAS_REGISTRY }}/${{ env.KUZZLE_PAAS_PROJECT }}/${{ github.ref_name }}/exporter:${{ steps.vars.outputs.sha_short }}
+
+  # deploy_exporter:
+  #   name: Deploy Exporter App to server
+  #   runs-on: ubuntu-24.04
+  #   needs: [push_exporter]
+  #   steps:
+  #     - uses: actions/checkout@v4
+
+  #     - name: Install additional libraries
+  #       uses: ./.github/actions/install-packages
+
+  #     - name: Get current commit short SHA
+  #       id: vars
+  #       shell: bash
+  #       run: |
+  #         echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+  #     - name: Deploy to PaaS
+  #       uses: kuzzleio/paas-action@v1.2.2
+  #       with:
+  #         username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
+  #         password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
+  #         project: ${{ env.KUZZLE_PAAS_PROJECT }}
+  #         environment: ${{ github.ref_name }}
+  #         application: exporter
+  #         rollback: true
+  #         timeout: 180
+  #         image: ${{ env.KUZZLE_PAAS_REGISTRY }}/${{ env.KUZZLE_PAAS_PROJECT }}/${{ github.ref_name }}/exporter:${{ steps.vars.outputs.sha_short }}
