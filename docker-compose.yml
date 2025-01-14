@@ -2,7 +2,7 @@ name: "template-iot"
 
 services:
   api:
-    image: kuzzleio/kuzzle-runner:20
+    image: kuzzleio/kuzzle-runner:22
     command: sh /var/app/start.sh api
     volumes:
       - .:/var/app
@@ -33,7 +33,7 @@ services:
       start_period: 1m
 
   web:
-    image: kuzzleio/kuzzle-runner:20
+    image: kuzzleio/kuzzle-runner:22
     command: sh /var/app/start.sh web
     volumes:
       - .:/var/app

@@ -1,4 +1,4 @@
-FROM kuzzleio/kuzzle-runner:20 AS builder
+FROM kuzzleio/kuzzle-runner:22 AS builder
 
 WORKDIR /var/app
 
@@ -11,7 +11,7 @@ COPY . .
 RUN npm run build \
     && npm prune --omit=dev
 
-FROM node:20-bookworm-slim
+FROM node:22-bookworm-slim
 
 WORKDIR /var/app
 
