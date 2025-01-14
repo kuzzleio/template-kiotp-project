@@ -18,19 +18,19 @@
     "@kuzzleio/iot-platform-frontend": "3.3.6",
     "@vuelidate/core": "2.0.*",
     "kuzzle-device-manager-types": "2.5.1",
-    "lodash": "^4.17.21",
-    "vue-plugin-kuzzle": "^4.6.0"
+    "lodash": "4.17.21",
+    "vue-plugin-kuzzle": "4.6.0"
   },
   "devDependencies": {
     "@types/lodash": "4.17",
-    "@vitejs/plugin-vue2": "^2.3.3",
-    "autoprefixer": "^10.4.20",
-    "eslint-plugin-tailwindcss": "^3.17.5",
-    "eslint-plugin-vue-kuzzle": "^0.0.13",
+    "@vitejs/plugin-vue2": "2.3.3",
+    "autoprefixer": "10.4.20",
+    "eslint-plugin-tailwindcss": "3.17.5",
+    "eslint-plugin-vue-kuzzle": "0.0.13",
     "sass": "1.83.*",
-    "tailwindcss": "^3.4.17",
+    "tailwindcss": "3.4.17",
     "typescript": "5.4.*",
-    "vite": "^6.0.7",
-    "vue-tsc": "^2.2.0"
+    "vite": "6.0.7",
+    "vue-tsc": "2.2.0"
   }
 }

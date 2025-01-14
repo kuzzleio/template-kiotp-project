@@ -14,7 +14,7 @@
     "test:functional": "turbo run test:functional"
   },
   "devDependencies": {
-    "eslint-plugin-kuzzle": "0.0.13",
+    "eslint-plugin-kuzzle": "0.0.12",
     "eslint-plugin-prettier": "5.2.1",
     "prettier": "3.4.2",
     "turbo": "2.3.3",
