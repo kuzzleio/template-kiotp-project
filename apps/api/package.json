@@ -10,7 +10,7 @@
     "dev": "NODE_ENV=development ergol app.ts -c ergol.config.json",
     "format": "prettier lib/ tests/ --write",
     "test": "npm run test:lint && npm run test:types && npm run test:functional",
-    "test:lint": "eslint ./lib ./tests --ext .ts",
+    "test:lint": "eslint ./lib ./tests",
     "test:lint:fix": "npm run test:lint -- --fix",
     "test:types": "tsc --noEmit -p tsconfig.test.json",
     "test:functional": "jest --runInBand --detectOpenHandles --forceExit",
@@ -20,28 +20,27 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@kuzzleio/iot-platform-backend": "3.3.6",
-    "kuzzle": "^2",
-    "lodash": "^4.17.21"
+    "kuzzle": "2.38.1",
+    "lodash": "4.17.21"
   },
   "devDependencies": {
     "@kuzzleio/plugin-multi-tenancy": "*",
-    "@types/jest": "^29.5.14",
-    "@types/lodash": "^4.17.14",
-    "@types/node": "^22.10.6",
-    "ergol": "^1.0.2",
-    "eslint-plugin-kuzzle": "^0.0.13",
-    "jest": "^29.7.0",
-    "kuzzle-sdk": "^7.14.*",
-    "ts-jest": "^29.2.5",
-    "ts-node": "^10.9.2",
+    "@types/jest": "29.5.14",
+    "@types/lodash": "4.17.14",
+    "@types/node": "22.10.6",
+    "ergol": "1.0.2",
+    "eslint-plugin-kuzzle": "0.0.13",
+    "jest": "29.7.0",
+    "kuzzle-sdk": "7.14.*",
+    "ts-jest": "29.2.5",
+    "ts-node": "10.9.2",
     "typescript": "5.4.*"
   },
   "files": [
     "dist/**/"
   ],
-  "kuzzle": {
-    "paas": {
-      "project": "demoiot"
-    }
-  }
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "npm@11.0.0"
 }

@@ -1,5 +1,5 @@
 # Builder stage
-FROM kuzzleio/kuzzle-runner:16 as builder
+FROM kuzzleio/kuzzle-runner:22 as builder
 
 RUN npm i -g npm@9.5.0 \
  && chown -R 1000:1000 "/var/npm"
@@ -16,7 +16,7 @@ RUN npm install
 RUN npm run build
 RUN npm prune --production
 
-FROM node:16-bullseye-slim
+FROM node:22-bullseye-slim
 
 # Puppeteer Chrome headless dependencies
 RUN apt-get update && apt-get install -y \
