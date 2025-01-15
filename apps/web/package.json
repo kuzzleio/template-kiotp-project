@@ -14,23 +14,27 @@
     "ci:types": "vue-tsc --version && npm run test:types"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "6.2.*",
-    "@kuzzleio/iot-platform-frontend": "3.3.2",
+    "@fortawesome/fontawesome-free": "6.7.*",
+    "@kuzzleio/iot-platform-frontend": "3.3.6",
     "@vuelidate/core": "2.0.*",
-    "kuzzle-device-manager-types": "2.4.0-beta.16",
-    "lodash": "^4.17.21",
-    "vue-plugin-kuzzle": "^4.5.0"
+    "kuzzle-device-manager-types": "2.5.1",
+    "lodash": "4.17.21",
+    "vue-plugin-kuzzle": "4.6.0"
   },
   "devDependencies": {
     "@types/lodash": "4.17",
-    "@vitejs/plugin-vue2": "^2.2.0",
-    "autoprefixer": "^10.4.15",
-    "eslint-plugin-tailwindcss": "^3.14.3",
-    "eslint-plugin-vue-kuzzle": "^0.0.12",
-    "sass": "1.63.*",
-    "tailwindcss": "^3.4.1",
+    "@vitejs/plugin-vue2": "2.3.3",
+    "autoprefixer": "10.4.20",
+    "eslint-plugin-tailwindcss": "3.17.5",
+    "eslint-plugin-vue-kuzzle": "0.0.12",
+    "sass": "1.83.*",
+    "tailwindcss": "3.4.17",
     "typescript": "5.4.*",
-    "vite": "^4.4.6",
-    "vue-tsc": "^1.8.10"
-  }
+    "vite": "6.0.7",
+    "vue-tsc": "2.2.0"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "npm@11.0.0"
 }

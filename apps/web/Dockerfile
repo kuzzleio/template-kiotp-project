@@ -1,5 +1,5 @@
 # Build step
-FROM kuzzleio/kuzzle-runner:20 AS builder
+FROM kuzzleio/kuzzle-runner:22 AS builder
 
 ARG VUE_APP_BACKEND
 ENV VUE_APP_BACKEND=$VUE_APP_BACKEND

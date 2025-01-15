@@ -1,0 +1,17 @@
+{
+  "plugins": ["kuzzle"],
+  "extends": ["plugin:kuzzle/default", "plugin:kuzzle/node"],
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
+  "rules": {
+    "sort-keys": "warn",
+    "kuzzle/array-foreach": "warn"
+  },
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "extends": ["plugin:kuzzle/typescript"]
+    }
+  ]
+}
