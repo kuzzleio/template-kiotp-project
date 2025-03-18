@@ -32,7 +32,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     server: {
-      port: 8080,
+      port: 8081,
     },
     define: {
       'process.env': env,

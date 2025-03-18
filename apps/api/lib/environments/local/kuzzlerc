@@ -1,33 +1,33 @@
 {
   "application": {
-    // "keycloak": {
-    //   "backend": {
-    //     "apiPath": "https://sso.example.com/admin/realms/<projectName>/",
-    //     "clientId": "kiotp-back",
-    //     "clientSecret" : "clientSecret",
-    //     "issuer": "https://sso.example.com/realms/<projectName>"
-    //   },
-    //   "frontend": {
-    //     "clientId": "kiotp-front",
-    //     "strategyName": "keycloak"
-    //   }
-    // }
+    "keycloak": {
+      "backend": {
+        "apiPath": "http://localhost:8080/admin/realms/kuzzle/",
+        "clientId": "kiotp-back",
+        "clientSecret": "CVTmYUoTr71a6ouCqKqtvQF0x9jAwJmk",
+        "issuer": "http://localhost:8080/realms/kuzzle"
+      },
+      "frontend": {
+        "clientId": "kiotp-front",
+        "strategyName": "keycloak"
+      }
+    }
   },
   "plugins": {
-    // "keycloak": {
-    //   "clientConfig": {
-    //     "client_id": "kiotp-front",
-    //     "redirect_uris": [
-    //       "https://api.example.com/_login/keycloak"
-    //     ],
-    //     "response_type": "code",
-    //     "token_endpoint_auth_method": "none"
-    //   },
-    //   "issuerAutoDiscover": true,
-    //   "issuerConfig": {
-    //     "issuer": "https://sso.example.com/realms/<issuer>"
-    //   }
-    // },
+    "keycloak": {
+      "clientConfig": {
+        "client_id": "kiotp-front",
+        "redirect_uris": [
+          "http://localhost:7512/_login/keycloak"
+        ],
+        "response_type": "code",
+        "token_endpoint_auth_method": "none"
+      },
+      "issuerAutoDiscover": true,
+      "issuerConfig": {
+        "issuer": "http://localhost:8080/realms/kuzzle"
+      }
+    },
     "multi-tenancy": {
       "softTenant": true
     }

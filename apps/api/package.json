@@ -19,20 +19,20 @@
   "main": "app.ts",
   "license": "Apache-2.0",
   "dependencies": {
-    "@kuzzleio/iot-platform-backend": "3.3.6",
-    "kuzzle": "2.38.1",
+    "@kuzzleio/iot-platform-backend": "3.4.1",
+    "kuzzle": "2.42.0",
     "lodash": "4.17.21"
   },
   "devDependencies": {
     "@kuzzleio/plugin-multi-tenancy": "*",
     "@types/jest": "29.5.14",
-    "@types/lodash": "4.17.14",
-    "@types/node": "22.10.6",
+    "@types/lodash": "4.17.16",
+    "@types/node": "22.13.10",
     "ergol": "1.0.2",
     "eslint-plugin-kuzzle": "0.0.13",
     "jest": "29.7.0",
-    "kuzzle-sdk": "7.14.*",
-    "ts-jest": "29.2.5",
+    "kuzzle-sdk": "7.15.0",
+    "ts-jest": "29.2.6",
     "ts-node": "10.9.2",
     "typescript": "5.4.*"
   },
@@ -42,5 +42,5 @@
   "engines": {
     "node": ">=22"
   },
-  "packageManager": "npm@11.0.0"
+  "packageManager": "npm@11.2.0"
 }

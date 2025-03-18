@@ -22,4 +22,14 @@ export const appConfig: AppConfig = {
       },
     },
   },
+  customizations: {},
+  authentication: {
+    type: 'keycloak',
+    clientConfig: {
+      authority: 'http://localhost:8080/realms/kuzzle',
+      client_id: 'kiotp-front',
+      response_type: 'code',
+      scope: 'openid',
+    },
+  },
 };
