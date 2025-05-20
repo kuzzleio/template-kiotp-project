@@ -10,7 +10,7 @@ describe('Connect', () => {
 
   it('should connect to Kuzzle backend', async () => {
     const serverInfo = kuzzle.query({
-      action: 'metrics',
+      action: 'publicApi',
       controller: 'server',
     });
 
