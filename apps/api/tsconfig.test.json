@@ -5,9 +5,9 @@
     "noEmit": true
   },
   "include": [
-    ".eslintrc.cjs",
+    ".eslintrc.json",
     "app.ts",
-    "jest.config.ts",
+    "vitest.config.ts",
     "lib/**/*.ts",
     "tests/**/*.ts"
   ]

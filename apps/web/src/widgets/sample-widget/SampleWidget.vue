@@ -1,8 +1,11 @@
 <template>
   <div class="text-left h-100">
     <div class="sample-widget">
-      <h2> {{ $i18n.t('widget.sample-widget.title') }} </h2>
-      <h3>{{ $i18n.t('widget.sample-widget.buckettingField') }} {{ props.widgetSettings.buckettingField }}</h3>
+      <h2>{{ $i18n.t('widget.sample-widget.title') }}</h2>
+      <h3>
+        {{ $i18n.t('widget.sample-widget.buckettingField') }}
+        {{ props.widgetSettings.buckettingField }}
+      </h3>
 
       <KTable :items="data" :total="data.length" :headers="headers">
         <template #cell(name)="itemData">
@@ -19,18 +22,12 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue';
 // Use I18N to translate your widget texts
-import {
-  useKuzzle,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  useI18n,
-  useToast,
-  KTable,
-  KTableHeader,
-} from '@kuzzleio/iot-platform-frontend';
+import { useKuzzle, useI18n, useToast, KTable } from '@kuzzleio/iot-platform-frontend';
+import type { KTableHeader } from '@kuzzleio/iot-platform-frontend';
 import type { AssetContent } from 'kuzzle-device-manager-types';
 
 // Types
-import { SampleWidgetSettingsType } from './SampleWidgetSettings';
+import type { SampleWidgetSettingsType } from './SampleWidgetSettings';
 
 // Props
 interface SampleWidgetProps {
@@ -87,13 +84,7 @@ onMounted(() => {
 async function fetchData(): Promise<void> {
   if (props.widgetSettings?.buckettingField !== undefined) {
     const res = await $kuzzle.document.search<AssetContent>(props.engineIndex, 'assets', {
-      aggs: {
-        term_agg: {
-          terms: {
-            field: 'metadata.' + props.widgetSettings.buckettingField,
-          },
-        },
-      },
+      aggs: { term_agg: { terms: { field: 'metadata.' + props.widgetSettings.buckettingField } } },
     });
 
     const agg: Array<{ [x: string]: number }> = [];

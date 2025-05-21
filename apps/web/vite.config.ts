@@ -52,5 +52,9 @@ export default defineConfig(({ mode }) => {
       assetsDir: 'static-assets',
     },
     plugins: [vue(), htmlPlugin(htmlTitle), splitVendorChunkPlugin()],
+    test: {
+      globals: true,
+      environment: 'happy-dom',
+    },
   };
 });

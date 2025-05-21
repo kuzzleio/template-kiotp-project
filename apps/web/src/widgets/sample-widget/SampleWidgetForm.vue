@@ -24,7 +24,7 @@ import { reactive } from 'vue';
 import cloneDeep from 'lodash/cloneDeep';
 
 // Types
-import { SampleWidgetSettingsType } from './SampleWidgetSettings';
+import type { SampleWidgetSettingsType } from './SampleWidgetSettings';
 export interface SampleWidgetFormProps {
   // The index name where the Dashboard engine is installed
   engineIndex: string;
