@@ -43,7 +43,7 @@ Go to the repository root and run `npm install`
 ### Run the stack
 
 ```bash
-docker compose run --rm api npm install
+docker compose run --rm --no-deps kuzzle npm ci
 docker compose up -d
 ```
 

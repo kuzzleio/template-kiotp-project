@@ -14,15 +14,12 @@
     "test:functional": "turbo run test:functional"
   },
   "devDependencies": {
-    "eslint": "8.50.0",
-    "eslint-plugin-kuzzle": "0.0.12",
-    "eslint-plugin-prettier": "5.2.1",
-    "prettier": "3.4.2",
-    "turbo": "2.3.3",
+    "eslint-plugin-kuzzle": "0.0.13",
+    "turbo": "2.5.3",
     "typescript": "5.4.*"
   },
   "engines": {
     "node": ">=22"
   },
-  "packageManager": "npm@11.0.0"
+  "packageManager": "npm@11.4.0"
 }
