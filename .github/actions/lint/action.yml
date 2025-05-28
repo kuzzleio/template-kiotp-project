@@ -1,11 +1,10 @@
 name: ESLint
 description: Run ESLint
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Install deps
       shell: bash
       run: |
-        git config --global url."git@github.com:".insteadOf git://github.com/
         npm ci
         npm run test:lint
