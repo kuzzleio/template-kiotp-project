@@ -15,11 +15,11 @@
   },
   "devDependencies": {
     "eslint-plugin-kuzzle": "0.0.13",
-    "turbo": "2.5.3",
+    "turbo": "2.5.4",
     "typescript": "5.4.*"
   },
   "engines": {
     "node": ">=22"
   },
-  "packageManager": "npm@11.4.0"
+  "packageManager": "npm@11.4.1"
 }

@@ -54,7 +54,6 @@ export default defineConfig(({ mode }) => {
     plugins: [vue(), htmlPlugin(htmlTitle), splitVendorChunkPlugin()],
     test: {
       globals: true,
-      environment: 'happy-dom',
     },
   };
 });

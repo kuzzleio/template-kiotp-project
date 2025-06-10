@@ -1,8 +1,8 @@
 {
   "name": "template-iot-api",
-  "version": "0.0.0",
-  "description": "",
-  "author": "",
+  "version": "1.0.0",
+  "description": "Kuzzle IoT Platform API template",
+  "author": "The Kuzzle Team <support@kuzzle.io>",
   "scripts": {
     "clean": "rm -rf dist",
     "build": "npm run clean && tsc --build",
@@ -20,7 +20,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@kuzzleio/iot-platform-backend": "3.5.2",
-    "kuzzle": "2.43.1",
+    "kuzzle": "2.43.2",
     "lodash": "4.17.21"
   },
   "devDependencies": {
@@ -31,7 +31,7 @@
     "ts-node": "10.9.2",
     "tsx": "4.19.4",
     "typescript": "5.4.*",
-    "vitest": "3.1.4"
+    "vitest": "3.2.3"
   },
   "files": [
     "dist/**/"
@@ -39,5 +39,5 @@
   "engines": {
     "node": ">=22"
   },
-  "packageManager": "npm@11.4.0"
+  "packageManager": "npm@11.4.1"
 }
