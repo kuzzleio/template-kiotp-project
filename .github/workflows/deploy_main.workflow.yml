@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Install additional libraries
         uses: ./.github/actions/install-packages
@@ -44,6 +46,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Install additional libraries
         uses: ./.github/actions/install-packages
@@ -70,6 +74,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Install additional libraries
         uses: ./.github/actions/install-packages
@@ -115,6 +121,8 @@ jobs:
     needs: [push_backend]
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Install additional libraries
         uses: ./.github/actions/install-packages
@@ -148,6 +156,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Install additional libraries
         uses: ./.github/actions/install-packages
@@ -192,6 +202,8 @@ jobs:
     needs: [push_iot_console]
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Install additional libraries
         uses: ./.github/actions/install-packages
