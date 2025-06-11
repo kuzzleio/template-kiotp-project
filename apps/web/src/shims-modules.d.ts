@@ -1,6 +1,6 @@
 declare module 'vue2-leaflet-markercluster' {
   import Vue from 'vue';
-  import L from 'leaflet';
+  import type L from 'leaflet';
   export default class VueMarkercluster extends Vue {
     // data
     ready: boolean;

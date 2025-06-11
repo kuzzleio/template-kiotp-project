@@ -1,4 +1,4 @@
-import { driverType } from '~/composables/useLamp';
+import type { driverType } from '~/composables/useLamp';
 
 export interface LightingOnOff {
   type: 0;

@@ -1,72 +1,102 @@
-name: "template-iot"
-
 services:
-  api:
+  redis:
+    image: redis:6
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 1s
+      timeout: 3s
+      retries: 30
+    network_mode: 'host'
+
+  elasticsearch:
+    image: kuzzleio/elasticsearch:7
+    restart: unless-stopped
+    ports:
+      - '9200:9200'
+    environment:
+      - ingest.geoip.downloader.enabled=false
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:9200']
+      interval: 2s
+      timeout: 2s
+      retries: 10
+    ulimits:
+      nofile: 65536
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    network_mode: 'host'
+
+  web:
     image: kuzzleio/kuzzle-runner:22
-    command: sh /var/app/start.sh api
+    restart: unless-stopped
+    command: ${DOCKER_COMMAND:-npm run dev --prefix /var/app/apps/web}
     volumes:
       - .:/var/app
-      - ~/.npmrc:/root/.npmrc
+    depends_on:
+      kuzzle:
+        condition: service_healthy
+    ports:
+      - '8080:8080'
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8080']
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    network_mode: 'host'
+
+  kuzzle:
+    image: kuzzleio/kuzzle-runner:22
+    restart: unless-stopped
+    command: ${DOCKER_COMMAND:-npm run dev --prefix /var/app/apps/api}
     depends_on:
       redis:
         condition: service_healthy
       elasticsearch:
         condition: service_healthy
     ports:
-      - "7512:7512"
-      - "7511:7511"
-      - "7510:7510"
-      - "9229:9229"
-      - "1883:1883"
-    environment:
-      - kuzzle_services__storageEngine__client__node=http://elasticsearch:9200
-      - kuzzle_services__storageEngine__commonMapping__dynamic=true
-      - kuzzle_services__internalCache__node__host=redis
-      - kuzzle_services__memoryStorage__node__host=redis
-      - NODE_ENV=${NODE_ENV:-development}
-      - DEBUG=${DEBUG:-none}
+      - '7512:7512'
+      - '9229:9229'
+      - '1883:1883'
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://api:7512/_healthcheck"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:7512/_healthcheck']
       timeout: 10s
       interval: 10s
       retries: 30
       start_period: 1m
-
-  web:
-    image: kuzzleio/kuzzle-runner:22
-    command: sh /var/app/start.sh web
     volumes:
       - .:/var/app
-    depends_on:
-      api:
-        condition: service_healthy
-    ports:
-      - "8080:8080"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://web:8080"]
-      interval: 5s
-      timeout: 5s
-      retries: 30
+      - ~/.npmrc:/root/.npmrc:cached
+    environment:
+      - kuzzle_services__storageEngine__client__node=http://localhost:9200
+      - kuzzle_services__storageEngine__commonMapping__dynamic=true
+      - kuzzle_services__internalCache__node__host=localhost
+      - kuzzle_services__memoryStorage__node__host=localhost
+      - NODE_ENV=${NODE_ENV:-development}
+      - DEBUG=${DEBUG:-none}
+      - BACKEND_COMMAND=${BACKEND_COMMAND:-npm run dev}
+      - KUZZLE_SECRETS_FILE=${KUZZLE_SECRETS_FILE:-}
+      - KUZZLE_VAULT_KEY=${KUZZLE_VAULT_KEY:-}
+      - PUPPETEER_SERVER_URL=http://localhost
+      - PUPPETEER_SERVER_PORT=3000
+    network_mode: 'host'
 
-  redis:
-    image: redis:5
+  exporter:
+    image: kuzzleio/kuzzle-exporter:1.6.2
     ports:
-      - "6379:6379"
+      - '3000:3000'
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 5s
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000/_healthcheck']
+      timeout: 10s
+      interval: 10s
       retries: 30
+      start_period: 1m
+    environment:
+      - IOT_CONSOLE_URL=http://localhost:8080
+      - PUPPETEER_SERVER_PORT=3000
+    network_mode: 'host'
 
-  elasticsearch:
-    image: kuzzleio/elasticsearch:7
-    volumes:
-      - "/tmp/snapshots:/tmp/snapshots"
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://elasticsearch:9200"]
-      interval: 5s
-      timeout: 5s
-      retries: 30
+volumes:
+  esdata:
