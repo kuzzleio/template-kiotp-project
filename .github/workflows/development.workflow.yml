@@ -3,6 +3,9 @@ name: Run functional tests and lint on development branches and pull requests
 on:
   pull_request: # All pull requests
 
+permissions:
+  contents: read
+
 env:
   NODE_VERSION: '22'
 
