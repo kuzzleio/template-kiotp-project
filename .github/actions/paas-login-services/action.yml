@@ -1,0 +1,44 @@
+name: Connect to Paas services
+description: Connect to registry and packages manager
+
+inputs:
+  registry:
+    required: true
+    description: 'Docker registry URL'
+  registry_username:
+    required: true
+    description: 'Registry username'
+  registry_password:
+    required: true
+    description: 'Registry password'
+  paas_username:
+    required: true
+    description: 'Paas username'
+  paas_password:
+    required: true
+    description: 'Paas password'
+  npmrc_output_dir:
+    required: true
+    description: '.npmrc output dir'
+  login_only:
+    required: false
+    default: false
+    description: 'Paas login only feature (exit after login)'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Login to PaaS images registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ inputs.registry }}
+        username: ${{ inputs.registry_username }}
+        password: ${{ inputs.registry_password }}
+
+    - name: Login PaaS packages registry
+      uses: kuzzleio/paas-action@v1.2.2
+      with:
+        username: ${{ inputs.paas_username }}
+        password: ${{ inputs.paas_password }}
+        npmrc_output_dir: ${{ inputs.npmrc_output_dir }}
+        login_only: ${{ inputs.login_only }}
