@@ -1,0 +1,59 @@
+name: Connect to Paas services
+description: Connect to registry and packages manager
+
+inputs:
+  context:
+    required: true
+    description: 'Context of the build'
+  registry_username:
+    required: true
+    description: 'Registry username'
+  scanners:
+    required: true
+    description: 'Run scanners, or not'
+  platforms:
+    required: true
+    description: 'Platform to build image against'
+  tags:
+    required: true
+    description: 'Tags to push to dockerhub'
+  build-args:
+    required: true
+    description: 'Build args for the docker image'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build and export to Docker
+      uses: docker/build-push-action@v6
+      with:
+        file: ${{ inputs.context }}/Dockerfile
+        context: ${{ inputs.context }}
+        build-args: ${{ inputs.build-args }}
+        load: true
+        tags: ${{ inputs.tags }}
+
+    - name: Run Trivy vulnerability scanner
+      if: ${{ inputs.scanners == 'true' }}
+      uses: aquasecurity/trivy-action@0.28.0
+      with:
+        image-ref: ${{ inputs.tags }}
+        format: table
+        exit-code: 1
+        ignore-unfixed: true
+        vuln-type: os,library
+        severity: CRITICAL,HIGH
+
+    - name: Push the paas image
+      uses: docker/build-push-action@v6
+      with:
+        platforms: ${{ inputs.platforms }}
+        context: ${{ inputs.context }}
+        push: true
+        tags: ${{ inputs.tags }}

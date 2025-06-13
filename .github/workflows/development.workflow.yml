@@ -4,10 +4,10 @@ on:
   pull_request: # All pull requests
 
 env:
-  NODE_VERSION: "22"
+  NODE_VERSION: '22'
 
 jobs:
-  lint:
+  test_lint:
     name: Lint
     runs-on: ubuntu-24.04
     steps:
@@ -15,9 +15,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-
-      - name: Install additional libraries
-        uses: ./.github/actions/install-packages
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -33,10 +30,35 @@ jobs:
           npmrc_output_dir: .
 
       - name: Lint the app
-        uses: ./.github/actions/lint
+        uses: ./.github/actions/test-lint
 
-  functional-tests-backend:
+  test_functional:
     name: Functional Tests
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Login to PaaS NPM registry
+        uses: kuzzleio/paas-action@v1.2.2
+        with:
+          username: ${{ secrets.KUZZLE_PAAS_USERNAME }}
+          password: ${{ secrets.KUZZLE_PAAS_PASSWORD }}
+          login_only: true
+          npmrc_output_dir: .
+
+      - name: Functionnal tests
+        uses: ./.github/actions/test-functional
+
+  test_build:
+    name: Build apps
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout repository
@@ -60,5 +82,5 @@ jobs:
           login_only: true
           npmrc_output_dir: .
 
-      - name: Functionnal tests
-        uses: ./.github/actions/functional-test-backend
+      - run: npm ci
+      - run: npm run build
