@@ -58,7 +58,9 @@ jobs:
           tags: ${{ secrets.KUZZLE_PAAS_REGISTRY }}/${{ secrets.KUZZLE_PAAS_PROJECT }}/kuzzle:${{ needs.set_vars.outputs.sha_short }}
           scanners: true
           platforms: ${{ env.PLATFORMS }}
-          build-args: KUZZLE_VAULT_KEY=${{ secrets.KUZZLE_VAULT_KEY }},KUZZLE_ENV=${{ env.KUZZLE_ENV }}
+          build-args: |
+            KUZZLE_VAULT_KEY=${{ secrets.KUZZLE_VAULT_KEY }}
+            KUZZLE_ENV=${{ env.KUZZLE_ENV }}
 
   frontend_artefact:
     name: Frontend artefact
@@ -93,7 +95,8 @@ jobs:
           tags: ${{ secrets.KUZZLE_PAAS_REGISTRY }}/${{ secrets.KUZZLE_PAAS_PROJECT }}/iot:${{ needs.set_vars.outputs.sha_short }}
           scanners: true
           platforms: ${{ env.PLATFORMS }}
-          build-args: VUE_APP_BACKEND=${{ github.ref_name }}
+          build-args: |
+            VUE_APP_BACKEND=${{ github.ref_name }}
 
   deploy_backend:
     name: Deploy backend artefact
