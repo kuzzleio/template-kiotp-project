@@ -55,7 +55,7 @@ jobs:
         uses: ./.github/actions/paas-docker-build
         with:
           context: ./apps/api
-          tags: ${{ secrets.KUZZLE_PAAS_REGISTRY }}/${{ secrets.KUZZLE_PAAS_PROJECT }}/kuzzle:${{ needs.set_vars.outputs.sha_short }}
+          tags: ${{ secrets.KUZZLE_PAAS_REGISTRY }}/${{ secrets.KUZZLE_PAAS_PROJECT }}/${{ github.ref_name }}/kuzzle:${{ needs.set_vars.outputs.sha_short }}
           scanners: true
           platforms: ${{ env.PLATFORMS }}
           build-args: |
@@ -92,7 +92,7 @@ jobs:
         uses: ./.github/actions/paas-docker-build
         with:
           context: ./apps/web
-          tags: ${{ secrets.KUZZLE_PAAS_REGISTRY }}/${{ secrets.KUZZLE_PAAS_PROJECT }}/iot:${{ needs.set_vars.outputs.sha_short }}
+          tags: ${{ secrets.KUZZLE_PAAS_REGISTRY }}/${{ secrets.KUZZLE_PAAS_PROJECT }}/${{ github.ref_name }}/iot:${{ needs.set_vars.outputs.sha_short }}
           scanners: true
           platforms: ${{ env.PLATFORMS }}
           build-args: |
@@ -122,7 +122,7 @@ jobs:
           application: api
           rollback: true
           timeout: 180
-          image: ${{ secrets.KUZZLE_PAAS_REGISTRY }}/${{ secrets.KUZZLE_PAAS_PROJECT }}/kuzzle:${{ needs.set_vars.outputs.sha_short }}
+          image: ${{ secrets.KUZZLE_PAAS_REGISTRY }}/${{ secrets.KUZZLE_PAAS_PROJECT }}/${{ github.ref_name }}/kuzzle:${{ needs.set_vars.outputs.sha_short }}
 
   deploy_iot_console:
     name: Deploy IoT Console App to server
@@ -148,4 +148,4 @@ jobs:
           application: iot
           rollback: true
           timeout: 180
-          image: ${{ secrets.KUZZLE_PAAS_REGISTRY }}/${{ secrets.KUZZLE_PAAS_PROJECT }}/iot:${{ needs.set_vars.outputs.sha_short }}
+          image: ${{ secrets.KUZZLE_PAAS_REGISTRY }}/${{ secrets.KUZZLE_PAAS_PROJECT }}/${{ github.ref_name }}/iot:${{ needs.set_vars.outputs.sha_short }}
