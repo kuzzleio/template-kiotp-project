@@ -86,6 +86,7 @@ services:
 
   exporter:
     image: kuzzleio/kuzzle-exporter:1.6.2
+    restart: unless-stopped
     ports:
       - '3000:3000'
     healthcheck:
