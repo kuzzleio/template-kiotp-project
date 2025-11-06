@@ -85,10 +85,11 @@ services:
       - KUZZLE_VAULT_KEY=${KUZZLE_VAULT_KEY:-}
       - PUPPETEER_SERVER_URL=http://localhost
       - PUPPETEER_SERVER_PORT=3000
+      - IOT_CONSOLE_URL=http://localhost:8080
     network_mode: 'host'
 
   exporter:
-    image: kuzzleio/kuzzle-exporter:1.6.2
+    image: kuzzleio/kuzzle-exporter:1.7.1
     restart: unless-stopped
     ports:
       - '3000:3000'
@@ -98,9 +99,6 @@ services:
       interval: 10s
       retries: 30
       start_period: 1m
-    environment:
-      - IOT_CONSOLE_URL=http://localhost:8080
-      - PUPPETEER_SERVER_PORT=3000
     network_mode: 'host'
 
 volumes:
