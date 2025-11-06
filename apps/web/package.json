@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "7.1.*",
-    "@kuzzleio/iot-platform-frontend": "3.6.3",
+    "@kuzzleio/iot-platform-frontend": "3.6.4",
     "@vuelidate/core": "2.0.*",
     "kuzzle-device-manager-types": "2.9.1",
     "lodash": "4.17.21",
